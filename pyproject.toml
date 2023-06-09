@@ -1,0 +1,9 @@
+[project]
+name = "yomura_dash_components"
+description = "https://github.com/yomura-yomura/yomura_dash_components"
+readme = "README.md"
+dependencies = [
+    "cookiecutter",
+    "virtualenv"
+]
+version = "0.0"

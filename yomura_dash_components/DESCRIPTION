@@ -1,0 +1,13 @@
+Package: yomuraDashComponents
+Title: Project Description
+Version: 0.0.1
+Description: Project Description
+Depends: R (>= 3.0.2)
+Imports: 
+Suggests: 
+License: MIT + file LICENSE
+URL: https://github.com/yomura-yomura/yomura-dash-components
+BugReports: https://github.com/yomura-yomura/yomura-dash-components/issues
+Encoding: UTF-8
+LazyData: true
+KeepSource: true
