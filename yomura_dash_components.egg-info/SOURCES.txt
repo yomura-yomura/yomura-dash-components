@@ -1,7 +1,0 @@
-README.md
-pyproject.toml
-yomura_dash_components.egg-info/PKG-INFO
-yomura_dash_components.egg-info/SOURCES.txt
-yomura_dash_components.egg-info/dependency_links.txt
-yomura_dash_components.egg-info/requires.txt
-yomura_dash_components.egg-info/top_level.txt
