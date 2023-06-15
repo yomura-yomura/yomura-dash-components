@@ -194,7 +194,7 @@ export default class Chat extends Component {
             initial_history
         } = this.props;
 
-        if (initial_history !== null && this.state.width !== undefined) {
+        if (initial_history !== undefined && this.state.width !== undefined) {
             console.debug("initial_history added")
             for (const historyRecord of initial_history) {
                 switch (historyRecord["role"]) {
@@ -385,7 +385,7 @@ Chat.defaultProps = {
     user_message: "",
     is_bot_typing: false,
     send_bot_message: null,
-    history: null
+    history: []
 };
 
 

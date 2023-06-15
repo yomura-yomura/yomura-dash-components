@@ -203,7 +203,7 @@
         "required": false,
         "description": "",
         "defaultValue": {
-          "value": "null",
+          "value": "[]",
           "computed": false
         }
       },

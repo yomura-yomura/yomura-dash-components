@@ -33,10 +33,10 @@ app.layout = dbc.Container([
             id="chat",
             bot_name="Test Bot",
             avatar_image_path="https://storage.googleapis.com/kaggle-avatars/images/default-thumb.png",
-            initial_history=[
-                {"role": "user", "content": "こんにちは！", "date": "1970-01-01 12:00"},
-                {"role": "assistant", "content": "こんばんは！", "date": "1970-01-01 22:00"}
-            ]
+            # initial_history=[
+            #     {"role": "user", "content": "こんにちは！", "date": "1970-01-01 12:00"},
+            #     {"role": "assistant", "content": "こんばんは！", "date": "1970-01-01 22:00"}
+            # ]
         ),
         style={
             "height": "100vh", "width": "60vw"
@@ -79,6 +79,8 @@ def display_output(set_progress, _n_submits, user_message):
     Input("chat", "history")
 )
 def display_output(_, history):
+    if history is None:
+        raise dash.exceptions.PreventUpdate
     return [
         html.P(str(h))
         for h in history
