@@ -281,3 +281,6 @@ JuliaManifest.toml
 
 # Dash
 cache/
+
+deps/
+inst/

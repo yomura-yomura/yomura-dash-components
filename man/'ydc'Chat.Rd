@@ -11,8 +11,8 @@ ExampleComponent is an example component. It takes a property, `label`, and di
 
 \usage{
 'ydc'Chat(id=NULL, avatar_image_path=NULL, bot_name=NULL,
-history=NULL, is_bot_typing=NULL, n_submits=NULL,
-send_bot_message=NULL, user_message=NULL)
+history=NULL, initial_history=NULL, is_bot_typing=NULL,
+n_submits=NULL, send_bot_message=NULL, user_message=NULL)
 }
 
 \arguments{
@@ -23,6 +23,11 @@ send_bot_message=NULL, user_message=NULL)
 \item{bot_name}{Character. A Bot name that will be printed when this component is rendered.}
 
 \item{history}{List of lists containing elements 'role', 'content'.
+those elements have the following types:
+  - role (character; optional)
+  - content (character; optional)s. }
+
+\item{initial_history}{List of lists containing elements 'role', 'content'.
 those elements have the following types:
   - role (character; optional)
   - content (character; optional)s. }

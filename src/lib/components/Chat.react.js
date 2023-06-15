@@ -1,7 +1,10 @@
 import React, {Component, createRef} from 'react';
 import PropTypes from 'prop-types';
-import styles from "../styles/Chat.module.css"
-import { Scrollbar } from 'react-scrollbars-custom';
+import {Title, Header, TitleBotIcon} from "../styles/chat/header"
+import {Messages, MessageBotIcon, MessageTimestamp, NewUserMessage, NewBotMessage, LoadingNewBotMessage} from "../styles/chat/messages"
+import {MessageBox, MessageInput, MessageSubmit} from "../styles/chat/footer"
+import { Scrollbars } from 'react-custom-scrollbars';
+import styled from "styled-components"
 
 
 /**
@@ -16,104 +19,150 @@ export default class Chat extends Component {
         super(props);
         this.textarea_ref = createRef()
         this.scrollbar_ref = createRef()
-        this.last_message_min = undefined
+        this.last_message_date = undefined
         this.messages = []
+
+        this.ref = createRef()
+
+        this.state = {width: undefined, height: undefined}
+
+        this.track_last_message = true
+
+        this.history = []
+        this.should_update_history = false
     }
 
-    getDateTag(time=undefined) {
-        if (time === undefined) {
-            let d = new Date()
-            if (this.last_message_min !== d.getMinutes()) {
-                this.last_message_min = d.getMinutes();
-                time = String(d.getHours()).padStart(2, "0") + ":" + String(this.last_message_min).padStart(2, "0")
+    onResize() {
+        const current_width = this.ref.current.offsetWidth
+        const current_height = this.ref.current.offsetHeight
+        if (current_width !== this.state.width || current_height !== this.state.height) {
+            console.debug(`onResize: ${current_width}x${current_height}`)
+            this.setState({width: current_width, height: current_height})
+
+            const history = this.history
+            this.messages = []
+            this.last_message_date = undefined
+            this.history = []
+
+            for (const message of history) {
+                switch (message["role"]) {
+                    case "user":
+                        this.messages.push(this.getUserMessageTag(message["content"], message["date"]))
+                        break
+                    case "assistant":
+                        this.messages.push(this.getBotMessageTag(message["content"], message["date"]))
+                        break
+                    default:
+                        console.error(`unexpected role: ${message["role"]}`)
+                }
             }
         }
+    }
 
+    getDateTag(date) {
+        let time = undefined
+        if (
+            (this.last_message_date === undefined)
+            ||
+            (
+                this.last_message_date.getFullYear() !== date.getFullYear()
+                ||
+                this.last_message_date.getMonth() !== date.getMonth()
+                ||
+                this.last_message_date.getDate() !== date.getDate()
+                ||
+                this.last_message_date.getHours() !== date.getHours()
+                ||
+                this.last_message_date.getMinutes() !== date.getMinutes()
+            )
+        ) {
+            this.last_message_date = date;
+            time = String(date.getHours()).padStart(2, "0") + ":" + String(date.getMinutes()).padStart(2, "0")
+        }
         return (
-            <div className={styles.timestamp}>
+            <MessageTimestamp>
                 {time}
-            </div>
+            </MessageTimestamp>
         )
     }
 
-    getUserMessageTag(msg, time=undefined) {
+    getUserMessageTag(msg, date=undefined) {
+        if (date === undefined) {
+            date = new Date()
+        } else {
+            date = new Date(date)
+        }
+
+        this.history.push({"role": "user", "content": msg, "date": date})
+        this.should_update_history = true
+
         return (
-           <div
-               className={`${styles.message} ${styles.messagePersonal} ${styles.messageNew}`}
-               key={`user-message-${this.messages.length}`}
-           >
+           <NewUserMessage key={`user-message-${this.messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
                {msg}
-               {this.getDateTag(time)}
-           </div>
+               {this.getDateTag(date)}
+           </NewUserMessage>
         )
     }
 
     getBotMessageUpdatingTag() {
         return (
-            <div
-                className={`${styles.message} ${styles.loading} ${styles.messageNew}`}
-                key="bot-message-updating"
+            <LoadingNewBotMessage
+                key="bot-updating-message"
+                onAnimationStart={() => this.scrollToBottomIfPossible()}
             >
-                {this.getAvatarTag()}
+                {this.getMessageAvatarTag()}
                 <span></span>
-            </div>
+            </LoadingNewBotMessage>
         )
     }
 
     removeBotMessageUpdatingTag() {
-        const idx = this.messages.findIndex(element => {return element.key === "bot-message-updating"})
+        const idx = this.messages.findIndex(element => {return element.key === "bot-updating-message"})
         if (idx >= 0) {
             this.messages.splice(idx, 1)
         }
     }
 
-    getBotMessageTag(msg, time=undefined) {
-        return (
-           <div
-               className={`${styles.message} ${styles.messageNew}`}
-               key={`bot-message-${this.messages.length}`}
-           >
-               {this.getAvatarTag()}
-               {msg}
-               {this.getDateTag(time)}
-           </div>
-        )
-    }
-
-    getAvatarTag() {
-        const {
-            avatar_image_path
-        } = this.props;
-        return (
-            <figure className={styles.avatar}>
-                <img src={avatar_image_path} alt="Bot Icon"/>
-            </figure>
-        )
-    }
-
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        const {
-            history, setProps
-        } = this.props;
-
-        if (history !== null) {
-            console.log(history)
-            for (const historyRecord of history) {
-                switch (historyRecord["role"]) {
-                    case "user":
-                        this.messages.push(this.getUserMessageTag(historyRecord["content"], historyRecord["time"]))
-                        break
-                    case "assistant":
-                        this.messages.push(this.getBotMessageTag(historyRecord["content"], historyRecord["time"]))
-                        break
-                    default:
-                        console.error(historyRecord["role"] + " not expected")
-                        break
-                }
-            }
-            setProps({history: null})
+    getBotMessageTag(msg, date=undefined) {
+        if (date === undefined) {
+            date = new Date()
+        } else {
+            date = new Date(date)
         }
-        return true
+
+        this.history.push({"role": "assistant", "content": msg, "date": date})
+        this.should_update_history = true
+
+        return (
+           <NewBotMessage
+               key={`bot-message-${this.messages.length}`}
+               onAnimationEnd={() => this.scrollToBottomIfPossible()}
+           >
+               {this.getMessageAvatarTag()}
+               {msg}
+               {this.getDateTag(date)}
+           </NewBotMessage>
+        )
+    }
+
+    getTitleAvatarTag() {
+        const {avatar_image_path} = this.props;
+
+        return (
+            <TitleBotIcon>
+                <img src={avatar_image_path} alt="Bot Icon"/>
+            </TitleBotIcon>
+        )
+    }
+
+    getMessageAvatarTag() {
+        const {avatar_image_path} = this.props;
+
+        return (
+            <MessageBotIcon width={this.state.width * 0.1 + "px"} left={-this.state.width * 0.11 + "px"}>
+                <img src={avatar_image_path} alt="Bot Icon"/>
+            </MessageBotIcon>
+        )
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -127,36 +176,87 @@ export default class Chat extends Component {
 
         this.adjustTextArea()
 
-        this.scrollbar_ref.current.scrollToBottom()
+        // Update history
+        if (this.should_update_history) {
+            this.should_update_history = false
+            setProps({history: this.history})
+        }
+
+        // on resize
+        if (this.ref.current) {
+            const resizeObserver = new ResizeObserver(() => {this.onResize()})
+            resizeObserver.observe(this.ref.current)
+        }
+
+        // Load initial_history
+
+        const {
+            initial_history
+        } = this.props;
+
+        if (initial_history !== null && this.state.width !== undefined) {
+            console.debug("initial_history added")
+            for (const historyRecord of initial_history) {
+                switch (historyRecord["role"]) {
+                    case "user":
+                        this.messages.push(this.getUserMessageTag(historyRecord["content"], historyRecord["date"]))
+                        break
+                    case "assistant":
+                        this.messages.push(this.getBotMessageTag(historyRecord["content"], historyRecord["date"]))
+                        break
+                    default:
+                        console.error(historyRecord["role"] + " not expected")
+                        break
+                }
+            }
+            this.should_update_history = true
+            setProps({initial_history: null})
+        }
+    }
+
+    scrollToBottomIfPossible() {
+        if (this.track_last_message) {
+            const top_at_bottom = this.scrollbar_ref.current.getScrollHeight() -  this.scrollbar_ref.current.getClientHeight()
+            console.debug(`scroll to bottom: ${top_at_bottom}`)
+            this.scrollbar_ref.current.view.scroll({
+                top: top_at_bottom,
+                behavior: "smooth"
+            })
+
+        }
     }
 
     adjustTextArea() {
         const this_textarea = this.textarea_ref.current
         this_textarea.style.height = 0
         this_textarea.style.height = this_textarea.scrollHeight + "px"
-        console.log(this_textarea.style.height)
     }
 
     render() {
         const {
-            id, bot_name, n_submits, is_bot_typing,
+            id, bot_name,
+            n_submits, is_bot_typing,
             send_bot_message,
-            setProps
+            setProps,
         } = this.props;
 
-        console.log(id, bot_name, n_submits, is_bot_typing, send_bot_message)
+        console.debug(
+            "onRender:",
+            id, bot_name, n_submits, is_bot_typing, send_bot_message,
+            this.track_last_message
+        )
 
-        this.removeBotMessageUpdatingTag()
         if (is_bot_typing) {
+            this.removeBotMessageUpdatingTag()
             this.messages.push(this.getBotMessageUpdatingTag())
         }
 
         if (send_bot_message !== null) {
+            this.removeBotMessageUpdatingTag()
             this.messages.push(this.getBotMessageTag(send_bot_message))
         }
 
         const onSubmit = () => {
-            console.log(this.textarea_ref.current)
             const msg = this.textarea_ref.current.value
             if (msg !== "") {
                 setProps({n_submits: n_submits + 1})
@@ -165,22 +265,44 @@ export default class Chat extends Component {
             }
         }
 
+        // const scrollbars_props = {
+        //     autoHide: true,
+        //     autoHideTimeout: 1000,
+        //     autoHideDuration: 200
+        // }
+        const scrollbars_props = {
+            autoHide: false
+        }
+
         return (
-            <div id={id} className={styles.chat}>
-                <div className={styles.chatTitle}>
-                    <p>{bot_name}</p>
-                    {this.getAvatarTag()}
-                </div>
-                <Scrollbar ref={this.scrollbar_ref} className={styles.messages} removeTrackYWhenNotUsed={true} noScrollX={true}>
-                    <div className={styles.messagesContent}>
+            <Main id={id} ref={this.ref}>
+                <Title>
+                    <Header>{bot_name}</Header>
+                    {this.getTitleAvatarTag()}
+                </Title>
+
+                <Messages>
+                    <Scrollbars
+                        ref={this.scrollbar_ref}
+
+                        onScrollStart={() => {
+                            const top_at_bottom = this.scrollbar_ref.current?.getScrollHeight() -  this.scrollbar_ref.current?.getClientHeight()
+                            this.track_last_message = top_at_bottom - this.scrollbar_ref.current.getScrollTop() <= 0
+                        }}
+                        onScrollStop={() => {
+                            const top_at_bottom = this.scrollbar_ref.current?.getScrollHeight() -  this.scrollbar_ref.current?.getClientHeight()
+                            this.track_last_message = top_at_bottom - this.scrollbar_ref.current.getScrollTop() <= 50
+                        }}
+                        {...scrollbars_props}
+                    >
                         {this.messages}
-                    </div>
-                </Scrollbar>
-                <div className={styles.messageBox}>
-                    <textarea
+                    </Scrollbars>
+                </Messages>
+
+                <MessageBox>
+                    <MessageInput
                         ref={this.textarea_ref}
                         name="user-input"
-                        className={styles.messageInput}
                         placeholder="Type message..."
                         onKeyDown={
                             event => {
@@ -199,17 +321,16 @@ export default class Chat extends Component {
                             }
                         }
                     />
-                    <button
+                    <MessageSubmit
                         type="submit"
-                        className={styles.messageSubmit}
                         onClick={
                             () => onSubmit()
                         }
                     >
                         Send
-                    </button>
-                </div>
-            </div>
+                    </MessageSubmit>
+                </MessageBox>
+            </Main>
         );
     }
 }
@@ -238,6 +359,13 @@ Chat.propTypes = {
 
     n_submits: PropTypes.number,
 
+    initial_history: PropTypes.arrayOf(
+        PropTypes.shape({
+            role: PropTypes.string,
+            content: PropTypes.string
+        })
+    ),
+
     history: PropTypes.arrayOf(
         PropTypes.shape({
             role: PropTypes.string,
@@ -259,3 +387,22 @@ Chat.defaultProps = {
     send_bot_message: null,
     history: null
 };
+
+
+const Main = styled.div`
+    position: relative;
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    width: 100%;
+    height: 100%;
+    /*max-height: 500px;*/
+    z-index: 2;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+`

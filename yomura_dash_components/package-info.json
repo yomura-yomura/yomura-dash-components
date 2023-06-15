@@ -25,7 +25,9 @@
   "license": "MIT",
   "dependencies": {
     "ramda": "^0.26.1",
-    "react-scrollbars-custom": "^4.1.1"
+    "react-custom-scrollbars": "^4.2.1",
+    "react-scrollbars-custom": "^4.1.1",
+    "styled-components": "^5.3.10"
   },
   "devDependencies": {
     "@babel/core": "^7.22.1",

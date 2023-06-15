@@ -4,12 +4,19 @@
     "displayName": "Chat",
     "methods": [
       {
+        "name": "onResize",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
         "name": "getDateTag",
         "docblock": null,
         "modifiers": [],
         "params": [
           {
-            "name": "time",
+            "name": "date",
             "type": null
           }
         ],
@@ -25,7 +32,7 @@
             "type": null
           },
           {
-            "name": "time",
+            "name": "date",
             "type": null
           }
         ],
@@ -55,14 +62,28 @@
             "type": null
           },
           {
-            "name": "time",
+            "name": "date",
             "type": null
           }
         ],
         "returns": null
       },
       {
-        "name": "getAvatarTag",
+        "name": "getTitleAvatarTag",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "getMessageAvatarTag",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "scrollToBottomIfPossible",
         "docblock": null,
         "modifiers": [],
         "params": [],
@@ -141,6 +162,26 @@
           "value": "0",
           "computed": false
         }
+      },
+      "initial_history": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "role": {
+                "name": "string",
+                "required": false
+              },
+              "content": {
+                "name": "string",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": ""
       },
       "history": {
         "type": {

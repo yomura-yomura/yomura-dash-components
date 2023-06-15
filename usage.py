@@ -31,16 +31,16 @@ app.layout = dbc.Container([
     html.Div(
         ydc.Chat(
             id="chat",
-            bot_name="BrainPad Chat",
+            bot_name="Test Bot",
             avatar_image_path="https://storage.googleapis.com/kaggle-avatars/images/default-thumb.png",
-            history=[
-                {"role": "user", "content": "こんにちは！", "time": "10:00"},
-                {"role": "assistant", "content": "こんばんは！", "time": "22:00"}
+            initial_history=[
+                {"role": "user", "content": "こんにちは！", "date": "1970-01-01 12:00"},
+                {"role": "assistant", "content": "こんばんは！", "date": "1970-01-01 22:00"}
             ]
         ),
         style={
-            "height": "800px", "width": "500px"
-            # "height": "300px", "width": "300px"
+            "height": "100vh", "width": "60vw"
+            # "height": "300px", "width": "600px"
         }
     ),
     dbc.Row(
@@ -75,10 +75,14 @@ def display_output(set_progress, _n_submits, user_message):
 
 @callback(
     Output("output", "children"),
-    Input("chat", "user_message")
+    Input("chat", "n_submits"),
+    Input("chat", "history")
 )
-def display_output(user_message):
-    return user_message
+def display_output(_, history):
+    return [
+        html.P(str(h))
+        for h in history
+    ]
 
 
 if __name__ == "__main__":
