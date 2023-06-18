@@ -1,66 +1,41 @@
 {
   "name": "yomura_dash_components",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Project Description",
-  "repository": {
+  "main": "index.ts",
+"repository": {
     "type": "git",
-    "url": "git://github.com/yomura-yomura/yomura-dash-components.git"
+    "url": "git://github.com/https://github.com/yomura-yomura/yomura-dash-components.git"
   },
   "bugs": {
-    "url": "https://github.com/yomura-yomura/yomura-dash-components/issues"
+    "url": "https://github.com/https://github.com/yomura-yomura/yomura-dash-components/issues"
   },
-  "homepage": "https://github.com/yomura-yomura/yomura-dash-components",
-  "main": "build/index.js",
+  "homepage": "https://github.com/https://github.com/yomura-yomura/yomura-dash-components",
   "scripts": {
-    "start": "webpack serve --config ./webpack.serve.config.js --open",
-    "validate-init": "python _validate_init.py",
-    "prepublishOnly": "npm run validate-init",
-    "build:js": "webpack --mode production",
-    "build:backends": "dash-generate-components ./src/lib/components yomura_dash_components -p package-info.json --r-prefix 'ydc' --jl-prefix 'ydc' --ignore \\.test\\.",
-    "build:backends-activated": "(. venv/bin/activate || venv\\scripts\\activate && npm run build:py_and_r)",
+    "build:js::dev": "webpack --mode development",
+    "build:js": "webpack",
+    "build:backends": "dash-generate-components ./src/ts/components yomura_dash_components -p package-info.json --r-prefix 'ydc' --jl-prefix 'ydc' --ignore \\.test\\.",
     "build": "npm run build:js && npm run build:backends",
-    "build:activated": "npm run build:js && npm run build:backends-activated"
-  },
-  "author": "yomura <yomura@mail.jp>",
-  "license": "MIT",
-  "dependencies": {
-    "ramda": "^0.26.1",
-    "react-custom-scrollbars": "^4.2.1",
-    "react-scrollbars-custom": "^4.1.1",
-    "styled-components": "^5.3.10"
+    "watch": "npm run build:js::dev -- --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.1",
-    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
-    "@babel/preset-env": "^7.22.2",
-    "@babel/preset-react": "^7.22.3",
-    "@plotly/dash-component-plugins": "^1.2.3",
-    "@plotly/webpack-dash-dynamic-import": "^1.2.0",
-    "@types/react": "^18.2.12",
-    "@types/react-custom-scrollbars": "^4.0.10",
-    "@types/styled-components": "^5.1.26",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^9.1.2",
-    "copyfiles": "^2.1.1",
-    "css-loader": "^6.8.1",
-    "eslint": "^6.0.1",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-react": "^7.14.2",
-    "prop-types": "^15.8.1",
-    "react": "^16.8.6",
-    "react-docgen": "^5.4.3",
-    "react-dom": "^16.8.6",
-    "style-loader": "^3.3.3",
-    "styled-jsx": "^3.2.1",
-    "ts-loader": "^9.4.3",
-    "typescript": "^5.1.3",
-    "webpack": "^5.84.1",
-    "webpack-cli": "^5.1.1",
-    "webpack-dev-server": "^4.15.0"
+    "@types/react": "^17.0.39",
+    "css-loader": "^6.7.1",
+    "npm-run-all": "^4.1.5",
+    "ramda": "^0.28.0",
+    "react": "16.13.0",
+    "react-docgen": "^5.4.0",
+    "react-dom": "16.13.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
   },
-  "engines": {
-    "node": ">=8.11.0",
-    "npm": ">=6.1.0"
-  }
+  "peerDependencies": {
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "author": "yomura <yomura@hoge.jp>",
+  "license": "MIT"
 }

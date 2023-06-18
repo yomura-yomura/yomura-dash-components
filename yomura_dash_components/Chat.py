@@ -15,7 +15,9 @@ Keyword arguments:
 
 - bot_name (string; required)
 
-- history (list of dicts; optional)
+- disable_submission (boolean; default False)
+
+- history (list of dicts; default undefined)
 
     `history` is a list of dicts with keys:
 
@@ -25,7 +27,7 @@ Keyword arguments:
 
         `date` is a dict with keys:
 
-        - __@toPrimitive@33 (dict; required):
+        - __@toPrimitive@31 (dict; required):
             Converts a Date object to a string.   Converts a Date
             object to a number.   Converts a Date object to a string
             or number. @,param,hint, ,The strings \"number\",
@@ -35,7 +37,7 @@ Keyword arguments:
             \"default\". @,returns,A number if 'hint' was \"number\",
             a string if 'hint' was \"string\" or \"default\".
 
-            `__@toPrimitive@33` is a dict with keys:
+            `__@toPrimitive@31` is a dict with keys:
 
 
         - getDate (required):
@@ -307,7 +309,7 @@ Keyword arguments:
 
     - role (string; required)
 
-- initial_history (list of dicts; optional)
+- initial_history (list of dicts; default undefined)
 
     `initial_history` is a list of dicts with keys:
 
@@ -317,7 +319,7 @@ Keyword arguments:
 
         `date` is a dict with keys:
 
-        - __@toPrimitive@33 (dict; required):
+        - __@toPrimitive@31 (dict; required):
             Converts a Date object to a string.   Converts a Date
             object to a number.   Converts a Date object to a string
             or number. @,param,hint, ,The strings \"number\",
@@ -327,7 +329,7 @@ Keyword arguments:
             \"default\". @,returns,A number if 'hint' was \"number\",
             a string if 'hint' was \"string\" or \"default\".
 
-            `__@toPrimitive@33` is a dict with keys:
+            `__@toPrimitive@31` is a dict with keys:
 
 
         - getDate (required):
@@ -601,6 +603,8 @@ Keyword arguments:
 
 - is_bot_typing (boolean; default False)
 
+- lock_submission_till_bot_sends (boolean; default False)
+
 - n_submits (number; default 0)
 
 - send_bot_message (string; optional)
@@ -611,10 +615,10 @@ Keyword arguments:
     _namespace = 'yomura_dash_components'
     _type = 'Chat'
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, user_message=Component.UNDEFINED, is_bot_typing=Component.UNDEFINED, send_bot_message=Component.UNDEFINED, n_submits=Component.UNDEFINED, initial_history=Component.UNDEFINED, history=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'avatar_image_path', 'bot_name', 'history', 'initial_history', 'is_bot_typing', 'n_submits', 'send_bot_message', 'user_message']
+    def __init__(self, id=Component.UNDEFINED, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, user_message=Component.UNDEFINED, is_bot_typing=Component.UNDEFINED, send_bot_message=Component.UNDEFINED, n_submits=Component.UNDEFINED, initial_history=Component.UNDEFINED, history=Component.UNDEFINED, disable_submission=Component.UNDEFINED, lock_submission_till_bot_sends=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'history', 'initial_history', 'is_bot_typing', 'lock_submission_till_bot_sends', 'n_submits', 'send_bot_message', 'user_message']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'avatar_image_path', 'bot_name', 'history', 'initial_history', 'is_bot_typing', 'n_submits', 'send_bot_message', 'user_message']
+        self.available_properties = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'history', 'initial_history', 'is_bot_typing', 'lock_submission_till_bot_sends', 'n_submits', 'send_bot_message', 'user_message']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

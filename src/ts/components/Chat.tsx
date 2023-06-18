@@ -1,10 +1,7 @@
 import React from 'react';
-import PropTypes, {InferProps} from 'prop-types';
-// @ts-ignore
+import PropTypes from 'prop-types';
 import {Title, Header, TitleBotIcon} from "../styles/chat/header"
-// @ts-ignore
 import {Messages, MessageBotIcon, MessageTimestamp, NewUserMessage, NewBotMessage, LoadingNewBotMessage} from "../styles/chat/messages"
-// @ts-ignore
 import {MessageBox, MessageInput, MessageSubmit} from "../styles/chat/footer"
 import { Scrollbars } from 'react-custom-scrollbars';
 import styled from "styled-components"
@@ -27,12 +24,9 @@ interface Prop {
     n_submits: number,
     initial_history: History[],
     history: History[],
+    disable_submission: boolean,
+    lock_submission_till_bot_sends: boolean,
     setProps: Function
-}
-
-interface State {
-    width: number,
-    height: number
 }
 
 const defaultProp = {
@@ -41,8 +35,15 @@ const defaultProp = {
     is_bot_typing: false,
     send_bot_message: null,
     n_submits: 0,
-    initial_history: [],
-    history: []
+    initial_history: undefined,
+    history: undefined,
+    disable_submission: false,
+    lock_submission_till_bot_sends: false
+}
+
+interface State {
+    width: number,
+    height: number
 }
 
 
@@ -74,224 +75,20 @@ export default class Chat extends React.Component<Prop, State> {
         this.resizeObserver = new ResizeObserver(() => {this.onResize()})
     }
 
-    onResize() {
-        if (this.ref.current && (this.ref.current.offsetWidth !== this.state.width || this.ref.current.offsetHeight !== this.state.height)) {
-            const current_width = this.ref.current.offsetWidth
-            const current_height = this.ref.current.offsetHeight
-
-            console.debug(`onResize: ${current_width}x${current_height}`)
-            this.setState({
-                width: current_width, height: current_height
-            })
-
-            const history = this.history
-            this.messages = []
-            this.last_message_date = undefined
-            this.history = []
-
-            for (const message of history) {
-                switch (message["role"]) {
-                    case "user":
-                        this.messages.push(this.getUserMessageTag(message["content"], message["date"]))
-                        break
-                    case "assistant":
-                        this.messages.push(this.getBotMessageTag(message["content"], message["date"]))
-                        break
-                    default:
-                        console.error(`unexpected role: ${message["role"]}`)
-                }
-            }
-        }
-    }
-
-    getDateTag(date: Date) {
-        let time = undefined
-        if (
-            (this.last_message_date === undefined)
-            ||
-            (
-                this.last_message_date.getFullYear() !== date.getFullYear()
-                ||
-                this.last_message_date.getMonth() !== date.getMonth()
-                ||
-                this.last_message_date.getDate() !== date.getDate()
-                ||
-                this.last_message_date.getHours() !== date.getHours()
-                ||
-                this.last_message_date.getMinutes() !== date.getMinutes()
-            )
-        ) {
-            this.last_message_date = date;
-            time = String(date.getHours()).padStart(2, "0") + ":" + String(date.getMinutes()).padStart(2, "0")
-        }
-        return (
-            <MessageTimestamp>
-                {time}
-            </MessageTimestamp>
-        )
-    }
-
-    getUserMessageTag(msg: string, date: Date | undefined = undefined) {
-        if (date === undefined) {
-            date = new Date()
-        } else {
-            date = new Date(date)
-        }
-
-        this.history.push({"role": "user", "content": msg, "date": date})
-        this.should_update_history = true
-
-        return (
-           <NewUserMessage key={`user-message-${this.messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
-               {msg}
-               {this.getDateTag(date)}
-           </NewUserMessage>
-        )
-    }
-
-    getBotMessageUpdatingTag() {
-        return (
-            <LoadingNewBotMessage
-                key="bot-updating-message"
-                onAnimationStart={() => this.scrollToBottomIfPossible()}
-            >
-                {this.getMessageAvatarTag()}
-                <span></span>
-            </LoadingNewBotMessage>
-        )
-    }
-
-    removeBotMessageUpdatingTag() {
-        const idx = this.messages.findIndex(element => {return element.key === "bot-updating-message"})
-        if (idx >= 0) {
-            this.messages.splice(idx, 1)
-        }
-    }
-
-    getBotMessageTag(msg: string, date: Date | undefined = undefined) {
-        if (date === undefined) {
-            date = new Date()
-        } else {
-            date = new Date(date)
-        }
-
-        this.history.push({"role": "assistant", "content": msg, "date": date})
-        this.should_update_history = true
-
-        return (
-           <NewBotMessage
-               key={`bot-message-${this.messages.length}`}
-               onAnimationEnd={() => this.scrollToBottomIfPossible()}
-           >
-               {this.getMessageAvatarTag()}
-               {msg}
-               {this.getDateTag(date)}
-           </NewBotMessage>
-        )
-    }
-
-    getTitleAvatarTag() {
-        const {avatar_image_path} = this.props;
-
-        return (
-            <TitleBotIcon>
-                <img src={avatar_image_path} alt="Bot Icon"/>
-            </TitleBotIcon>
-        )
-    }
-
-    getMessageAvatarTag() {
-        const {avatar_image_path} = this.props;
-
-        return (
-            <MessageBotIcon width={this.state.width * 0.1 + "px"} left={-this.state.width * 0.11 + "px"}>
-                <img src={avatar_image_path} alt="Bot Icon"/>
-            </MessageBotIcon>
-        )
-    }
-
-    componentDidUpdate(prevProps: Readonly<InferProps<typeof Chat.propTypes>>, prevState: Readonly<State>, snapshot?: any) {
-        const {
-            send_bot_message, setProps
-        } = this.props
-
-        if (send_bot_message !== null) {
-            setProps({send_bot_message: null})
-        }
-
-        this.adjustTextArea()
-
-        // Update history
-        if (this.should_update_history) {
-            this.should_update_history = false
-            setProps({history: this.history})
-        }
-
-        // on resize
-        if (this.ref.current) {
-            this.resizeObserver.observe(this.ref.current)
-        }
-
-        // Load initial_history
-
-        const {
-            initial_history
-        } = this.props;
-
-        if (initial_history !== undefined && this.state.width !== undefined) {
-            console.debug("initial_history added")
-            for (const historyRecord of initial_history) {
-                switch (historyRecord["role"]) {
-                    case "user":
-                        this.messages.push(this.getUserMessageTag(historyRecord["content"], historyRecord["date"]))
-                        break
-                    case "assistant":
-                        this.messages.push(this.getBotMessageTag(historyRecord["content"], historyRecord["date"]))
-                        break
-                    default:
-                        console.error(historyRecord["role"] + " not expected")
-                        break
-                }
-            }
-            this.should_update_history = true
-            setProps({initial_history: null})
-        }
-    }
-
-    scrollToBottomIfPossible() {
-        const scrollbar = this.scrollbar_ref.current
-        if (this.track_last_message && scrollbar) {
-            const top_at_bottom = scrollbar.getScrollHeight() -  scrollbar.getClientHeight()
-            console.debug(`scroll to bottom: ${top_at_bottom}`)
-            // @ts-ignore
-            this.scrollbar_ref.current?.view.scroll({
-                top: top_at_bottom,
-                behavior: "smooth"
-            })
-
-        }
-    }
-
-    adjustTextArea() {
-        const this_textarea = this.textarea_ref.current
-        if (this_textarea) {
-            this_textarea.style.height = String(0)
-            this_textarea.style.height = this_textarea.scrollHeight + "px"
-        }
-    }
-
     render() {
         const {
             id, bot_name,
             n_submits, is_bot_typing,
             send_bot_message,
+            disable_submission, lock_submission_till_bot_sends,
             setProps,
         } = this.props;
 
         console.debug(
             "onRender:",
             id, bot_name, n_submits, is_bot_typing, send_bot_message,
-            this.track_last_message
+            this.track_last_message,
+            disable_submission
         )
 
         if (is_bot_typing) {
@@ -299,17 +96,20 @@ export default class Chat extends React.Component<Prop, State> {
             this.messages.push(this.getBotMessageUpdatingTag())
         }
 
-        if (send_bot_message !== null) {
+        if (send_bot_message != null) {
             this.removeBotMessageUpdatingTag()
             this.messages.push(this.getBotMessageTag(send_bot_message))
         }
 
         const onSubmit = () => {
             const msg = this.textarea_ref.current?.value
-            if (msg !== undefined) {
+            if (msg && disable_submission !== true) {
                 setProps({n_submits: n_submits + 1})
                 this.textarea_ref.current!.value = ""
                 this.messages.push(this.getUserMessageTag(msg))
+                if (lock_submission_till_bot_sends === true) {
+                    setProps({disable_submission: true})
+                }
             }
         }
 
@@ -359,7 +159,7 @@ export default class Chat extends React.Component<Prop, State> {
                         name="user-input"
                         placeholder="Type message..."
                         onKeyDown={
-                            (event: KeyboardEvent) => {
+                            (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
                                 if (!event.shiftKey && (event.key === "Enter")) {
                                     onSubmit()
                                     event.preventDefault()
@@ -377,7 +177,7 @@ export default class Chat extends React.Component<Prop, State> {
                             }
                         }
                     />
-                    <MessageSubmit
+                    <MessageSubmit disabled={disable_submission}
                         type="submit"
                         onClick={
                             () => onSubmit()
@@ -388,6 +188,218 @@ export default class Chat extends React.Component<Prop, State> {
                 </MessageBox>
             </Main>
         );
+    }
+
+    componentDidUpdate(prevProps: Readonly<PropTypes.InferProps<typeof Chat.propTypes>>, prevState: Readonly<State>, snapshot?: any) {
+        const {
+            send_bot_message, lock_submission_till_bot_sends,
+            setProps
+        } = this.props
+
+        if (send_bot_message != null) {
+            if (lock_submission_till_bot_sends === true) {
+                setProps({send_bot_message: null, disable_submission: false})
+            } else {
+                setProps({send_bot_message: null})
+            }
+        }
+
+        this.adjustTextArea()
+
+        // Update history
+        if (this.should_update_history) {
+            this.should_update_history = false
+            setProps({history: this.history})
+        }
+
+        // on resize
+        if (this.ref.current) {
+            this.resizeObserver.observe(this.ref.current)
+        }
+
+        // Load initial_history
+
+        const {
+            initial_history
+        } = this.props;
+
+        if (initial_history != undefined && initial_history.length > 0 && this.state.width !== 0) {
+            console.debug("initial_history added")
+            for (const historyRecord of initial_history) {
+                switch (historyRecord["role"]) {
+                    case "user":
+                        this.messages.push(this.getUserMessageTag(historyRecord["content"], historyRecord["date"]))
+                        break
+                    case "assistant":
+                        this.messages.push(this.getBotMessageTag(historyRecord["content"], historyRecord["date"]))
+                        break
+                    default:
+                        console.error(historyRecord["role"] + " not expected")
+                        break
+                }
+            }
+            this.should_update_history = true
+            setProps({initial_history: null})
+        }
+    }
+
+
+    onResize() {
+        if (this.ref.current && (this.ref.current.offsetWidth !== this.state.width || this.ref.current.offsetHeight !== this.state.height)) {
+            const current_width = this.ref.current.offsetWidth
+            const current_height = this.ref.current.offsetHeight
+
+            console.debug(`onResize: ${current_width}x${current_height}`)
+            this.setState({
+                width: current_width, height: current_height
+            })
+
+            const history = this.history
+            this.messages = []
+            this.last_message_date = undefined
+            this.history = []
+
+            for (const message of history) {
+                switch (message["role"]) {
+                    case "user":
+                        this.messages.push(this.getUserMessageTag(message["content"], message["date"]))
+                        break
+                    case "assistant":
+                        this.messages.push(this.getBotMessageTag(message["content"], message["date"]))
+                        break
+                    default:
+                        console.error(`unexpected role: ${message["role"]}`)
+                }
+            }
+        }
+    }
+
+    getDateTag(date: Date) {
+        let time = undefined
+        if (
+            (this.last_message_date == null)
+            ||
+            (
+                this.last_message_date.getFullYear() !== date.getFullYear()
+                ||
+                this.last_message_date.getMonth() !== date.getMonth()
+                ||
+                this.last_message_date.getDate() !== date.getDate()
+                ||
+                this.last_message_date.getHours() !== date.getHours()
+                ||
+                this.last_message_date.getMinutes() !== date.getMinutes()
+            )
+        ) {
+            this.last_message_date = date;
+            time = String(date.getHours()).padStart(2, "0") + ":" + String(date.getMinutes()).padStart(2, "0")
+        }
+        return (
+            <MessageTimestamp>
+                {time}
+            </MessageTimestamp>
+        )
+    }
+
+    getUserMessageTag(msg: string, date: Date | undefined = undefined) {
+        if (date == undefined) {
+            date = new Date()
+        } else {
+            date = new Date(date)
+        }
+
+        this.history.push({"role": "user", "content": msg, "date": date})
+        this.should_update_history = true
+
+        return (
+           <NewUserMessage key={`user-message-${this.messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
+               {msg}
+               {this.getDateTag(date)}
+           </NewUserMessage>
+        )
+    }
+
+    getBotMessageUpdatingTag() {
+        return (
+            <LoadingNewBotMessage
+                key="bot-updating-message"
+                onAnimationStart={() => this.scrollToBottomIfPossible()}
+            >
+                {this.getMessageAvatarTag()}
+                <span></span>
+            </LoadingNewBotMessage>
+        )
+    }
+
+    removeBotMessageUpdatingTag() {
+        const idx = this.messages.findIndex(element => {return element.key === "bot-updating-message"})
+        if (idx >= 0) {
+            this.messages.splice(idx, 1)
+        }
+    }
+
+    getBotMessageTag(msg: string, date: Date | undefined = undefined) {
+        if (date == null) {
+            date = new Date()
+        } else {
+            date = new Date(date)
+        }
+
+        this.history.push({"role": "assistant", "content": msg, "date": date})
+        this.should_update_history = true
+
+        return (
+           <NewBotMessage
+               key={`bot-message-${this.messages.length}`}
+               onAnimationEnd={() => this.scrollToBottomIfPossible()}
+           >
+               {this.getMessageAvatarTag()}
+               {msg}
+               {this.getDateTag(date)}
+           </NewBotMessage>
+        )
+    }
+
+    getTitleAvatarTag() {
+        const {avatar_image_path} = this.props;
+
+        return (
+            <TitleBotIcon>
+                <img src={avatar_image_path} alt="Bot Icon"/>
+            </TitleBotIcon>
+        )
+    }
+
+    getMessageAvatarTag() {
+        const {avatar_image_path} = this.props;
+
+        return (
+            <MessageBotIcon width={this.state.width * 0.1 + "px"} left={-this.state.width * 0.11 + "px"}>
+                <img src={avatar_image_path} alt="Bot Icon"/>
+            </MessageBotIcon>
+        )
+    }
+
+    scrollToBottomIfPossible() {
+        const scrollbar = this.scrollbar_ref.current
+        if (this.track_last_message && scrollbar) {
+            const top_at_bottom = scrollbar.getScrollHeight() -  scrollbar.getClientHeight()
+            console.debug(`scroll to bottom: ${top_at_bottom}`)
+            // @ts-ignore
+            this.scrollbar_ref.current?.view.scroll({
+                top: top_at_bottom,
+                behavior: "smooth"
+            })
+
+        }
+    }
+
+    adjustTextArea() {
+        const this_textarea = this.textarea_ref.current
+        if (this_textarea) {
+            this_textarea.style.height = String(0)
+            this_textarea.style.height = this_textarea.scrollHeight + "px"
+        }
     }
 }
 

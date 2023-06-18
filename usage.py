@@ -13,6 +13,7 @@ if "REDIS_URL" in os.environ:
     from celery import Celery  # noqa
     celery_app = Celery(__name__, broker=os.environ["REDIS_URL"], backend=os.environ["REDIS_URL"])
     background_callback_manager = CeleryManager(celery_app)
+
 else:
     # Diskcache for non-production apps when developing locally
     import diskcache  # noqa
@@ -35,7 +36,8 @@ app.layout = dbc.Container([
             # initial_history=[
             #     {"role": "user", "content": "こんにちは！", "date": "1970-01-01 12:00"},
             #     {"role": "assistant", "content": "こんばんは！", "date": "1970-01-01 22:00"}
-            # ]
+            # ],
+            lock_submission_till_bot_sends=True
         ),
         style={
             "height": "100vh", "width": "60vw"
@@ -60,15 +62,15 @@ app.layout = dbc.Container([
     Input("chat", "n_submits"),
     State("chat", "user_message"),
     background=True,
-    progress=[Output("chat", "is_bot_typing")]
+    progress=[Output("chat", "is_bot_typing"), Output("chat", "disable_submission")]
 )
 def display_output(set_progress, _n_submits, user_message):
+    print(_n_submits, user_message)
     if user_message is None or user_message == "":
         raise dash.exceptions.PreventUpdate
-    set_progress((True,))
-    print(_n_submits, user_message)
+    set_progress((True, True))
     time.sleep(1)
-    set_progress((False,))
+    set_progress((False, False))
     return user_message
 
 

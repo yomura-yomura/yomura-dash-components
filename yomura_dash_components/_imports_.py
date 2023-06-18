@@ -1,7 +1,7 @@
-from .YomuraDashComponents import YomuraDashComponents
 from .Chat import Chat
+from .SampleComponent import SampleComponent
 
 __all__ = [
-    "YomuraDashComponents",
-    "Chat"
+    "Chat",
+    "SampleComponent"
 ]

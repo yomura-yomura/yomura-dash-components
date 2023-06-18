@@ -1,11 +1,2 @@
-include yomura_dash_components/yomura_dash_components.min.js
-include yomura_dash_components/yomura_dash_components.min.js.map
-include yomura_dash_components/async-*.js
-include yomura_dash_components/async-*.js.map
-include yomura_dash_components/*-shared.js
-include yomura_dash_components/*-shared.js.map
-include yomura_dash_components/metadata.json
-include yomura_dash_components/package-info.json
-include README.md
-include LICENSE
-include package.json
+recursive-include yomura_dash_components/** *.js *.css *.json *.html
+prune tests

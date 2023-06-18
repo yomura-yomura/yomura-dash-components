@@ -1,17 +1,17 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
 #' @export
-'ydc'YomuraDashComponents <- function(id=NULL, label=NULL, value=NULL) {
+'ydc'SampleComponent <- function(id=NULL) {
     
-    props <- list(id=id, label=label, value=value)
+    props <- list(id=id)
     if (length(props) > 0) {
         props <- props[!vapply(props, is.null, logical(1))]
     }
     component <- list(
         props = props,
-        type = 'YomuraDashComponents',
+        type = 'SampleComponent',
         namespace = 'yomura_dash_components',
-        propNames = c('id', 'label', 'value'),
+        propNames = c('id'),
         package = 'yomuraDashComponents'
         )
 

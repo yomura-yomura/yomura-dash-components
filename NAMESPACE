@@ -1,4 +1,4 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-export('ydc'YomuraDashComponents)
 export('ydc'Chat)
+export('ydc'SampleComponent)

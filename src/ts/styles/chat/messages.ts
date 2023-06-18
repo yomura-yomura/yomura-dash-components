@@ -1,4 +1,5 @@
 import styled, {keyframes} from "styled-components"
+import {CSSProperties} from "react";
 
 
 export const Messages = styled.div`
@@ -22,9 +23,9 @@ export const MessageBotIcon = styled.figure`
     position: absolute;
     z-index: 1;
     bottom: -15px;
-    left: ${props => props.left};
+    left: ${(props: CSSProperties)=> props.left};
     border-radius: 30px;
-    width: ${props => props.width};
+    width: ${(props: CSSProperties) => props.width};
     //height: 30px;
     overflow: hidden;
     margin: 0;

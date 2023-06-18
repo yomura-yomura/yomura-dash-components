@@ -11,11 +11,12 @@ Keyword arguments:
 - `id` (String; optional)
 - `avatar_image_path` (String; required)
 - `bot_name` (String; required)
+- `disable_submission` (Bool; optional)
 - `history` (optional): . history has the following type: Array of lists containing elements 'role', 'content', 'date'.
 Those elements have the following types:
   - `role` (String; required)
   - `content` (String; required)
-  - `date` (required): . date has the following type: lists containing elements 'toString', 'toDateString', 'toTimeString', 'toLocaleString', 'toLocaleDateString', 'toLocaleTimeString', 'valueOf', 'getTime', 'getFullYear', 'getUTCFullYear', 'getMonth', 'getUTCMonth', 'getDate', 'getUTCDate', 'getDay', 'getUTCDay', 'getHours', 'getUTCHours', 'getMinutes', 'getUTCMinutes', 'getSeconds', 'getUTCSeconds', 'getMilliseconds', 'getUTCMilliseconds', 'getTimezoneOffset', 'setTime', 'setMilliseconds', 'setUTCMilliseconds', 'setSeconds', 'setUTCSeconds', 'setMinutes', 'setUTCMinutes', 'setHours', 'setUTCHours', 'setDate', 'setUTCDate', 'setMonth', 'setUTCMonth', 'setFullYear', 'setUTCFullYear', 'toUTCString', 'toISOString', 'toJSON', 'getVarDate', '__@toPrimitive@33'.
+  - `date` (required): . date has the following type: lists containing elements 'toString', 'toDateString', 'toTimeString', 'toLocaleString', 'toLocaleDateString', 'toLocaleTimeString', 'valueOf', 'getTime', 'getFullYear', 'getUTCFullYear', 'getMonth', 'getUTCMonth', 'getDate', 'getUTCDate', 'getDay', 'getUTCDay', 'getHours', 'getUTCHours', 'getMinutes', 'getUTCMinutes', 'getSeconds', 'getUTCSeconds', 'getMilliseconds', 'getUTCMilliseconds', 'getTimezoneOffset', 'setTime', 'setMilliseconds', 'setUTCMilliseconds', 'setSeconds', 'setUTCSeconds', 'setMinutes', 'setUTCMinutes', 'setHours', 'setUTCHours', 'setDate', 'setUTCDate', 'setMonth', 'setUTCMonth', 'setFullYear', 'setUTCFullYear', 'toUTCString', 'toISOString', 'toJSON', 'getVarDate', '__@toPrimitive@31'.
 Those elements have the following types:
   - `toString` (optional): Returns a string representation of a date. The format of the string depends on the locale.
   - `toDateString` (required): Returns a date as a string value.
@@ -121,7 +122,7 @@ Those elements have the following types:
   - `toISOString` (required): Returns a date as a string value in ISO format.
   - `toJSON` (required): Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization.
   - `getVarDate` (required)
-  - `__@toPrimitive@33` (required): Converts a Date object to a string.
+  - `__@toPrimitive@31` (required): Converts a Date object to a string.
 
 
 Converts a Date object to a number.
@@ -130,14 +131,14 @@ Converts a Date object to a number.
 Converts a Date object to a string or number.
 @,param,hint, ,The strings "number", "string", or "default" to specify what primitive to return.
 @,throws,{TypeError}, ,If 'hint' was given something other than "number", "string", or "default".
-@,returns,A number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toPrimitive@33 has the following type: lists containing elements .
+@,returns,A number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toPrimitive@31 has the following type: lists containing elements .
 Those elements have the following types:
 s
 - `initial_history` (optional): . initial_history has the following type: Array of lists containing elements 'role', 'content', 'date'.
 Those elements have the following types:
   - `role` (String; required)
   - `content` (String; required)
-  - `date` (required): . date has the following type: lists containing elements 'toString', 'toDateString', 'toTimeString', 'toLocaleString', 'toLocaleDateString', 'toLocaleTimeString', 'valueOf', 'getTime', 'getFullYear', 'getUTCFullYear', 'getMonth', 'getUTCMonth', 'getDate', 'getUTCDate', 'getDay', 'getUTCDay', 'getHours', 'getUTCHours', 'getMinutes', 'getUTCMinutes', 'getSeconds', 'getUTCSeconds', 'getMilliseconds', 'getUTCMilliseconds', 'getTimezoneOffset', 'setTime', 'setMilliseconds', 'setUTCMilliseconds', 'setSeconds', 'setUTCSeconds', 'setMinutes', 'setUTCMinutes', 'setHours', 'setUTCHours', 'setDate', 'setUTCDate', 'setMonth', 'setUTCMonth', 'setFullYear', 'setUTCFullYear', 'toUTCString', 'toISOString', 'toJSON', 'getVarDate', '__@toPrimitive@33'.
+  - `date` (required): . date has the following type: lists containing elements 'toString', 'toDateString', 'toTimeString', 'toLocaleString', 'toLocaleDateString', 'toLocaleTimeString', 'valueOf', 'getTime', 'getFullYear', 'getUTCFullYear', 'getMonth', 'getUTCMonth', 'getDate', 'getUTCDate', 'getDay', 'getUTCDay', 'getHours', 'getUTCHours', 'getMinutes', 'getUTCMinutes', 'getSeconds', 'getUTCSeconds', 'getMilliseconds', 'getUTCMilliseconds', 'getTimezoneOffset', 'setTime', 'setMilliseconds', 'setUTCMilliseconds', 'setSeconds', 'setUTCSeconds', 'setMinutes', 'setUTCMinutes', 'setHours', 'setUTCHours', 'setDate', 'setUTCDate', 'setMonth', 'setUTCMonth', 'setFullYear', 'setUTCFullYear', 'toUTCString', 'toISOString', 'toJSON', 'getVarDate', '__@toPrimitive@31'.
 Those elements have the following types:
   - `toString` (optional): Returns a string representation of a date. The format of the string depends on the locale.
   - `toDateString` (required): Returns a date as a string value.
@@ -243,7 +244,7 @@ Those elements have the following types:
   - `toISOString` (required): Returns a date as a string value in ISO format.
   - `toJSON` (required): Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization.
   - `getVarDate` (required)
-  - `__@toPrimitive@33` (required): Converts a Date object to a string.
+  - `__@toPrimitive@31` (required): Converts a Date object to a string.
 
 
 Converts a Date object to a number.
@@ -252,16 +253,17 @@ Converts a Date object to a number.
 Converts a Date object to a string or number.
 @,param,hint, ,The strings "number", "string", or "default" to specify what primitive to return.
 @,throws,{TypeError}, ,If 'hint' was given something other than "number", "string", or "default".
-@,returns,A number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toPrimitive@33 has the following type: lists containing elements .
+@,returns,A number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toPrimitive@31 has the following type: lists containing elements .
 Those elements have the following types:
 s
 - `is_bot_typing` (Bool; optional)
+- `lock_submission_till_bot_sends` (Bool; optional)
 - `n_submits` (Real; optional)
 - `send_bot_message` (String; optional)
 - `user_message` (String; optional)
 """
 function 'ydc'_chat(; kwargs...)
-        available_props = Symbol[:id, :avatar_image_path, :bot_name, :history, :initial_history, :is_bot_typing, :n_submits, :send_bot_message, :user_message]
+        available_props = Symbol[:id, :avatar_image_path, :bot_name, :disable_submission, :history, :initial_history, :is_bot_typing, :lock_submission_till_bot_sends, :n_submits, :send_bot_message, :user_message]
         wild_props = Symbol[]
         return Component("'ydc'_chat", "Chat", "yomura_dash_components", available_props, wild_props; kwargs...)
 end

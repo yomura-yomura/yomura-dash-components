@@ -1,41 +1,6 @@
 {
-  "src/lib/components/YomuraDashComponents.react.js": {
-    "description": "ExampleComponent is an example component.\r\nIt takes a property, `label`, and\r\ndisplays it.\r\nIt renders an input with the property `value`\r\nwhich is editable by the user.",
-    "displayName": "YomuraDashComponents",
-    "methods": [],
-    "props": {
-      "id": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The ID used to identify this component in Dash callbacks."
-      },
-      "label": {
-        "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": "A label that will be printed when this component is rendered."
-      },
-      "value": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "The value displayed in the input."
-      },
-      "setProps": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "Dash-assigned callback that should be called to report property changes\r\nto Dash, to make them available for callbacks."
-      }
-    }
-  },
-  "src/lib/components/Chat.react.tsx": {
-    "displayName": "Chat.react",
+  "src/ts/components/Chat.tsx": {
+    "displayName": "Chat",
     "description": "",
     "props": {
       "id": {
@@ -118,7 +83,7 @@
         "description": "",
         "required": false,
         "defaultValue": {
-          "value": "[]",
+          "value": "undefined",
           "computed": false
         },
         "type": {
@@ -166,21 +131,21 @@
                     "required": false,
                     "name": "shape",
                     "value": {},
-                    "raw": "{ (): string; (locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string; }"
+                    "raw": "{ (): string; (locales?: string | string[], options?: DateTimeFormatOptions): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions): string; }"
                   },
                   "toLocaleDateString": {
                     "description": "Returns a date as a string value appropriate to the host environment's current locale.\n\n\nConverts a date to a string by using the current or specified locale.\n@,param,locales, ,A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.\n@,param,options, ,An object that contains one or more properties that specify comparison options.\n@,param,locales, ,A locale string, array of locale strings, Intl.Locale object, or array of Intl.Locale objects that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.\n@,param,options, ,An object that contains one or more properties that specify comparison options.",
                     "required": true,
                     "name": "shape",
                     "value": {},
-                    "raw": "{ (): string; (locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string; }"
+                    "raw": "{ (): string; (locales?: string | string[], options?: DateTimeFormatOptions): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions): string; }"
                   },
                   "toLocaleTimeString": {
                     "description": "Returns a time as a string value appropriate to the host environment's current locale.\n\n\nConverts a time to a string by using the current or specified locale.\n@,param,locales, ,A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.\n@,param,options, ,An object that contains one or more properties that specify comparison options.\n@,param,locales, ,A locale string, array of locale strings, Intl.Locale object, or array of Intl.Locale objects that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.\n@,param,options, ,An object that contains one or more properties that specify comparison options.",
                     "required": true,
                     "name": "shape",
                     "value": {},
-                    "raw": "{ (): string; (locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string; }"
+                    "raw": "{ (): string; (locales?: string | string[], options?: DateTimeFormatOptions): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions): string; }"
                   },
                   "valueOf": {
                     "description": "Returns the stored time value in milliseconds since midnight, January 1, 1970 UTC.",
@@ -318,37 +283,37 @@
                     "description": "Sets the seconds value in the Date object using local time.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(sec: number, ms?: number | undefined) => number"
+                    "raw": "(sec: number, ms?: number) => number"
                   },
                   "setUTCSeconds": {
                     "description": "Sets the seconds value in the Date object using Universal Coordinated Time (UTC).\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(sec: number, ms?: number | undefined) => number"
+                    "raw": "(sec: number, ms?: number) => number"
                   },
                   "setMinutes": {
                     "description": "Sets the minutes value in the Date object using local time.\n@,param,min, ,A numeric value equal to the minutes value.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(min: number, sec?: number | undefined, ms?: number | undefined) => number"
+                    "raw": "(min: number, sec?: number, ms?: number) => number"
                   },
                   "setUTCMinutes": {
                     "description": "Sets the minutes value in the Date object using Universal Coordinated Time (UTC).\n@,param,min, ,A numeric value equal to the minutes value.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(min: number, sec?: number | undefined, ms?: number | undefined) => number"
+                    "raw": "(min: number, sec?: number, ms?: number) => number"
                   },
                   "setHours": {
                     "description": "Sets the hour value in the Date object using local time.\n@,param,hours, ,A numeric value equal to the hours value.\n@,param,min, ,A numeric value equal to the minutes value.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number"
+                    "raw": "(hours: number, min?: number, sec?: number, ms?: number) => number"
                   },
                   "setUTCHours": {
                     "description": "Sets the hours value in the Date object using Universal Coordinated Time (UTC).\n@,param,hours, ,A numeric value equal to the hours value.\n@,param,min, ,A numeric value equal to the minutes value.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number"
+                    "raw": "(hours: number, min?: number, sec?: number, ms?: number) => number"
                   },
                   "setDate": {
                     "description": "Sets the numeric day-of-the-month value of the Date object using local time.\n@,param,date, ,A numeric value equal to the day of the month.",
@@ -366,25 +331,25 @@
                     "description": "Sets the month value in the Date object using local time.\n@,param,month, ,A numeric value equal to the month. The value for January is 0, and other month values follow consecutively.\n@,param,date, ,A numeric value representing the day of the month. If this value is not supplied, the value from a call to the getDate method is used.",
                     "required": true,
                     "name": "func",
-                    "raw": "(month: number, date?: number | undefined) => number"
+                    "raw": "(month: number, date?: number) => number"
                   },
                   "setUTCMonth": {
                     "description": "Sets the month value in the Date object using Universal Coordinated Time (UTC).\n@,param,month, ,A numeric value equal to the month. The value for January is 0, and other month values follow consecutively.\n@,param,date, ,A numeric value representing the day of the month. If it is not supplied, the value from a call to the getUTCDate method is used.",
                     "required": true,
                     "name": "func",
-                    "raw": "(month: number, date?: number | undefined) => number"
+                    "raw": "(month: number, date?: number) => number"
                   },
                   "setFullYear": {
                     "description": "Sets the year of the Date object using local time.\n@,param,year, ,A numeric value for the year.\n@,param,month, ,A zero-based numeric value for the month (0 for January, 11 for December). Must be specified if numDate is specified.\n@,param,date, ,A numeric value equal for the day of the month.",
                     "required": true,
                     "name": "func",
-                    "raw": "(year: number, month?: number | undefined, date?: number | undefined) => number"
+                    "raw": "(year: number, month?: number, date?: number) => number"
                   },
                   "setUTCFullYear": {
                     "description": "Sets the year value in the Date object using Universal Coordinated Time (UTC).\n@,param,year, ,A numeric value equal to the year.\n@,param,month, ,A numeric value equal to the month. The value for January is 0, and other month values follow consecutively. Must be supplied if numDate is supplied.\n@,param,date, ,A numeric value equal to the day of the month.",
                     "required": true,
                     "name": "func",
-                    "raw": "(year: number, month?: number | undefined, date?: number | undefined) => number"
+                    "raw": "(year: number, month?: number, date?: number) => number"
                   },
                   "toUTCString": {
                     "description": "Returns a date converted to a string using Universal Coordinated Time (UTC).",
@@ -410,7 +375,7 @@
                     "name": "func",
                     "raw": "() => VarDate"
                   },
-                  "__@toPrimitive@33": {
+                  "__@toPrimitive@31": {
                     "description": "Converts a Date object to a string.\n\n\nConverts a Date object to a number.\n\n\nConverts a Date object to a string or number.\n@,param,hint, ,The strings \"number\", \"string\", or \"default\" to specify what primitive to return.\n@,throws,{TypeError}, ,If 'hint' was given something other than \"number\", \"string\", or \"default\".\n@,returns,A number if 'hint' was \"number\", a string if 'hint' was \"string\" or \"default\".",
                     "required": true,
                     "name": "shape",
@@ -430,7 +395,7 @@
         "description": "",
         "required": false,
         "defaultValue": {
-          "value": "[]",
+          "value": "undefined",
           "computed": false
         },
         "type": {
@@ -478,21 +443,21 @@
                     "required": false,
                     "name": "shape",
                     "value": {},
-                    "raw": "{ (): string; (locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string; }"
+                    "raw": "{ (): string; (locales?: string | string[], options?: DateTimeFormatOptions): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions): string; }"
                   },
                   "toLocaleDateString": {
                     "description": "Returns a date as a string value appropriate to the host environment's current locale.\n\n\nConverts a date to a string by using the current or specified locale.\n@,param,locales, ,A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.\n@,param,options, ,An object that contains one or more properties that specify comparison options.\n@,param,locales, ,A locale string, array of locale strings, Intl.Locale object, or array of Intl.Locale objects that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.\n@,param,options, ,An object that contains one or more properties that specify comparison options.",
                     "required": true,
                     "name": "shape",
                     "value": {},
-                    "raw": "{ (): string; (locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string; }"
+                    "raw": "{ (): string; (locales?: string | string[], options?: DateTimeFormatOptions): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions): string; }"
                   },
                   "toLocaleTimeString": {
                     "description": "Returns a time as a string value appropriate to the host environment's current locale.\n\n\nConverts a time to a string by using the current or specified locale.\n@,param,locales, ,A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.\n@,param,options, ,An object that contains one or more properties that specify comparison options.\n@,param,locales, ,A locale string, array of locale strings, Intl.Locale object, or array of Intl.Locale objects that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used.\n@,param,options, ,An object that contains one or more properties that specify comparison options.",
                     "required": true,
                     "name": "shape",
                     "value": {},
-                    "raw": "{ (): string; (locales?: string | string[] | undefined, options?: DateTimeFormatOptions | undefined): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions | undefined): string; }"
+                    "raw": "{ (): string; (locales?: string | string[], options?: DateTimeFormatOptions): string; (locales?: LocalesArgument, options?: DateTimeFormatOptions): string; }"
                   },
                   "valueOf": {
                     "description": "Returns the stored time value in milliseconds since midnight, January 1, 1970 UTC.",
@@ -630,37 +595,37 @@
                     "description": "Sets the seconds value in the Date object using local time.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(sec: number, ms?: number | undefined) => number"
+                    "raw": "(sec: number, ms?: number) => number"
                   },
                   "setUTCSeconds": {
                     "description": "Sets the seconds value in the Date object using Universal Coordinated Time (UTC).\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(sec: number, ms?: number | undefined) => number"
+                    "raw": "(sec: number, ms?: number) => number"
                   },
                   "setMinutes": {
                     "description": "Sets the minutes value in the Date object using local time.\n@,param,min, ,A numeric value equal to the minutes value.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(min: number, sec?: number | undefined, ms?: number | undefined) => number"
+                    "raw": "(min: number, sec?: number, ms?: number) => number"
                   },
                   "setUTCMinutes": {
                     "description": "Sets the minutes value in the Date object using Universal Coordinated Time (UTC).\n@,param,min, ,A numeric value equal to the minutes value.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(min: number, sec?: number | undefined, ms?: number | undefined) => number"
+                    "raw": "(min: number, sec?: number, ms?: number) => number"
                   },
                   "setHours": {
                     "description": "Sets the hour value in the Date object using local time.\n@,param,hours, ,A numeric value equal to the hours value.\n@,param,min, ,A numeric value equal to the minutes value.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number"
+                    "raw": "(hours: number, min?: number, sec?: number, ms?: number) => number"
                   },
                   "setUTCHours": {
                     "description": "Sets the hours value in the Date object using Universal Coordinated Time (UTC).\n@,param,hours, ,A numeric value equal to the hours value.\n@,param,min, ,A numeric value equal to the minutes value.\n@,param,sec, ,A numeric value equal to the seconds value.\n@,param,ms, ,A numeric value equal to the milliseconds value.",
                     "required": true,
                     "name": "func",
-                    "raw": "(hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number"
+                    "raw": "(hours: number, min?: number, sec?: number, ms?: number) => number"
                   },
                   "setDate": {
                     "description": "Sets the numeric day-of-the-month value of the Date object using local time.\n@,param,date, ,A numeric value equal to the day of the month.",
@@ -678,25 +643,25 @@
                     "description": "Sets the month value in the Date object using local time.\n@,param,month, ,A numeric value equal to the month. The value for January is 0, and other month values follow consecutively.\n@,param,date, ,A numeric value representing the day of the month. If this value is not supplied, the value from a call to the getDate method is used.",
                     "required": true,
                     "name": "func",
-                    "raw": "(month: number, date?: number | undefined) => number"
+                    "raw": "(month: number, date?: number) => number"
                   },
                   "setUTCMonth": {
                     "description": "Sets the month value in the Date object using Universal Coordinated Time (UTC).\n@,param,month, ,A numeric value equal to the month. The value for January is 0, and other month values follow consecutively.\n@,param,date, ,A numeric value representing the day of the month. If it is not supplied, the value from a call to the getUTCDate method is used.",
                     "required": true,
                     "name": "func",
-                    "raw": "(month: number, date?: number | undefined) => number"
+                    "raw": "(month: number, date?: number) => number"
                   },
                   "setFullYear": {
                     "description": "Sets the year of the Date object using local time.\n@,param,year, ,A numeric value for the year.\n@,param,month, ,A zero-based numeric value for the month (0 for January, 11 for December). Must be specified if numDate is specified.\n@,param,date, ,A numeric value equal for the day of the month.",
                     "required": true,
                     "name": "func",
-                    "raw": "(year: number, month?: number | undefined, date?: number | undefined) => number"
+                    "raw": "(year: number, month?: number, date?: number) => number"
                   },
                   "setUTCFullYear": {
                     "description": "Sets the year value in the Date object using Universal Coordinated Time (UTC).\n@,param,year, ,A numeric value equal to the year.\n@,param,month, ,A numeric value equal to the month. The value for January is 0, and other month values follow consecutively. Must be supplied if numDate is supplied.\n@,param,date, ,A numeric value equal to the day of the month.",
                     "required": true,
                     "name": "func",
-                    "raw": "(year: number, month?: number | undefined, date?: number | undefined) => number"
+                    "raw": "(year: number, month?: number, date?: number) => number"
                   },
                   "toUTCString": {
                     "description": "Returns a date converted to a string using Universal Coordinated Time (UTC).",
@@ -722,7 +687,7 @@
                     "name": "func",
                     "raw": "() => VarDate"
                   },
-                  "__@toPrimitive@33": {
+                  "__@toPrimitive@31": {
                     "description": "Converts a Date object to a string.\n\n\nConverts a Date object to a number.\n\n\nConverts a Date object to a string or number.\n@,param,hint, ,The strings \"number\", \"string\", or \"default\" to specify what primitive to return.\n@,throws,{TypeError}, ,If 'hint' was given something other than \"number\", \"string\", or \"default\".\n@,returns,A number if 'hint' was \"number\", a string if 'hint' was \"string\" or \"default\".",
                     "required": true,
                     "name": "shape",
@@ -738,12 +703,59 @@
           "raw": "History[]"
         }
       },
+      "disable_submission": {
+        "description": "",
+        "required": false,
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        },
+        "type": {
+          "name": "bool",
+          "raw": "boolean"
+        }
+      },
+      "lock_submission_till_bot_sends": {
+        "description": "",
+        "required": false,
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        },
+        "type": {
+          "name": "bool",
+          "raw": "boolean"
+        }
+      },
       "setProps": {
         "description": "",
         "required": true,
         "type": {
           "name": "func",
           "raw": "Function"
+        }
+      }
+    },
+    "isContext": false
+  },
+  "src/ts/components/SampleComponent.tsx": {
+    "displayName": "SampleComponent",
+    "description": "Component description\r",
+    "props": {
+      "id": {
+        "description": "Unique ID to identify this component in Dash callbacks.",
+        "required": false,
+        "type": {
+          "name": "string",
+          "raw": "string"
+        }
+      },
+      "setProps": {
+        "description": "Update props to trigger callbacks.",
+        "required": true,
+        "type": {
+          "name": "func",
+          "raw": "(props: Record<string, any>) => void"
         }
       }
     },

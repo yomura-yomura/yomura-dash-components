@@ -28,9 +28,9 @@ export const MessageSubmit = styled.button`
   z-index: 1 !important;
   /*top: 20% !important;*/
   right: 3% !important;
-  color: #fff !important;
+  color: rgb(255, 255, 255);
   border: none !important;
-  background: #248A52 !important;
+  background: rgb(36, 138, 82);
   font-size: 100% !important;
   text-transform: uppercase !important;
   line-height: 1 !important;
@@ -40,7 +40,11 @@ export const MessageSubmit = styled.button`
   transition: background 0.2s ease !important;
   /*height: 50%*/
   /*min-height: 0 !important;*/
-  &:hover {
+  &:hover&:not([disabled]) {
     background: #1D7745 !important;
+  }
+  &:disabled {
+    background: rgb(126 213 165);
+    color: rgb(219, 219, 219);
   }
 `
