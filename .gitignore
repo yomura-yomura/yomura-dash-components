@@ -282,5 +282,7 @@ JuliaManifest.toml
 # Dash
 cache/
 
+# npm
 deps/
 inst/
+package-lock.json
