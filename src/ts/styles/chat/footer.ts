@@ -25,17 +25,23 @@ export const MessageInput = styled.textarea`
   overflow: hidden !important;
 `
 export const MessageSubmit = styled.button`
-  right: 3% !important;
   color: rgb(255, 255, 255) !important;
   border: none !important;
   background: rgb(36, 138, 82) !important;
   font-size: 1em !important;
   text-transform: uppercase !important;
   line-height: 1 !important;
-  padding: 6px 10px !important;
+  padding: 5px !important;
   border-radius: 10px !important;
   outline: none !important;
   transition: background 0.2s ease !important;
+  text-overflow: unset !important;
+  white-space: nowrap !important;
+  
+  overflow: unset !important;
+  letter-spacing: 0 !important;
+  font-weight: normal !important;
+  
   &:hover&:not([disabled]) {
     background: #1D7745 !important;
   }

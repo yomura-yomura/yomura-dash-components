@@ -44,7 +44,7 @@ export const Title = styled.div`
 `
 
 export const AssistantName = styled.p`
-    font-weight: bold !important;
-    font-size: 1.25em !important;
+    font-weight: normal !important;
+    font-size: 1em !important;
     margin: 0 !important;
 `

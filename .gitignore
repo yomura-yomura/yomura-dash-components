@@ -282,6 +282,8 @@ JuliaManifest.toml
 # Dash
 cache/
 
+version.py
+
 # npm
 deps/
 inst/
