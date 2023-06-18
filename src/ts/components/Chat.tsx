@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import PropTypes from 'prop-types';
-import {Title, Header, TitleBotIcon} from "../styles/chat/header"
+import {Title, Header, TitleBotIcon, AssistantName} from "../styles/chat/header"
 import {Messages, MessageBotIcon, MessageTimestamp, NewUserMessage, NewBotMessage, LoadingNewBotMessage} from "../styles/chat/messages"
 import {MessageBox, MessageInput, MessageSubmit} from "../styles/chat/footer"
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -43,7 +43,8 @@ const defaultProp = {
 
 interface State {
     width: number,
-    height: number
+    height: number,
+    standard_font_size_in_px: number
 }
 
 
@@ -65,7 +66,7 @@ export default class Chat extends React.Component<Prop, State> {
 
     constructor(props: Prop) {
         super(props);
-        this.state = {width: 0, height: 0}
+        this.state = {width: 0, height: 0, standard_font_size_in_px: 0}
 
         this.textarea_ref = React.createRef()
         this.ref = React.createRef()
@@ -77,7 +78,8 @@ export default class Chat extends React.Component<Prop, State> {
 
     render() {
         const {
-            id, bot_name,
+            id,
+            bot_name, avatar_image_path,
             n_submits, is_bot_typing,
             send_bot_message,
             disable_submission, lock_submission_till_bot_sends,
@@ -123,11 +125,15 @@ export default class Chat extends React.Component<Prop, State> {
         }
 
         return (
-            <Main id={id} ref={this.ref}>
-                <Title>
-                    <Header>{bot_name}</Header>
-                    {this.getTitleAvatarTag()}
-                </Title>
+            <Main id={id} ref={this.ref} fontSize={this.state.standard_font_size_in_px}>
+                <Header>
+                    <TitleBotIcon rootWidth={this.state.width} rootHeight={this.state.height}>
+                        <img src={avatar_image_path} alt="Bot Icon"/>
+                    </TitleBotIcon>
+                    <Title>
+                        <AssistantName>{bot_name}</AssistantName>
+                    </Title>
+                </Header>
 
                 <Messages>
                     <Scrollbars
@@ -153,7 +159,7 @@ export default class Chat extends React.Component<Prop, State> {
                     </Scrollbars>
                 </Messages>
 
-                <MessageBox>
+                <MessageBox rootHeight={this.state.height}>
                     <MessageInput
                         ref={this.textarea_ref}
                         name="user-input"
@@ -248,10 +254,13 @@ export default class Chat extends React.Component<Prop, State> {
         if (this.ref.current && (this.ref.current.offsetWidth !== this.state.width || this.ref.current.offsetHeight !== this.state.height)) {
             const current_width = this.ref.current.offsetWidth
             const current_height = this.ref.current.offsetHeight
+            const current_standard_font_size_in_px = current_height * 20 / 500
 
             console.debug(`onResize: ${current_width}x${current_height}`)
             this.setState({
-                width: current_width, height: current_height
+                width: current_width,
+                height: current_height,
+                standard_font_size_in_px: current_standard_font_size_in_px
             })
 
             const history = this.history
@@ -360,15 +369,6 @@ export default class Chat extends React.Component<Prop, State> {
         )
     }
 
-    getTitleAvatarTag() {
-        const {avatar_image_path} = this.props;
-
-        return (
-            <TitleBotIcon>
-                <img src={avatar_image_path} alt="Bot Icon"/>
-            </TitleBotIcon>
-        )
-    }
 
     getMessageAvatarTag() {
         const {avatar_image_path} = this.props;
@@ -403,69 +403,10 @@ export default class Chat extends React.Component<Prop, State> {
     }
 }
 
-// Chat.propTypes = {
-//     /**
-//      * The ID used to identify this component in Dash callbacks.
-//      */
-//     id: PropTypes.string,
-//
-//     /**
-//      * A Bot name that will be printed when this component is rendered.
-//      */
-//     bot_name: PropTypes.string.isRequired,
-//
-//     avatar_image_path: PropTypes.string.isRequired,
-//
-//     /**
-//      * The value displayed in the input.
-//      */
-//     user_message: PropTypes.string,
-//
-//     is_bot_typing: PropTypes.bool,
-//
-//     send_bot_message: PropTypes.string,
-//
-//     n_submits: PropTypes.number,
-//
-//     initial_history: PropTypes.arrayOf(
-//         PropTypes.shape({
-//             role: PropTypes.string,
-//             content: PropTypes.string
-//         })
-//     ),
-//
-//     history: PropTypes.arrayOf(
-//         PropTypes.shape({
-//             role: PropTypes.string,
-//             content: PropTypes.string
-//         })
-//     ),
-//
-//     /**
-//      * Dash-assigned callback that should be called to report property changes
-//      * to Dash, to make them available for callbacks.
-//      */
-//     setProps: PropTypes.func
-// };
-
-// Chat.defaultProps = {
-//     n_submits: 0,
-//     user_message: "",
-//     is_bot_typing: false,
-//     send_bot_message: null,
-//     history: []
-// };
-
 
 const Main = styled.div`
-    position: relative;
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*transform: translate(-50%, -50%);*/
     width: 100%;
     height: 100%;
-    /*max-height: 500px;*/
-    z-index: 2;
     overflow: hidden;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
     background: rgba(0, 0, 0, 0.5);
@@ -473,4 +414,5 @@ const Main = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    font-size: ${(props: CSSProperties) => props.fontSize + "px"}
 `

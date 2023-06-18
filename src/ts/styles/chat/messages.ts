@@ -12,7 +12,7 @@ export const Messages = styled.div`
 
 export const MessageTimestamp = styled.div`
     position: absolute;
-    font-size: 80%;
+    font-size: 0.8em;
     color: rgba(255, 255, 255, 0.3);
     white-space: nowrap;
     left: 5%;
@@ -92,7 +92,7 @@ const Message = styled.div`
     clear: both;
 
     padding: 6px 10px 7px;
-    font-size: 100%;
+    font-size: 0.7em;
     line-height: 1.4;
     margin: 3% 3% 2% calc(3% + 10%);
     position: relative;
