@@ -32,10 +32,10 @@ Keyword arguments:
             object to a number.   Converts a Date object to a string
             or number. @,param,hint, ,The strings \"number\",
             \"string\", or \"default\" to specify what primitive to
-            return. @,throws,{TypeError}, ,If 'hint' was given
-            something other than \"number\", \"string\", or
-            \"default\". @,returns,A number if 'hint' was \"number\",
-            a string if 'hint' was \"string\" or \"default\".
+            return. @,throws,{TypeError} If 'hint' was given something
+            other than \"number\", \"string\", or \"default\".
+            @,returns,A number if 'hint' was \"number\", a string if
+            'hint' was \"string\" or \"default\".
 
             `__@toPrimitive@31` is a dict with keys:
 
@@ -65,8 +65,7 @@ Keyword arguments:
             Gets the seconds of a Date object, using local time.
 
         - getTime (required):
-            Returns the stored time value in milliseconds since
-            midnight, January 1, 1970 UTC.
+            Gets the time value in milliseconds.
 
         - getTimezoneOffset (required):
             Gets the difference in minutes between the time on the
@@ -324,10 +323,10 @@ Keyword arguments:
             object to a number.   Converts a Date object to a string
             or number. @,param,hint, ,The strings \"number\",
             \"string\", or \"default\" to specify what primitive to
-            return. @,throws,{TypeError}, ,If 'hint' was given
-            something other than \"number\", \"string\", or
-            \"default\". @,returns,A number if 'hint' was \"number\",
-            a string if 'hint' was \"string\" or \"default\".
+            return. @,throws,{TypeError} If 'hint' was given something
+            other than \"number\", \"string\", or \"default\".
+            @,returns,A number if 'hint' was \"number\", a string if
+            'hint' was \"string\" or \"default\".
 
             `__@toPrimitive@31` is a dict with keys:
 
@@ -357,8 +356,7 @@ Keyword arguments:
             Gets the seconds of a Date object, using local time.
 
         - getTime (required):
-            Returns the stored time value in milliseconds since
-            midnight, January 1, 1970 UTC.
+            Gets the time value in milliseconds.
 
         - getTimezoneOffset (required):
             Gets the difference in minutes between the time on the

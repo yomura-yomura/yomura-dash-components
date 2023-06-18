@@ -65,7 +65,7 @@ converts a time to a string by using the current or specified locale.
 those elements have the following types:
 
   - valueof (optional): returns the stored time value in milliseconds since midnight, january 1, 1970 utc.
-  - gettime (required): returns the stored time value in milliseconds since midnight, january 1, 1970 utc.
+  - gettime (required): gets the time value in milliseconds.
   - getfullyear (required): gets the year, using local time.
   - getutcfullyear (required): gets the year using universal coordinated time (utc).
   - getmonth (required): gets the month, using local time.
@@ -143,7 +143,7 @@ converts a date object to a number.
 
 converts a date object to a string or number.
 @,param,hint, ,the strings "number", "string", or "default" to specify what primitive to return.
-@,throws,{typeerror}, ,if 'hint' was given something other than "number", "string", or "default".
+@,throws,{typeerror} if 'hint' was given something other than "number", "string", or "default".
 @,returns,a number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toprimitive@31 has the following type: lists containing elements .
 those elements have the following types:
 s. }
@@ -188,7 +188,7 @@ converts a time to a string by using the current or specified locale.
 those elements have the following types:
 
   - valueof (optional): returns the stored time value in milliseconds since midnight, january 1, 1970 utc.
-  - gettime (required): returns the stored time value in milliseconds since midnight, january 1, 1970 utc.
+  - gettime (required): gets the time value in milliseconds.
   - getfullyear (required): gets the year, using local time.
   - getutcfullyear (required): gets the year using universal coordinated time (utc).
   - getmonth (required): gets the month, using local time.
@@ -266,7 +266,7 @@ converts a date object to a number.
 
 converts a date object to a string or number.
 @,param,hint, ,the strings "number", "string", or "default" to specify what primitive to return.
-@,throws,{typeerror}, ,if 'hint' was given something other than "number", "string", or "default".
+@,throws,{typeerror} if 'hint' was given something other than "number", "string", or "default".
 @,returns,a number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toprimitive@31 has the following type: lists containing elements .
 those elements have the following types:
 s. }

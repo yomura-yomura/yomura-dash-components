@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm", "dash"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yomura_dash_components"
+description = "https://github.com/yomura-yomura/yomura-dash-components"
+readme = "README.md"
+license = {file = "LICENSE"}
+dependencies = [
+    "dash[dev]~=2.9.3",
+    "setuptools~=58.1.0",
+    "diskcache~=5.6.1",
+    "celery~=5.2.7"
+]
+classifiers=[
+    'Framework :: Dash'
+]
+
+dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["yomura_dash_components"]
+
+[tool.setuptools.dynamic]
+version = {attr = "yomura_dash_components.__version__"}

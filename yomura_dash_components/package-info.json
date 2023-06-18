@@ -1,22 +1,26 @@
 {
   "name": "yomura_dash_components",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Project Description",
   "main": "index.ts",
-"repository": {
+  "repository": {
     "type": "git",
-    "url": "git://github.com/https://github.com/yomura-yomura/yomura-dash-components.git"
+    "url": "https://github.com/yomura-yomura/yomura-dash-components.git"
   },
   "bugs": {
-    "url": "https://github.com/https://github.com/yomura-yomura/yomura-dash-components/issues"
+    "url": "https://github.com/yomura-yomura/yomura-dash-components/issues"
   },
-  "homepage": "https://github.com/https://github.com/yomura-yomura/yomura-dash-components",
+  "homepage": "https://github.com/yomura-yomura/yomura-dash-components",
   "scripts": {
     "build:js::dev": "webpack --mode development",
     "build:js": "webpack",
     "build:backends": "dash-generate-components ./src/ts/components yomura_dash_components -p package-info.json --r-prefix 'ydc' --jl-prefix 'ydc' --ignore \\.test\\.",
     "build": "npm run build:js && npm run build:backends",
     "watch": "npm run build:js::dev -- --watch"
+  },
+  "dependencies": {
+    "react-custom-scrollbars": "^4.2.1",
+    "styled-components": "^5.3.10"
   },
   "devDependencies": {
     "@types/react": "^17.0.39",
