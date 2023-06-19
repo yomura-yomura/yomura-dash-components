@@ -37,6 +37,11 @@ export const MessageBotIcon = styled.figure`
     }
 `
 
+export const LinkInMessage = styled.a`
+    color: skyblue !important;
+    text-decoration: underline !important;
+`
+
 const bounce = keyframes`
   0% {
     transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -99,6 +104,8 @@ const Message = styled.div`
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     max-width: 80%;
     word-break: break-word;
+    white-space: pre-wrap;
+  
     &:last-child {
       margin-bottom: 30px;
     }

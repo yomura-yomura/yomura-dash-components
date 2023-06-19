@@ -2,7 +2,7 @@
 name = "YomuraDashComponents"
 uuid = "1b08a953-4be3-4667-9a23-441f5db0cfd8"
 authors = ["yomura <yomura@hoge.jp>"]
-version = "1.4.1"
+version = "1.4.2"
 
 [deps]
 Dash = "1b08a953-4be3-4667-9a23-3db579824955"

@@ -40,7 +40,7 @@ export const Title = styled.div`
   
     display: flex !important;
     justify-content: center; !important;
-    flex-direction: column;
+    flex-direction: column; !important;
 `
 
 export const AssistantName = styled.p`

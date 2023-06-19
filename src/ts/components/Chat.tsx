@@ -1,7 +1,7 @@
 import React, {CSSProperties} from 'react';
 import PropTypes from 'prop-types';
 import {Title, Header, TitleBotIcon, AssistantName} from "../styles/chat/header"
-import {Messages, MessageBotIcon, MessageTimestamp, NewUserMessage, NewBotMessage, LoadingNewBotMessage} from "../styles/chat/messages"
+import {Messages, MessageBotIcon, MessageTimestamp, LinkInMessage, NewUserMessage, NewBotMessage, LoadingNewBotMessage} from "../styles/chat/messages"
 import {MessageBox, MessageInput, MessageSubmit} from "../styles/chat/footer"
 import { Scrollbars } from 'react-custom-scrollbars';
 import styled from "styled-components"
@@ -310,6 +310,29 @@ export default class Chat extends React.Component<Prop, State> {
         )
     }
 
+    getFormattedMessageList(msg: string) {
+        const regex = /\[(.+?)]\((.+?)\)/
+        return msg
+            .split(/(\[.+?]\(.+?\))/)
+            .map(
+            (m) => {
+                const matched = regex.exec(m)
+                if (matched == undefined) {
+                    return m
+                } else {
+                    return (
+                        <LinkInMessage
+                            href={matched[2]}
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            {matched[1]}
+                        </LinkInMessage>
+                    )
+                }
+            }
+        )
+    }
+
     getUserMessageTag(msg: string, date: Date | undefined = undefined) {
         if (date == undefined) {
             date = new Date()
@@ -322,7 +345,7 @@ export default class Chat extends React.Component<Prop, State> {
 
         return (
            <NewUserMessage key={`user-message-${this.messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
-               {msg}
+               {this.getFormattedMessageList(msg)}
                {this.getDateTag(date)}
            </NewUserMessage>
         )
@@ -363,7 +386,7 @@ export default class Chat extends React.Component<Prop, State> {
                onAnimationEnd={() => this.scrollToBottomIfPossible()}
            >
                {this.getMessageAvatarTag()}
-               {msg}
+               {this.getFormattedMessageList(msg)}
                {this.getDateTag(date)}
            </NewBotMessage>
         )
