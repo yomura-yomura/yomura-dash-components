@@ -28,10 +28,10 @@ export const MessageSubmit = styled.button`
   color: rgb(255, 255, 255) !important;
   border: none !important;
   background: rgb(36, 138, 82) !important;
-  font-size: 1em !important;
+  font-size: 0.7em !important;
+  line-height: 0.7em !important;
   text-transform: uppercase !important;
-  line-height: 1 !important;
-  padding: 5px !important;
+  padding: 0.5em !important;
   border-radius: 10px !important;
   outline: none !important;
   transition: background 0.2s ease !important;
@@ -41,12 +41,19 @@ export const MessageSubmit = styled.button`
   overflow: unset !important;
   letter-spacing: 0 !important;
   font-weight: normal !important;
+  font-family: inherit !important;
   
-  &:hover&:not([disabled]) {
+  min-height: 0 !important;
+  
+  &:not([disabled])&:hover {
     background: #1D7745 !important;
+    cursor: pointer;
   }
   &:disabled {
     background: rgb(126 213 165) !important;
-    color: rgb(219, 219, 219) !important;
+    color: rgb(219, 219, 219) !important;    
+  }
+  &:disabled&:hover {
+    cursor: not-allowed;
   }
 `
