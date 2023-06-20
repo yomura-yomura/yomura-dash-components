@@ -1,34 +1,33 @@
 import styled from "styled-components"
-import ComponentProp from "./header"
 
 
-export const MessageBox = styled.div`
-  flex: 0 1 ${(prop: ComponentProp) => prop.rootHeight / 12 + "px"} !important;
+export const MessageBox = styled.div<{rootHeight: number}>`
+  flex: 0 1 ${({rootHeight}) => `${rootHeight / 12}px`} !important;
   width: 100% !important;
   background: rgba(0, 0, 0, 0.3) !important;
-  padding: 10px 10px 10px 10px !important;
   
   display: flex !important;
   flex-direction: row !important;
-  align-items: center !important;
+  align-items: flex-end !important;
 `
-export const MessageInput = styled.textarea`
+export const MessageInput = styled.textarea<{rootHeight: number, rootWidth: number}>`
   background: none !important;
   border: none !important;
   outline: none !important;
   resize: none !important;
   color: rgba(255, 255, 255, 0.7) !important;
   font-size: 0.8em !important;
-  margin: 0 !important;
+  margin: ${({rootWidth, rootHeight}) => `${0.03 * rootHeight}px ${0.03 * rootWidth}px ${0.03 * rootHeight}px ${0.03 * rootWidth}px`} !important;
   width: 100% !important;
   min-height: 17px !important;
   overflow: hidden !important;
+  line-height: 1.3 !important;
 `
-export const MessageSubmit = styled.button`
+export const MessageSubmit = styled.button<{rootHeight: number, rootWidth: number}>`
   color: rgb(255, 255, 255) !important;
   border: none !important;
   background: rgb(36, 138, 82) !important;
-  font-size: 0.7em !important;
+  font-size: 0.9em !important;
   line-height: 0.7em !important;
   text-transform: uppercase !important;
   padding: 0.5em !important;
@@ -43,7 +42,9 @@ export const MessageSubmit = styled.button`
   font-weight: normal !important;
   font-family: inherit !important;
   
-  min-height: 0 !important;
+  margin: ${({rootWidth, rootHeight}) => `${0.03 * rootHeight}px ${0.03 * rootWidth}px ${0.03 * rootHeight}px ${0.03 * rootWidth}px`} !important;
+  
+  min-height: 17px !important;
   
   &:not([disabled])&:hover {
     background: #1D7745 !important;

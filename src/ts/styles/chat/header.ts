@@ -1,11 +1,5 @@
 import styled from "styled-components"
 
-export default interface ComponentProp {
-    rootWidth: number,
-    rootHeight: number
-}
-
-
 export const Header = styled.div`
     flex: 0 1 10% !important;
     background: rgba(0, 0, 0, 0.2) !important;
@@ -19,10 +13,10 @@ export const Header = styled.div`
     align-items: center !important;
 `
 
-export const TitleBotIcon = styled.figure`
+export const TitleBotIcon = styled.figure<{rootHeight: number, rootWidth: number}>`
     border-radius: 30px !important;
-    max-width: ${(prop: ComponentProp) => 0.2 * prop.rootWidth + "px"} !important;
-    max-height: ${(prop: ComponentProp) => 0.08 * prop.rootHeight + "px"} !important;
+    max-width: ${({rootWidth}) => `${0.2 * rootWidth}px`} !important;
+    max-height: ${({rootHeight}) => `${0.08 * rootHeight}px`} !important;
     aspect-ratio: 1 / 1 !important;
     overflow: hidden !important;
     margin: 0 !important;

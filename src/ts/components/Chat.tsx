@@ -1,11 +1,9 @@
-import React, {CSSProperties} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import {Title, Header, TitleBotIcon, AssistantName} from "../styles/chat/header"
 import {Messages, MessageBotIcon, MessageTimestamp, LinkInMessage, NewUserMessage, NewBotMessage, LoadingNewBotMessage} from "../styles/chat/messages"
 import {MessageBox, MessageInput, MessageSubmit} from "../styles/chat/footer"
-import { Scrollbars } from 'react-custom-scrollbars';
+import Scrollbars from 'react-custom-scrollbars';
 import styled from "styled-components"
-import {Dict} from "styled-components/native/dist/types";
 
 
 interface History {
@@ -15,30 +13,41 @@ interface History {
 }
 
 interface Prop {
+    /**
+     * The ID used to identify this component in Dash callbacks.
+     */
     id: string,
+
+    /**
+     * A Bot name that will be printed when this component is rendered.
+     */
     bot_name: string,
+
+    /**
+     * A Bot icon that will be shown when this component is rendered.
+     */
     avatar_image_path: string,
-    user_message: string,
+
     is_bot_typing: boolean,
-    send_bot_message: string,
     n_submits: number,
-    initial_history: History[],
     history: History[],
     disable_submission: boolean,
-    lock_submission_till_bot_sends: boolean,
+    disable_submission_after_user_sends: boolean,
+
+    /**
+     * Dash-assigned callback that should be called to report property changes
+     * to Dash, to make them available for callbacks.
+     */
     setProps: Function
 }
 
 const defaultProp = {
     id: undefined,
-    user_message: "",
     is_bot_typing: false,
-    send_bot_message: null,
     n_submits: 0,
-    initial_history: undefined,
     history: undefined,
     disable_submission: false,
-    lock_submission_till_bot_sends: false
+    disable_submission_after_user_sends: false
 }
 
 interface State {
@@ -48,6 +57,9 @@ interface State {
 }
 
 
+/**
+ * Chat Component built for Dash
+ */
 export default class Chat extends React.Component<Prop, State> {
     static defaultProps = defaultProp
 
@@ -56,12 +68,8 @@ export default class Chat extends React.Component<Prop, State> {
     private readonly ref: React.RefObject<HTMLDivElement> = React.createRef();
 
     private last_message_date: Date | undefined = undefined;
-    private messages: any[] = [];
-    static propTypes: Dict<any>;
 
     private track_last_message: boolean;
-    private history: any[] = [];
-    private should_update_history: boolean = false;
     private resizeObserver: ResizeObserver;
 
     constructor(props: Prop) {
@@ -76,41 +84,72 @@ export default class Chat extends React.Component<Prop, State> {
         this.resizeObserver = new ResizeObserver(() => {this.onResize()})
     }
 
+    getSnapshotBeforeUpdate(prevProps: Readonly<Prop>, prevState: Readonly<State>): any {
+        const {
+            history,
+            setProps,
+        } = this.props;
+
+        if (history != undefined && !history.every((message) => message["date"] instanceof Date)) {
+            setProps({
+                history: history.map(
+                    (message) => {
+                        if (message["date"] == undefined) {
+                            message["date"] = new Date()
+                        } else {
+                            message["date"] = new Date(message["date"])
+                        }
+                        return message
+                    }
+                )
+            })
+        }
+        return null
+    }
+
     render() {
         const {
             id,
             bot_name, avatar_image_path,
-            n_submits, is_bot_typing,
-            send_bot_message,
-            disable_submission, lock_submission_till_bot_sends,
-            setProps,
+            is_bot_typing,
+            disable_submission,
+            history,
         } = this.props;
 
-        console.debug(
-            "onRender:",
-            id, bot_name, n_submits, is_bot_typing, send_bot_message,
-            this.track_last_message,
-            disable_submission
-        )
-
-        if (is_bot_typing) {
-            this.removeBotMessageUpdatingTag()
-            this.messages.push(this.getBotMessageUpdatingTag())
-        }
-
-        if (send_bot_message != null) {
-            this.removeBotMessageUpdatingTag()
-            this.messages.push(this.getBotMessageTag(send_bot_message))
-        }
+        console.debug("onRender:", this.props, this.state, this.track_last_message)
 
         const onSubmit = () => {
+            const {
+                n_submits,
+                disable_submission,
+                disable_submission_after_user_sends,
+                setProps,
+            } = this.props;
             const msg = this.textarea_ref.current?.value
             if (msg && disable_submission !== true) {
-                setProps({n_submits: n_submits + 1})
+                setProps({
+                    n_submits: n_submits + 1,
+                })
+                if (history != undefined) {
+                    setProps({
+                        history: [
+                            ...history,
+                            {role: "user", content: msg, date: null}
+                        ]
+                    })
+                } else {
+                    setProps({
+                        history: [
+                            {role: "user", content: msg, date: null}
+                        ]
+                    })
+                }
+
                 this.textarea_ref.current!.value = ""
-                this.messages.push(this.getUserMessageTag(msg))
-                if (lock_submission_till_bot_sends === true) {
-                    setProps({disable_submission: true})
+                if (disable_submission_after_user_sends === true) {
+                    setProps({
+                        disable_submission: true
+                    })
                 }
             }
         }
@@ -122,6 +161,51 @@ export default class Chat extends React.Component<Prop, State> {
         // }
         const scrollbars_props = {
             autoHide: false
+        }
+
+        let messages = []
+        this.last_message_date = undefined
+
+        if (history != undefined) {
+            for (const message of history) {
+                let date;
+                if (message["date"] == undefined) {
+                    date = new Date()
+                } else {
+                    date = new Date(message["date"])
+                }
+
+                switch (message["role"]) {
+                    case "user":
+                        messages.push(
+                           <NewUserMessage key={`user-message-${messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
+                               {this.getFormattedMessageList(message["content"])}
+                               {this.getDateTag(date)}
+                           </NewUserMessage>
+                        )
+                        break
+                    case "assistant":
+                        messages.push(
+                           <NewBotMessage key={`bot-message-${messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
+                               {this.getMessageAvatarTag()}
+                               {this.getFormattedMessageList(message["content"])}
+                               {this.getDateTag(date)}
+                           </NewBotMessage>
+                        )
+                        break
+                    default:
+                        console.error(`unexpected role: ${message["role"]}`)
+                }
+            }
+        }
+
+        if (is_bot_typing) {
+            messages.push(
+                <LoadingNewBotMessage key="bot-updating-message" onAnimationStart={() => this.scrollToBottomIfPossible()}>
+                    {this.getMessageAvatarTag()}
+                    <span></span>
+                </LoadingNewBotMessage>
+            )
         }
 
         return (
@@ -155,7 +239,7 @@ export default class Chat extends React.Component<Prop, State> {
                         }}
                         {...scrollbars_props}
                     >
-                        {this.messages}
+                        {messages}
                     </Scrollbars>
                 </Messages>
 
@@ -179,15 +263,20 @@ export default class Chat extends React.Component<Prop, State> {
                         onInput={
                             () => {
                                 this.adjustTextArea()
-                                setProps({user_message: this.textarea_ref.current?.value})
+                                // setProps({user_message: this.textarea_ref.current?.value})
                             }
                         }
+                        rootWidth={this.state.width}
+                        rootHeight={this.state.height}
                     />
-                    <MessageSubmit disabled={disable_submission}
+                    <MessageSubmit
+                        disabled={disable_submission}
                         type="submit"
                         onClick={
                             () => onSubmit()
                         }
+                        rootWidth={this.state.width}
+                        rootHeight={this.state.height}
                     >
                         Send
                     </MessageSubmit>
@@ -196,59 +285,18 @@ export default class Chat extends React.Component<Prop, State> {
         );
     }
 
-    componentDidUpdate(prevProps: Readonly<PropTypes.InferProps<typeof Chat.propTypes>>, prevState: Readonly<State>, snapshot?: any) {
-        const {
-            send_bot_message, lock_submission_till_bot_sends,
-            setProps
-        } = this.props
-
-        if (send_bot_message != null) {
-            if (lock_submission_till_bot_sends === true) {
-                setProps({send_bot_message: null, disable_submission: false})
-            } else {
-                setProps({send_bot_message: null})
-            }
-        }
-
-        this.adjustTextArea()
-
-        // Update history
-        if (this.should_update_history) {
-            this.should_update_history = false
-            setProps({history: this.history})
-        }
+    componentDidMount() {
+        console.debug("componentDidMount")
 
         // on resize
         if (this.ref.current) {
             this.resizeObserver.observe(this.ref.current)
         }
-
-        // Load initial_history
-
-        const {
-            initial_history
-        } = this.props;
-
-        if (initial_history != undefined && initial_history.length > 0 && this.state.width !== 0) {
-            console.debug("initial_history added")
-            for (const historyRecord of initial_history) {
-                switch (historyRecord["role"]) {
-                    case "user":
-                        this.messages.push(this.getUserMessageTag(historyRecord["content"], historyRecord["date"]))
-                        break
-                    case "assistant":
-                        this.messages.push(this.getBotMessageTag(historyRecord["content"], historyRecord["date"]))
-                        break
-                    default:
-                        console.error(historyRecord["role"] + " not expected")
-                        break
-                }
-            }
-            this.should_update_history = true
-            setProps({initial_history: null})
-        }
     }
 
+    componentDidUpdate(prevProps: Prop, prevState: Readonly<State>, snapshot?: any) {
+        this.adjustTextArea()
+    }
 
     onResize() {
         if (this.ref.current && (this.ref.current.offsetWidth !== this.state.width || this.ref.current.offsetHeight !== this.state.height)) {
@@ -262,24 +310,6 @@ export default class Chat extends React.Component<Prop, State> {
                 height: current_height,
                 standard_font_size_in_px: current_standard_font_size_in_px
             })
-
-            const history = this.history
-            this.messages = []
-            this.last_message_date = undefined
-            this.history = []
-
-            for (const message of history) {
-                switch (message["role"]) {
-                    case "user":
-                        this.messages.push(this.getUserMessageTag(message["content"], message["date"]))
-                        break
-                    case "assistant":
-                        this.messages.push(this.getBotMessageTag(message["content"], message["date"]))
-                        break
-                    default:
-                        console.error(`unexpected role: ${message["role"]}`)
-                }
-            }
         }
     }
 
@@ -311,6 +341,7 @@ export default class Chat extends React.Component<Prop, State> {
     }
 
     getFormattedMessageList(msg: string) {
+        // Markdown-style link in message
         const regex = /\[(.+?)]\((.+?)\)/
         return msg
             .split(/(\[.+?]\(.+?\))/)
@@ -333,71 +364,11 @@ export default class Chat extends React.Component<Prop, State> {
         )
     }
 
-    getUserMessageTag(msg: string, date: Date | undefined = undefined) {
-        if (date == undefined) {
-            date = new Date()
-        } else {
-            date = new Date(date)
-        }
-
-        this.history.push({"role": "user", "content": msg, "date": date})
-        this.should_update_history = true
-
-        return (
-           <NewUserMessage key={`user-message-${this.messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
-               {this.getFormattedMessageList(msg)}
-               {this.getDateTag(date)}
-           </NewUserMessage>
-        )
-    }
-
-    getBotMessageUpdatingTag() {
-        return (
-            <LoadingNewBotMessage
-                key="bot-updating-message"
-                onAnimationStart={() => this.scrollToBottomIfPossible()}
-            >
-                {this.getMessageAvatarTag()}
-                <span></span>
-            </LoadingNewBotMessage>
-        )
-    }
-
-    removeBotMessageUpdatingTag() {
-        const idx = this.messages.findIndex(element => {return element.key === "bot-updating-message"})
-        if (idx >= 0) {
-            this.messages.splice(idx, 1)
-        }
-    }
-
-    getBotMessageTag(msg: string, date: Date | undefined = undefined) {
-        if (date == null) {
-            date = new Date()
-        } else {
-            date = new Date(date)
-        }
-
-        this.history.push({"role": "assistant", "content": msg, "date": date})
-        this.should_update_history = true
-
-        return (
-           <NewBotMessage
-               key={`bot-message-${this.messages.length}`}
-               onAnimationEnd={() => this.scrollToBottomIfPossible()}
-           >
-               {this.getMessageAvatarTag()}
-               {this.getFormattedMessageList(msg)}
-               {this.getDateTag(date)}
-           </NewBotMessage>
-        )
-    }
-
-
     getMessageAvatarTag() {
         const {avatar_image_path} = this.props;
 
         return (
-            <MessageBotIcon width={this.state.width * 0.1 + "px"} left={-this.state.width * 0.11 + "px"}>
+            <MessageBotIcon rootWidth={this.state.width}>
                 <img src={avatar_image_path} alt="Bot Icon"/>
             </MessageBotIcon>
         )
@@ -405,15 +376,13 @@ export default class Chat extends React.Component<Prop, State> {
 
     scrollToBottomIfPossible() {
         const scrollbar = this.scrollbar_ref.current
-        if (this.track_last_message && scrollbar) {
+        if (this.track_last_message && scrollbar != undefined) {
             const top_at_bottom = scrollbar.getScrollHeight() -  scrollbar.getClientHeight()
             console.debug(`scroll to bottom: ${top_at_bottom}`)
-            // @ts-ignore
             this.scrollbar_ref.current?.view.scroll({
                 top: top_at_bottom,
                 behavior: "smooth"
             })
-
         }
     }
 
@@ -427,7 +396,7 @@ export default class Chat extends React.Component<Prop, State> {
 }
 
 
-const Main = styled.div`
+const Main = styled.div<{fontSize: number}>`
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -437,5 +406,5 @@ const Main = styled.div`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    font-size: ${(props: CSSProperties) => props.fontSize + "px"}
+    font-size: ${({fontSize}) => `${fontSize}px`}
 `
