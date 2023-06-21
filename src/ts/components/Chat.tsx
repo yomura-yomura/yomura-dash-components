@@ -193,6 +193,15 @@ export default class Chat extends React.Component<Prop, State> {
                            </NewBotMessage>
                         )
                         break
+                    case "assistant-action":
+                        messages.push(
+                           <NewBotMessage key={`bot-action-message-${messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
+                               {this.getMessageAvatarTag()}
+                               {this.getFormattedMessageList(message["content"])}
+                               {this.getDateTag(date)}
+                           </NewBotMessage>
+                        )
+                        break
                     default:
                         console.error(`unexpected role: ${message["role"]}`)
                 }

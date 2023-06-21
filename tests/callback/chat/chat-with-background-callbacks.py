@@ -12,7 +12,10 @@ from dash import callback, html, Input, Output, State
     Input("chat-with-background-callbacks", "n_submits"),
     State("chat-with-background-callbacks", "history"),
     background=True,
-    progress=[Output("chat-with-background-callbacks", "is_bot_typing")]
+    progress=[
+        Output("chat-with-background-callbacks", "is_bot_typing"),
+        Output("chat-with-background-callbacks", "history"),
+    ]
 )
 def update_assistant_message(set_progress, n_submits, history: list[dict]):
     if n_submits is None:
@@ -21,10 +24,12 @@ def update_assistant_message(set_progress, n_submits, history: list[dict]):
     user_message = history[-1]["content"]
     print(n_submits, user_message)
 
-    set_progress((True,))
+    set_progress((True, history))
     time.sleep(1)
+    set_progress((False, history))
+
     history.append({"role": "assistant", "content": user_message})
-    set_progress((False,))
+
     return history, False
 
 

@@ -3,7 +3,7 @@ module YomuraDashComponents
 using Dash
 
 const resources_path = realpath(joinpath( @__DIR__, "..", "deps"))
-const version = "1.5.0"
+const version = "2.0.0"
 
 include("jl/'ydc'_chat.jl")
 include("jl/'ydc'_samplecomponent.jl")
@@ -17,14 +17,14 @@ function __init__()
             [
                 DashBase.Resource(
     relative_package_path = "yomura_dash_components.js",
-    external_url = "https://unpkg.com/yomura_dash_components@1.5.0/yomura_dash_components/yomura_dash_components.js",
+    external_url = "https://unpkg.com/yomura_dash_components@2.0.0/yomura_dash_components/yomura_dash_components.js",
     dynamic = nothing,
     async = nothing,
     type = :js
 ),
 DashBase.Resource(
     relative_package_path = "yomura_dash_components.js.map",
-    external_url = "https://unpkg.com/yomura_dash_components@1.5.0/yomura_dash_components/yomura_dash_components.js.map",
+    external_url = "https://unpkg.com/yomura_dash_components@2.0.0/yomura_dash_components/yomura_dash_components.js.map",
     dynamic = true,
     async = nothing,
     type = :js
