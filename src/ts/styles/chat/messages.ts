@@ -94,21 +94,23 @@ const ball = keyframes`
 
 const Content = styled.div`
     clear: both;   
-    margin: 3% 3% 2% calc(3% + 10%);
     position: relative;
   
+    word-break: break-word;
+    white-space: pre-wrap;
+  
     &:last-child {
-      margin-bottom: 30px;
+      margin-bottom: 30px !important;
     }  
 `
 
 const Message = styled(Content)`
-    padding: 6px 10px 7px;
+    margin: 3% 3% 2% calc(3% + 10%);
+  
+    padding: 6px 10px 7px 10px;
     font-size: 0.7em;
     line-height: 1.4;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    word-break: break-word;
-    white-space: pre-wrap;
 `
 
 const UserMessage = styled(Message)`
@@ -194,4 +196,25 @@ export const LoadingNewBotMessage = styled(BotMessage)`
     height: 10px;
     position: relative;            
   }
+`
+
+export const BotAction = styled(Content)`
+    float: left;
+    font-size: 0.5em;
+    //padding: 6px 10px 7px 10px;
+    padding: 0;
+    margin: 3% 30% 0 5%;
+
+    & + & {
+      margin-top: 0;
+    }
+    & + :not(&) {
+      margin-top: calc(3% + 2%);
+    }
+`
+
+export const NewBotAction = styled(BotAction)`
+  transform: scale(0);
+  transform-origin: 0 0;
+  animation: ${bounce} 500ms linear both;
 `

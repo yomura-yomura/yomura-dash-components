@@ -1,6 +1,6 @@
 Package: yomuraDashComponents
 Title: Project Description
-Version: 2.0.0
+Version: 2.0.1
 Description: Project Description
 Depends: R (>= 3.0.2)
 Imports: 

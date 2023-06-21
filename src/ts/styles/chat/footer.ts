@@ -22,6 +22,10 @@ export const MessageInput = styled.textarea<{rootHeight: number, rootWidth: numb
   min-height: 17px !important;
   overflow: hidden !important;
   line-height: 1.3 !important;
+  
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.3) !important;
+  }
 `
 export const MessageSubmit = styled.button<{rootHeight: number, rootWidth: number}>`
   color: rgb(255, 255, 255) !important;
