@@ -1,4 +1,5 @@
 import React from 'react';
+import {DashComponentProps} from '../props';
 import {Title, Header, TitleBotIcon, AssistantName} from "../styles/chat/header"
 import {
     Messages,
@@ -21,12 +22,7 @@ interface History {
     date: Date
 }
 
-interface Prop {
-    /**
-     * The ID used to identify this component in Dash callbacks.
-     */
-    id: string,
-
+type Props = {
     /**
      * A Bot name that will be printed when this component is rendered.
      */
@@ -42,13 +38,7 @@ interface Prop {
     history: History[],
     disable_submission: boolean,
     disable_submission_after_user_sends: boolean,
-
-    /**
-     * Dash-assigned callback that should be called to report property changes
-     * to Dash, to make them available for callbacks.
-     */
-    setProps: Function
-}
+} & DashComponentProps
 
 const defaultProp = {
     id: undefined,
@@ -59,7 +49,7 @@ const defaultProp = {
     disable_submission_after_user_sends: false
 }
 
-interface State {
+type State = {
     width: number,
     height: number,
     standard_font_size_in_px: number
@@ -69,7 +59,7 @@ interface State {
 /**
  * Chat Component built for Dash
  */
-export default class Chat extends React.Component<Prop, State> {
+export default class Chat extends React.Component<Props, State> {
     static defaultProps = defaultProp
 
     private readonly textarea_ref: React.RefObject<HTMLTextAreaElement> = React.createRef();
@@ -83,7 +73,7 @@ export default class Chat extends React.Component<Prop, State> {
     private is_scrolling_to_last_message: boolean;
     private resizeObserver: ResizeObserver;
 
-    constructor(props: Prop) {
+    constructor(props: Props) {
         super(props);
         this.state = {width: 0, height: 0, standard_font_size_in_px: 0}
 
@@ -97,7 +87,7 @@ export default class Chat extends React.Component<Prop, State> {
         this.resizeObserver = new ResizeObserver(() => {this.onResize()})
     }
 
-    getSnapshotBeforeUpdate(prevProps: Readonly<Prop>, prevState: Readonly<State>): any {
+    getSnapshotBeforeUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>): any {
         const {
             history,
             setProps,
@@ -320,7 +310,7 @@ export default class Chat extends React.Component<Prop, State> {
         }
     }
 
-    componentDidUpdate(prevProps: Prop, prevState: Readonly<State>, snapshot?: any) {
+    componentDidUpdate(prevProps: Props, prevState: Readonly<State>, snapshot?: any) {
         this.adjustTextArea()
     }
 
