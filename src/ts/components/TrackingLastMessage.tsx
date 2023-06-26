@@ -17,7 +17,7 @@ type State = {
 /**
  * Component description
  */
-export default class SampleComponent extends React.Component<Props, State> {
+export default class TrackingLastMessage extends React.Component<Props, State> {
     static defaultProps = defaultProp
 
     render() {
