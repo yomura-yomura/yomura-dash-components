@@ -1,7 +1,7 @@
-import SampleComponent from "./components/SampleComponent";
 import Chat from "./components/Chat"
+import TrackingLastComponent from "./components/TrackingLastComponent"
 
 export {
-    SampleComponent,
-    Chat
+    Chat,
+    TrackingLastComponent
 }

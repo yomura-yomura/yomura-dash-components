@@ -12,8 +12,8 @@ import {
     NewBotAction
 } from "../styles/chat/messages"
 import {MessageBox, MessageInput, MessageSubmit} from "../styles/chat/footer"
-import Scrollbars from 'react-custom-scrollbars';
 import styled from "styled-components"
+import TrackingLastComponent from "./TrackingLastComponent"
 
 
 interface History {
@@ -63,14 +63,12 @@ export default class Chat extends React.Component<Props, State> {
     static defaultProps = defaultProp
 
     private readonly textarea_ref: React.RefObject<HTMLTextAreaElement> = React.createRef();
-    private readonly scrollbar_ref: React.RefObject<Scrollbars> = React.createRef();
+    private readonly scrollbar_ref: React.RefObject<TrackingLastComponent> = React.createRef();
     private readonly ref: React.RefObject<HTMLDivElement> = React.createRef();
 
     private last_message_date: Date | undefined = undefined;
 
-    private track_last_message: boolean;
     private track_scroll_event: boolean;
-    private is_scrolling_to_last_message: boolean;
     private resizeObserver: ResizeObserver;
 
     constructor(props: Props) {
@@ -80,9 +78,7 @@ export default class Chat extends React.Component<Props, State> {
         this.textarea_ref = React.createRef()
         this.ref = React.createRef()
 
-        this.track_last_message = true
         this.track_scroll_event = true
-        this.is_scrolling_to_last_message = false
 
         this.resizeObserver = new ResizeObserver(() => {this.onResize()})
     }
@@ -157,15 +153,6 @@ export default class Chat extends React.Component<Props, State> {
             }
         }
 
-        // const scrollbars_props = {
-        //     autoHide: true,
-        //     autoHideTimeout: 1000,
-        //     autoHideDuration: 200
-        // }
-        const scrollbars_props = {
-            autoHide: false
-        }
-
         let messages = []
         this.last_message_date = undefined
 
@@ -181,7 +168,7 @@ export default class Chat extends React.Component<Props, State> {
                 switch (message["role"]) {
                     case "user":
                         messages.push(
-                           <NewUserMessage key={`user-message-${messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
+                           <NewUserMessage key={`user-message-${messages.length}`} onAnimationEnd={() => this.scrollbar_ref.current.scrollToBottomIfPossible()}>
                                {this.getFormattedMessageList(message["content"])}
                                {this.getDateTag(date)}
                            </NewUserMessage>
@@ -189,7 +176,7 @@ export default class Chat extends React.Component<Props, State> {
                         break
                     case "assistant":
                         messages.push(
-                           <NewBotMessage key={`bot-message-${messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
+                           <NewBotMessage key={`bot-message-${messages.length}`} onAnimationEnd={() => this.scrollbar_ref.current.scrollToBottomIfPossible()}>
                                {this.getMessageAvatarTag()}
                                {this.getFormattedMessageList(message["content"])}
                                {this.getDateTag(date)}
@@ -198,7 +185,7 @@ export default class Chat extends React.Component<Props, State> {
                         break
                     case "assistant-action":
                         messages.push(
-                           <NewBotAction key={`bot-action-${messages.length}`} onAnimationEnd={() => this.scrollToBottomIfPossible()}>
+                           <NewBotAction key={`bot-action-${messages.length}`} onAnimationEnd={() => this.scrollbar_ref.current.scrollToBottomIfPossible()}>
                                {this.getFormattedMessageList(message["content"])}
                            </NewBotAction>
                         )
@@ -211,7 +198,7 @@ export default class Chat extends React.Component<Props, State> {
 
         if (is_bot_typing) {
             messages.push(
-                <LoadingNewBotMessage key="bot-updating-message" onAnimationStart={() => this.scrollToBottomIfPossible()}>
+                <LoadingNewBotMessage key="bot-updating-message" onAnimationStart={() => this.scrollbar_ref.current.scrollToBottomIfPossible()}>
                     {this.getMessageAvatarTag()}
                     <span></span>
                 </LoadingNewBotMessage>
@@ -230,33 +217,10 @@ export default class Chat extends React.Component<Props, State> {
                 </Header>
 
                 <Messages>
-                    <Scrollbars
-                        ref={this.scrollbar_ref}
-
-                        onScrollStart={() => {
-                            const scrollbar = this.scrollbar_ref.current
-                            if (scrollbar && !this.is_scrolling_to_last_message) {
-                                const top_at_bottom = scrollbar.getScrollHeight() - scrollbar.getClientHeight()
-                                this.track_last_message = top_at_bottom - scrollbar.getScrollTop() <= 0
-                            }
-                            console.debug(`onScrollStart: ${this.track_last_message} ${this.is_scrolling_to_last_message}`)
-                        }}
-                        onScrollStop={() => {
-                            const scrollbar = this.scrollbar_ref.current
-                            if (scrollbar) {
-                                if (this.is_scrolling_to_last_message) {
-                                    this.is_scrolling_to_last_message = false
-                                } else {
-                                    const top_at_bottom = scrollbar.getScrollHeight() - scrollbar.getClientHeight()
-                                    this.track_last_message = top_at_bottom - scrollbar.getScrollTop() <= 100
-                                }
-                            }
-                            console.debug(`onScrollEnd: ${this.track_last_message} ${this.is_scrolling_to_last_message}`)
-                        }}
-                        {...scrollbars_props}
-                    >
-                        {messages}
-                    </Scrollbars>
+                    <TrackingLastComponent
+                        setProps={() => {}}
+                        children={messages}
+                    />
                 </Messages>
 
                 <MessageBox rootHeight={this.state.height}>
@@ -388,20 +352,6 @@ export default class Chat extends React.Component<Props, State> {
                 <img src={avatar_image_path} alt="Bot Icon"/>
             </MessageBotIcon>
         )
-    }
-
-    scrollToBottomIfPossible() {
-        const scrollbar = this.scrollbar_ref.current
-        if (this.track_last_message && scrollbar != undefined) {
-            const top_at_bottom = scrollbar.getScrollHeight() -  scrollbar.getClientHeight()
-            console.debug(`scroll to bottom: ${top_at_bottom}`)
-
-            this.is_scrolling_to_last_message = true
-            this.scrollbar_ref.current?.view.scroll({
-                top: top_at_bottom,
-                behavior: "smooth"
-            })
-        }
     }
 
     adjustTextArea() {

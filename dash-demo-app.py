@@ -12,7 +12,6 @@ if "REDIS_URL" in os.environ:
 
     celery_app = Celery(__name__, broker=os.environ["REDIS_URL"], backend=os.environ["REDIS_URL"])
     background_callback_manager = CeleryManager(celery_app)
-
 else:
     # Diskcache for non-production apps when developing locally
     import diskcache  # noqa

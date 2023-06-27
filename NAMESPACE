@@ -2,3 +2,4 @@
 
 export('ydc'Chat)
 export('ydc'SampleComponent)
+export('ydc'TrackingLastComponent)

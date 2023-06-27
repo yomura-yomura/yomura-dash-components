@@ -8,7 +8,7 @@ export 'ydc'_chat
 A Chat component.
 Chat Component built for Dash
 Keyword arguments:
-- `id` (String; optional): The ID used to identify this component in Dash callbacks.
+- `id` (String; optional): Unique ID to identify this component in Dash callbacks.
 - `avatar_image_path` (String; required): A Bot icon that will be shown when this component is rendered.
 - `bot_name` (String; required): A Bot name that will be printed when this component is rendered.
 - `disable_submission` (Bool; optional)
@@ -17,7 +17,7 @@ Keyword arguments:
 Those elements have the following types:
   - `role` (String; required)
   - `content` (String; required)
-  - `date` (required): . date has the following type: lists containing elements 'toString', 'toDateString', 'toTimeString', 'toLocaleString', 'toLocaleDateString', 'toLocaleTimeString', 'valueOf', 'getTime', 'getFullYear', 'getUTCFullYear', 'getMonth', 'getUTCMonth', 'getDate', 'getUTCDate', 'getDay', 'getUTCDay', 'getHours', 'getUTCHours', 'getMinutes', 'getUTCMinutes', 'getSeconds', 'getUTCSeconds', 'getMilliseconds', 'getUTCMilliseconds', 'getTimezoneOffset', 'setTime', 'setMilliseconds', 'setUTCMilliseconds', 'setSeconds', 'setUTCSeconds', 'setMinutes', 'setUTCMinutes', 'setHours', 'setUTCHours', 'setDate', 'setUTCDate', 'setMonth', 'setUTCMonth', 'setFullYear', 'setUTCFullYear', 'toUTCString', 'toISOString', 'toJSON', 'getVarDate', '__@toPrimitive@29'.
+  - `date` (required): . date has the following type: lists containing elements 'toString', 'toDateString', 'toTimeString', 'toLocaleString', 'toLocaleDateString', 'toLocaleTimeString', 'valueOf', 'getTime', 'getFullYear', 'getUTCFullYear', 'getMonth', 'getUTCMonth', 'getDate', 'getUTCDate', 'getDay', 'getUTCDay', 'getHours', 'getUTCHours', 'getMinutes', 'getUTCMinutes', 'getSeconds', 'getUTCSeconds', 'getMilliseconds', 'getUTCMilliseconds', 'getTimezoneOffset', 'setTime', 'setMilliseconds', 'setUTCMilliseconds', 'setSeconds', 'setUTCSeconds', 'setMinutes', 'setUTCMinutes', 'setHours', 'setUTCHours', 'setDate', 'setUTCDate', 'setMonth', 'setUTCMonth', 'setFullYear', 'setUTCFullYear', 'toUTCString', 'toISOString', 'toJSON', 'getVarDate', '__@toPrimitive@33'.
 Those elements have the following types:
   - `toString` (optional): Returns a string representation of a date. The format of the string depends on the locale.
   - `toDateString` (required): Returns a date as a string value.
@@ -123,7 +123,7 @@ Those elements have the following types:
   - `toISOString` (required): Returns a date as a string value in ISO format.
   - `toJSON` (required): Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization.
   - `getVarDate` (required)
-  - `__@toPrimitive@29` (required): Converts a Date object to a string.
+  - `__@toPrimitive@33` (required): Converts a Date object to a string.
 
 
 Converts a Date object to a number.
@@ -132,7 +132,7 @@ Converts a Date object to a number.
 Converts a Date object to a string or number.
 @,param,hint, ,The strings "number", "string", or "default" to specify what primitive to return.
 @,throws,{TypeError} If 'hint' was given something other than "number", "string", or "default".
-@,returns,A number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toPrimitive@29 has the following type: lists containing elements .
+@,returns,A number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toPrimitive@33 has the following type: lists containing elements .
 Those elements have the following types:
 s
 - `is_bot_typing` (Bool; optional)

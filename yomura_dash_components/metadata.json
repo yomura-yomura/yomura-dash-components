@@ -3,18 +3,6 @@
     "displayName": "Chat",
     "description": "Chat Component built for Dash\r",
     "props": {
-      "id": {
-        "description": "The ID used to identify this component in Dash callbacks.",
-        "required": false,
-        "defaultValue": {
-          "value": "undefined",
-          "computed": false
-        },
-        "type": {
-          "name": "string",
-          "raw": "string"
-        }
-      },
       "bot_name": {
         "description": "A Bot name that will be printed when this component is rendered.",
         "required": true,
@@ -351,7 +339,7 @@
                     "name": "func",
                     "raw": "() => VarDate"
                   },
-                  "__@toPrimitive@29": {
+                  "__@toPrimitive@33": {
                     "description": "Converts a Date object to a string.\n\n\nConverts a Date object to a number.\n\n\nConverts a Date object to a string or number.\n@,param,hint, ,The strings \"number\", \"string\", or \"default\" to specify what primitive to return.\n@,throws,{TypeError} If 'hint' was given something other than \"number\", \"string\", or \"default\".\n@,returns,A number if 'hint' was \"number\", a string if 'hint' was \"string\" or \"default\".",
                     "required": true,
                     "name": "shape",
@@ -391,12 +379,24 @@
           "raw": "boolean"
         }
       },
+      "id": {
+        "description": "Unique ID to identify this component in Dash callbacks.",
+        "required": false,
+        "defaultValue": {
+          "value": "undefined",
+          "computed": false
+        },
+        "type": {
+          "name": "string",
+          "raw": "string"
+        }
+      },
       "setProps": {
-        "description": "Dash-assigned callback that should be called to report property changes\r\nto Dash, to make them available for callbacks.",
+        "description": "Update props to trigger callbacks.",
         "required": true,
         "type": {
           "name": "func",
-          "raw": "Function"
+          "raw": "(props: Record<string, any>) => void"
         }
       }
     },
@@ -406,6 +406,41 @@
     "displayName": "SampleComponent",
     "description": "Component description\r",
     "props": {
+      "id": {
+        "description": "Unique ID to identify this component in Dash callbacks.",
+        "required": false,
+        "type": {
+          "name": "string",
+          "raw": "string"
+        }
+      },
+      "setProps": {
+        "description": "Update props to trigger callbacks.",
+        "required": true,
+        "type": {
+          "name": "func",
+          "raw": "(props: Record<string, any>) => void"
+        }
+      }
+    },
+    "isContext": false
+  },
+  "src/ts/components/TrackingLastComponent.tsx": {
+    "displayName": "TrackingLastComponent",
+    "description": "Component description\r",
+    "props": {
+      "children": {
+        "description": "",
+        "required": false,
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        },
+        "type": {
+          "name": "any",
+          "raw": "any"
+        }
+      },
       "id": {
         "description": "Unique ID to identify this component in Dash callbacks.",
         "required": false,

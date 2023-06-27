@@ -10,7 +10,7 @@ Chat Component built for Dash
 Keyword arguments:
 
 - id (string; default undefined):
-    The ID used to identify this component in Dash callbacks.
+    Unique ID to identify this component in Dash callbacks.
 
 - avatar_image_path (string; required):
     A Bot icon that will be shown when this component is rendered.
@@ -32,7 +32,7 @@ Keyword arguments:
 
         `date` is a dict with keys:
 
-        - __@toPrimitive@29 (dict; required):
+        - __@toPrimitive@33 (dict; required):
             Converts a Date object to a string.   Converts a Date
             object to a number.   Converts a Date object to a string
             or number. @,param,hint, ,The strings \"number\",
@@ -42,7 +42,7 @@ Keyword arguments:
             @,returns,A number if 'hint' was \"number\", a string if
             'hint' was \"string\" or \"default\".
 
-            `__@toPrimitive@29` is a dict with keys:
+            `__@toPrimitive@33` is a dict with keys:
 
 
         - getDate (required):
@@ -321,7 +321,7 @@ Keyword arguments:
     _namespace = 'yomura_dash_components'
     _type = 'Chat'
     @_explicitize_args
-    def __init__(self, id=Component.UNDEFINED, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, history=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, **kwargs):
+    def __init__(self, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, history=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, id=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'history', 'is_bot_typing', 'n_submits']
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'history', 'is_bot_typing', 'n_submits']
