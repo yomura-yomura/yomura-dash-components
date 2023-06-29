@@ -13,7 +13,7 @@ def layout():
         html.Div(
             children=[
                 ydc.TrackingLastComponent(id="tail"),
-                dcc.Interval(id="tail-interval", interval=3000),
+                dcc.Interval(id="tail-interval", interval=1000),
                 dcc.Store(id="tail-file-current-cursor-position", data=0)
             ],
             style={

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {WheelEvent} from 'react';
 import {DashComponentProps} from '../props';
 import Scrollbars from 'react-custom-scrollbars';
 
@@ -49,14 +49,25 @@ export default class TrackingLastComponent extends React.Component<Props, State>
                 id={this.props.id}
                 ref={this.scrollbar_ref}
 
-                onScrollStart={() => {
-                    const scrollbar = this.scrollbar_ref.current
-                    if (scrollbar && !this.is_scrolling_to_last_message) {
-                        const top_at_bottom = scrollbar.getScrollHeight() - scrollbar.getClientHeight()
-                        this.track_last_message = top_at_bottom - scrollbar.getScrollTop() <= 0
+                // onScrollStart={() => {
+                //     const scrollbar = this.scrollbar_ref.current
+                //     if (scrollbar && !this.is_scrolling_to_last_message) {
+                //         const top_at_bottom = scrollbar.getScrollHeight() - scrollbar.getClientHeight()
+                //         this.track_last_message = top_at_bottom - scrollbar.getScrollTop() <= 0
+                //     }
+                //     console.debug(`TrackingLastComponent Scrollbars.onScrollStart: ${this.track_last_message} ${this.is_scrolling_to_last_message}`)
+                // }}
+                onScroll={
+                    (ev: Event) => {
+                        const scrollbar = this.scrollbar_ref.current
+
+                        if (scrollbar && !this.is_scrolling_to_last_message) {
+                            const top_at_bottom = scrollbar.getScrollHeight() - scrollbar.getClientHeight()
+                            this.track_last_message = top_at_bottom - scrollbar.getScrollTop() <= 0
+                        }
+                        console.debug(`TrackingLastComponent Scrollbars.onScroll: ${this.track_last_message} ${this.is_scrolling_to_last_message}`)
                     }
-                    console.debug(`TrackingLastComponent Scrollbars.onScrollStart: ${this.track_last_message} ${this.is_scrolling_to_last_message}`)
-                }}
+                }
                 onScrollStop={() => {
                     const scrollbar = this.scrollbar_ref.current
                     if (scrollbar) {
@@ -81,7 +92,19 @@ export default class TrackingLastComponent extends React.Component<Props, State>
         this.scrollToBottomIfPossible()
     }
 
-     scrollToBottomIfPossible() {
+    componentDidMount() {
+        this.scrollbar_ref.current.view.addEventListener(
+            "wheel",
+            (event: WheelEvent) => {
+                console.debug("TrackingLastComponent Scrollbars wheel event: ", event)
+                if (event.deltaY < 0) {
+                    this.is_scrolling_to_last_message = false
+                }
+            }
+        )
+    }
+
+    scrollToBottomIfPossible() {
         const scrollbar = this.scrollbar_ref.current
         if (this.track_last_message && scrollbar != undefined) {
             const top_at_bottom = scrollbar.getScrollHeight() -  scrollbar.getClientHeight()
