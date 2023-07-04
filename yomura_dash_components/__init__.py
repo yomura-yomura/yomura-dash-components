@@ -57,3 +57,12 @@ if not hasattr(_dash, '__plotly_dash') and not hasattr(_dash, 'development'):
 for _component in __all__:
     setattr(locals()[_component], '_js_dist', _js_dist)
     setattr(locals()[_component], '_css_dist', _css_dist)
+
+
+# Custom Components & Callbacks
+
+from . import components, callbacks
+from .components import *
+
+__all__ += components.__all__
+__all__ += ["callbacks"]

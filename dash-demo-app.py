@@ -24,7 +24,7 @@ app = Dash(
     __name__,
     background_callback_manager=background_callback_manager,
     use_pages=True,
-    pages_folder="tests/layout"
+    pages_folder="tests/layout",
 )
 
 app.layout = html.Div([
@@ -45,6 +45,7 @@ app.layout = html.Div([
 ])
 
 for python_script_path in (pathlib.Path(".") / "tests" / "callback").rglob("*.py"):
+    print(python_script_path)
     importlib.import_module(".".join(python_script_path.with_suffix("").parts))
 
 

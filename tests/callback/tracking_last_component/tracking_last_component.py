@@ -1,51 +1,22 @@
+import pathlib
 import random
 import time
-import pathlib
-import re
 
 import tqdm
 import dash
-from dash import html, callback, Input, Output, State
+from dash import callback, Input, Output
+import yomura_dash_components as ydc
 
 
-target_file_path = pathlib.Path(__file__).parent / "sample-output.log"
+project_root_path = pathlib.Path(__file__).parent.parent.parent.parent
+target_file_path = project_root_path / "sample-output.log"
 
 
-@callback(
-    [
-        Output("tail", "children"),
-        Output("tail-file-current-cursor-position", "data")
-    ],
-    Input("tail-interval", "n_intervals"),
-    State("tail-file-current-cursor-position", "data"),
-    State("tail", "children")
-)
-def update_tail(_, current_cursor_position, children_so_far: list[dict]):
-    if not target_file_path.exists():
-        return [], current_cursor_position
-
+@ydc.callbacks.tail.callback
+def update_tail(lines):
     print("update_tail called")
-
-    with open(target_file_path, "rb") as f:
-        f.seek(current_cursor_position)
-        s = f.read()
-        text_left = s.decode()
-        current_cursor_position = f.tell()
-
-    if children_so_far is not None and len(children_so_far) > 0:
-        last_component = children_so_far.pop(-1)
-        text_left = last_component["props"]["children"] + text_left
-
-    text_left = re.sub(r"(?:.+\r)+([^\n]+)", r"\1", text_left)
-
-    if children_so_far is None:
-        children_so_far = []
-
-    children = [
-        html.P(line)
-        for line in text_left.splitlines(keepends=True)
-    ]
-    return children_so_far + children, current_cursor_position
+    # return [html.P(line) for line in lines]
+    return [line for line in lines]
 
 
 @callback(
@@ -67,21 +38,15 @@ def generate_dummy_data(n_clicks):
     with open(target_file_path, "a") as f:
         for i in range(100):
             r = random.random()
-            if r < 0.3:
-                dummy_data = f"{i}/{100}"
-                print(f"Dummy data added: {dummy_data}")
-                f.write(f"{dummy_data}\n")
-                f.flush()
-                time.sleep(random.random() * 0.5)
-            elif r < 0.6:
-                for _ in tqdm.tqdm(range(100), file=f):
+            if r < 0.5:
+                for _ in tqdm.tqdm(range(100), file=f, desc=f"{i}/{100}"):
                     f.flush()
-                    time.sleep(random.random() * 0.1)
+                    time.sleep(random.random() * 0.03)
             else:
                 for dummy_data in f"{i}/{100}: generating dummy data...":
                     f.write(f"{dummy_data}")
                     f.flush()
-                    time.sleep(random.random() * 0.1)
+                    time.sleep(random.random() * 0.03)
                 f.write("\n")
                 f.flush()
 
