@@ -1,7 +1,9 @@
 import time
+from typing import Optional
 
 import dash
-from dash import callback, html, Input, Output, State
+from dash import Input, Output, State, callback, html
+from yomura_dash_components.typing import DashChildrenProp, History, SetProgress
 
 
 @callback(
@@ -17,7 +19,9 @@ from dash import callback, html, Input, Output, State
         Output("chat-with-bot-action", "history"),
     ]
 )
-def update_assistant_message(set_progress, n_submits, history: list[dict]):
+def update_assistant_message(
+        set_progress: SetProgress, n_submits: Optional[int], history: History
+) -> tuple[History, bool]:
     if n_submits is None:
         raise dash.exceptions.PreventUpdate
 
@@ -43,7 +47,7 @@ def update_assistant_message(set_progress, n_submits, history: list[dict]):
     Output("output-with-bot-action", "children"),
     Input("chat-with-bot-action", "history")
 )
-def show_history(history):
+def show_history(history: History) -> DashChildrenProp:
     if history is None:
         raise dash.exceptions.PreventUpdate
     return [

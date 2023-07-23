@@ -1,13 +1,13 @@
-from dash import html
 import dash.exceptions
+from dash import html
 
 import yomura_dash_components as ydc
-
+from yomura_dash_components.typing import DashChildrenProp
 
 dash.register_page(__name__)
 
 
-def layout():
+def layout() -> DashChildrenProp:
     return html.Div([
         html.Div(
             ydc.Chat(

@@ -1,21 +1,21 @@
 import pathlib
 import random
 import time
+from typing import Optional
 
-import tqdm
 import dash
-from dash import callback, Input, Output
-import yomura_dash_components as ydc
+import tqdm
+from dash import Input, Output, callback
 
+import yomura_dash_components as ydc
 
 project_root_path = pathlib.Path(__file__).parent.parent.parent.parent
 target_file_path = project_root_path / "sample-output.log"
 
 
 @ydc.callbacks.tail.callback
-def update_tail(lines):
+def update_tail(lines: list[str]) -> list[str]:
     print("update_tail called")
-    # return [html.P(line) for line in lines]
     return [line for line in lines]
 
 
@@ -29,7 +29,7 @@ def update_tail(lines):
         (Output("tail-button", "disabled"), True, False)
     ]
 )
-def generate_dummy_data(n_clicks):
+def generate_dummy_data(n_clicks: Optional[int]) -> tuple[bool]:
     target_file_path.unlink(missing_ok=True)
 
     if not n_clicks:

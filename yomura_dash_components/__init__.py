@@ -1,6 +1,6 @@
+import json
 import os as _os
 import sys as _sys
-import json
 
 _basepath = _os.path.dirname(__file__)
 _filepath = _os.path.abspath(_os.path.join(_basepath, 'package-info.json'))
@@ -39,12 +39,14 @@ _css_dist = []
 
 # try:
 import dash as _dash
-# except ImportError:
-#     _sys.exit(0)
 
 # noinspection PyUnresolvedReferences
 from ._imports_ import *
 from ._imports_ import __all__
+
+# except ImportError:
+#     _sys.exit(0)
+
 
 
 if not hasattr(_dash, '__plotly_dash') and not hasattr(_dash, 'development'):
@@ -61,7 +63,7 @@ for _component in __all__:
 
 # Custom Components & Callbacks
 
-from . import components, callbacks
+from . import callbacks, components
 from .components import *
 
 __all__ += components.__all__

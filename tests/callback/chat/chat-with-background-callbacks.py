@@ -1,7 +1,9 @@
 import time
+from typing import Optional
 
 import dash
-from dash import callback, html, Input, Output, State
+from dash import Input, Output, State, callback, html
+from yomura_dash_components.typing import DashChildrenProp, History, SetProgress
 
 
 @callback(
@@ -14,7 +16,7 @@ from dash import callback, html, Input, Output, State
     background=True,
     progress=[Output("chat-with-background-callbacks", "is_bot_typing")]
 )
-def display_output(set_progress, n_submits, history: list[dict]):
+def display_output(set_progress: SetProgress, n_submits: Optional[int], history: History) -> tuple[History, bool]:
     if n_submits is None:
         raise dash.exceptions.PreventUpdate
 
@@ -32,7 +34,7 @@ def display_output(set_progress, n_submits, history: list[dict]):
     Output("output-with-background-callbacks", "children"),
     Input("chat-with-background-callbacks", "history")
 )
-def display_output(history):
+def show_history(history: History) -> DashChildrenProp:
     if history is None:
         raise dash.exceptions.PreventUpdate
     return [

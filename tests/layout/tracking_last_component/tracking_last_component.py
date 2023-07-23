@@ -1,10 +1,10 @@
 import pathlib
 
-from dash import html
 import dash.exceptions
+from dash import html
 
 import yomura_dash_components as ydc
-
+from yomura_dash_components.typing import DashChildrenProp
 
 dash.register_page(__name__)
 
@@ -13,7 +13,7 @@ project_root_path = pathlib.Path(__file__).parent.parent.parent.parent
 target_file_path = project_root_path / "sample-output.log"
 
 
-def layout():
+def layout() -> DashChildrenProp:
     print("layout")
     return html.Div([
         html.Button(id="tail-button", children="generate dummy data"),

@@ -1,10 +1,9 @@
+import importlib
 import os
 import pathlib
-import importlib
 
 import dash
-from dash import Dash, html, dcc
-from dash import DiskcacheManager, CeleryManager
+from dash import CeleryManager, Dash, DiskcacheManager, dcc, html
 
 if "REDIS_URL" in os.environ:
     # Use Redis & Celery if REDIS_URL set as an env variable
@@ -45,7 +44,7 @@ app.layout = html.Div([
 ])
 
 for python_script_path in (pathlib.Path(".") / "tests" / "callback").rglob("*.py"):
-    print(python_script_path)
+    print(f"imported {python_script_path}.")
     importlib.import_module(".".join(python_script_path.with_suffix("").parts))
 
 

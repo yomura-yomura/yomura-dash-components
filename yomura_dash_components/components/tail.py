@@ -1,10 +1,11 @@
 import pathlib
-from typing import Optional, Union
+from typing import Optional
 
-from dash import html, dcc
-from dash.development.base_component import Component
+import dash.development.base_component
+from dash import dcc, html
+
 from .._imports_ import TrackingLastComponent
-
+from ..typing import Component, ComponentID, ComponentUndefined, FilePath
 
 __all__ = [
     "Tail",
@@ -13,17 +14,17 @@ __all__ = [
 ]
 
 
-filepath_dict: dict[str, pathlib.Path] = {}
+filepath_dict: dict[ComponentID, pathlib.Path] = {}
 
 
 class Tail(html.Div):
     def __init__(
             self,
-            id: Optional[Union[str, dict]] = None,
+            id: ComponentID = None,  # noqa: PyShadowingBuiltins
             interval_to_watch_file: int = 3,
-            style=Component.UNDEFINED,
+            style: dict[str, str] | ComponentUndefined = dash.development.base_component.Component.UNDEFINED,
             *,
-            filepath
+            filepath: FilePath
     ):
         tlc_id, interval_id, cursor_position_id = get_component_id_list(id)
 
@@ -41,7 +42,7 @@ class Tail(html.Div):
         )
 
 
-def get_component_id_list(base_id: Optional[Union[str, dict]]):
+def get_component_id_list(base_id: Optional[ComponentID]) -> list[ComponentID]:
     if base_id is None:
         base_id = ""
 
@@ -58,7 +59,7 @@ def get_component_id_list(base_id: Optional[Union[str, dict]]):
     return _get_component_id_list(base_id)
 
 
-def _get_component_id_list(base_id: str):
+def _get_component_id_list(base_id: ComponentID) -> list[ComponentID]:
     return [
         f"tail-{base_id}",
         f"tail-interval-{base_id}",

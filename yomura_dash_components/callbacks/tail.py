@@ -1,22 +1,54 @@
 import re
-from typing import Union, Optional
+from typing import Callable, Concatenate, Optional, ParamSpec, TypeAlias, overload
 
 import dash
-from dash import Output, Input, State
-from ..components.tail import get_component_id_list, filepath_dict
+from dash import Input, Output, State
+
+from ..components.tail import filepath_dict, get_component_id_list
+from ..typing import DashDependencies, ComponentID
+
+StateArgs = ParamSpec("StateArgs")
+
+DesiredFunc: TypeAlias = Callable[
+    Concatenate[list[str], StateArgs],
+    list[str]
+]
+
+Decorator: TypeAlias = Callable[
+    [DesiredFunc[StateArgs]],
+    bool
+]
+
+
+@overload
+def callback(
+        func: DesiredFunc[StateArgs],
+        *,
+        id: None = ...,  # noqa: PyShadowingBuiltins
+        states: None = ...
+) -> bool:
+    ...
+
+
+@overload
+def callback(
+        func: None = ...,
+        *,
+        id: ComponentID = ...,  # noqa: PyShadowingBuiltins
+        states: Optional[DashDependencies[State]] = ...
+) -> Decorator[StateArgs]:
+    ...
 
 
 def callback(
-        func=None,
+        func: Optional[DesiredFunc[StateArgs]] = None,
         *,
-        id=None,
-        outputs=(),
-        states=()
-):
+        id: Optional[ComponentID] = None,  # noqa: PyShadowingBuiltins
+        states: StateArgs.args = ()
+) -> bool | Decorator[StateArgs]:
     tlc_id, interval_id, cursor_position_id = get_component_id_list(id)
 
-    def decorator(func):
-
+    def decorator(func_: DesiredFunc[StateArgs]) -> bool:
         @dash.callback(
             [
                 Output(tlc_id, "children"),
@@ -32,11 +64,11 @@ def callback(
             ]
         )
         def wrapper(
-                _,
+                _: Optional[int],
                 current_cursor_position: int,
-                children_so_far: list[Optional[Union[str, dict]]],
-                *state_args
-        ):
+                children_so_far: Optional[list[str]],
+                *state_args: StateArgs.args
+        ) -> tuple[list[str], int]:
             if not filepath_dict[id].exists():
                 return [], current_cursor_position
 
@@ -58,13 +90,13 @@ def callback(
             text_left = re.sub(r"(?:.+\r)+([^\n]+)", r"\1", text_left)
             lines = text_left.splitlines(keepends=True)
 
-            children = func(lines, *state_args)
+            children = func_(lines, *state_args)
 
             if children_so_far is None:
                 children_so_far = []
 
             return children_so_far + children, current_cursor_position
-        return wrapper
+        return True
 
     if func is None:
         return decorator
