@@ -12,8 +12,9 @@ Chat Component built for Dash
 \usage{
 'ydc'Chat(id=NULL, avatar_image_path=NULL, bot_name=NULL,
 disable_submission=NULL,
-disable_submission_after_user_sends=NULL, history=NULL,
-is_bot_typing=NULL, n_submits=NULL)
+disable_submission_after_user_sends=NULL,
+disable_textarea=NULL, history=NULL, is_bot_typing=NULL,
+n_submits=NULL)
 }
 
 \arguments{
@@ -26,6 +27,8 @@ is_bot_typing=NULL, n_submits=NULL)
 \item{disable_submission}{Logical. }
 
 \item{disable_submission_after_user_sends}{Logical. }
+
+\item{disable_textarea}{Logical. }
 
 \item{history}{List of lists containing elements 'role', 'content', 'date'.
 those elements have the following types:

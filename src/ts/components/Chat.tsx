@@ -38,6 +38,7 @@ type Props = {
     history: History[],
     disable_submission: boolean,
     disable_submission_after_user_sends: boolean,
+    disable_textarea: boolean,
 } & DashComponentProps
 
 const defaultProp = {
@@ -112,6 +113,7 @@ export default class Chat extends React.Component<Props, State> {
             bot_name, avatar_image_path,
             is_bot_typing,
             disable_submission,
+            disable_textarea,
             history,
         } = this.props;
 
@@ -227,6 +229,7 @@ export default class Chat extends React.Component<Props, State> {
                     <MessageInput
                         ref={this.textarea_ref}
                         name="user-input"
+                        disabled={disable_textarea}
                         placeholder="Type message..."
                         onKeyDown={
                             (event: React.KeyboardEvent<HTMLTextAreaElement>) => {

@@ -26,6 +26,17 @@ export const MessageInput = styled.textarea<{rootHeight: number, rootWidth: numb
   &::placeholder {
     color: rgba(255, 255, 255, 0.3) !important;
   }
+  &:not([disabled])&:hover {
+    background: #1D7745 !important;
+    cursor: pointer;
+  }
+  &:disabled {
+    background: rgb(126 213 165) !important;
+    color: rgb(219, 219, 219) !important;    
+  }
+  &:disabled&:hover {
+    cursor: not-allowed;
+  }
 `
 export const MessageSubmit = styled.button<{rootHeight: number, rootWidth: number}>`
   color: rgb(255, 255, 255) !important;

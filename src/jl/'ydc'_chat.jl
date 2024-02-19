@@ -13,6 +13,7 @@ Keyword arguments:
 - `bot_name` (String; required): A Bot name that will be printed when this component is rendered.
 - `disable_submission` (Bool; optional)
 - `disable_submission_after_user_sends` (Bool; optional)
+- `disable_textarea` (Bool; required)
 - `history` (optional): . history has the following type: Array of lists containing elements 'role', 'content', 'date'.
 Those elements have the following types:
   - `role` (String; required)
@@ -139,7 +140,7 @@ s
 - `n_submits` (Real; optional)
 """
 function 'ydc'_chat(; kwargs...)
-        available_props = Symbol[:id, :avatar_image_path, :bot_name, :disable_submission, :disable_submission_after_user_sends, :history, :is_bot_typing, :n_submits]
+        available_props = Symbol[:id, :avatar_image_path, :bot_name, :disable_submission, :disable_submission_after_user_sends, :disable_textarea, :history, :is_bot_typing, :n_submits]
         wild_props = Symbol[]
         return Component("'ydc'_chat", "Chat", "yomura_dash_components", available_props, wild_props; kwargs...)
 end

@@ -379,6 +379,14 @@
           "raw": "boolean"
         }
       },
+      "disable_textarea": {
+        "description": "",
+        "required": true,
+        "type": {
+          "name": "bool",
+          "raw": "boolean"
+        }
+      },
       "id": {
         "description": "Unique ID to identify this component in Dash callbacks.",
         "required": false,
