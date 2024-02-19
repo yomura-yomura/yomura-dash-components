@@ -12,7 +12,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
 dependencies = [
-    "dash ~= 2.9.3"
+    "dash >= 2.9.3"
 ]
 classifiers=[
     'Framework :: Dash'

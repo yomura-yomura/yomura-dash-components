@@ -5,7 +5,7 @@ import dash.development.base_component
 from dash import dcc, html
 
 from .._imports_ import TrackingLastComponent
-from ..typing import Component, ComponentID, ComponentUndefined, FilePath
+from ..typing import ComponentID, ComponentUndefined, FilePath
 
 __all__ = [
     "Tail",
