@@ -22,7 +22,7 @@ Keyword arguments:
 
 - disable_submission_after_user_sends (boolean; default False)
 
-- disable_textarea (boolean; required)
+- disable_textarea (boolean; default False)
 
 - history (list of dicts; default undefined)
 
@@ -323,7 +323,7 @@ Keyword arguments:
     _namespace = 'yomura_dash_components'
     _type = 'Chat'
     @_explicitize_args
-    def __init__(self, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, history=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, disable_textarea=Component.REQUIRED, id=Component.UNDEFINED, **kwargs):
+    def __init__(self, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, history=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, disable_textarea=Component.UNDEFINED, id=Component.UNDEFINED, **kwargs):
         self._prop_names = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'is_bot_typing', 'n_submits']
         self._valid_wildcard_attributes =            []
         self.available_properties = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'is_bot_typing', 'n_submits']
@@ -333,7 +333,7 @@ Keyword arguments:
         _locals.update(kwargs)  # For wildcard attrs and excess named props
         args = {k: _locals[k] for k in _explicit_args}
 
-        for k in ['avatar_image_path', 'bot_name', 'disable_textarea']:
+        for k in ['avatar_image_path', 'bot_name']:
             if k not in args:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')

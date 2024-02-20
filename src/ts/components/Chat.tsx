@@ -47,7 +47,8 @@ const defaultProp = {
     n_submits: 0,
     history: undefined,
     disable_submission: false,
-    disable_submission_after_user_sends: false
+    disable_submission_after_user_sends: false,
+    disable_textarea: false,
 }
 
 type State = {

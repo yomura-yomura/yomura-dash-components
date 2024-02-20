@@ -4,13 +4,36 @@ import time
 from typing import Optional
 
 import dash
+import dash.exceptions
 import tqdm
-from dash import Input, Output, callback
+from dash import Input, Output, callback, html
 
 import yomura_dash_components as ydc
+from yomura_dash_components.typing import DashChildrenProp
+
+dash.register_page(__name__)
 
 project_root_path = pathlib.Path(__file__).parent.parent.parent.parent
 target_file_path = project_root_path / "sample-output.log"
+
+
+def layout() -> DashChildrenProp:
+    print("layout")
+    return html.Div(
+        [
+            html.Button(id="tail-button", children="generate dummy data"),
+            ydc.Tail(
+                filepath=target_file_path,
+                interval_to_watch_file=1,
+                style={
+                    "height": "40vh",
+                    "width": "90vw",
+                    "border": "solid rgba(30, 29, 30, .58)",
+                    "white-space": "break-spaces",
+                },
+            ),
+        ]
+    )
 
 
 @ydc.callbacks.tail.callback
@@ -20,14 +43,10 @@ def update_tail(lines: list[str]) -> list[str]:
 
 
 @callback(
-    [
-        Output("tail-button", "disabled")
-    ],
+    [Output("tail-button", "disabled")],
     Input("tail-button", "n_clicks"),
     background=True,
-    running=[
-        (Output("tail-button", "disabled"), True, False)
-    ]
+    running=[(Output("tail-button", "disabled"), True, False)],
 )
 def generate_dummy_data(n_clicks: Optional[int]) -> tuple[bool]:
     target_file_path.unlink(missing_ok=True)
@@ -50,4 +69,4 @@ def generate_dummy_data(n_clicks: Optional[int]) -> tuple[bool]:
                 f.write("\n")
                 f.flush()
 
-    return False,
+    return (False,)

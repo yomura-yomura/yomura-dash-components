@@ -381,7 +381,11 @@
       },
       "disable_textarea": {
         "description": "",
-        "required": true,
+        "required": false,
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        },
         "type": {
           "name": "bool",
           "raw": "boolean"

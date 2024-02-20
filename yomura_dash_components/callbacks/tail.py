@@ -1,50 +1,45 @@
 import re
-from typing import Callable, Concatenate, Optional, ParamSpec, TypeAlias, overload
+from typing import (Callable, Concatenate, Optional, ParamSpec, TypeAlias,
+                    overload)
 
 import dash
 from dash import Input, Output, State
 
 from ..components.tail import filepath_dict, get_component_id_list
-from ..typing import DashDependencies, ComponentID
+from ..typing import ComponentID, DashDependencies
 
 StateArgs = ParamSpec("StateArgs")
 
-DesiredFunc: TypeAlias = Callable[
-    Concatenate[list[str], StateArgs],
-    list[str]
-]
+DesiredFunc: TypeAlias = Callable[Concatenate[list[str], StateArgs], list[str]]
 
-Decorator: TypeAlias = Callable[
-    [DesiredFunc[StateArgs]],
-    bool
-]
+Decorator: TypeAlias = Callable[[DesiredFunc[StateArgs]], bool]
 
 
 @overload
 def callback(
-        func: DesiredFunc[StateArgs],
-        *,
-        id: None = ...,  # noqa: PyShadowingBuiltins
-        states: None = ...
+    func: DesiredFunc[StateArgs],
+    *,
+    id: None = ...,  # noqa: PyShadowingBuiltins
+    states: None = ...,
 ) -> bool:
     ...
 
 
 @overload
 def callback(
-        func: None = ...,
-        *,
-        id: ComponentID = ...,  # noqa: PyShadowingBuiltins
-        states: Optional[DashDependencies[State]] = ...
+    func: None = ...,
+    *,
+    id: ComponentID = ...,  # noqa: PyShadowingBuiltins
+    states: Optional[DashDependencies[State]] = ...,
 ) -> Decorator[StateArgs]:
     ...
 
 
 def callback(
-        func: Optional[DesiredFunc[StateArgs]] = None,
-        *,
-        id: Optional[ComponentID] = None,  # noqa: PyShadowingBuiltins
-        states: StateArgs.args = ()
+    func: Optional[DesiredFunc[StateArgs]] = None,
+    *,
+    id: Optional[ComponentID] = None,  # noqa: PyShadowingBuiltins
+    states: StateArgs.args = (),
 ) -> bool | Decorator[StateArgs]:
     tlc_id, interval_id, cursor_position_id = get_component_id_list(id)
 
@@ -57,17 +52,13 @@ def callback(
             [
                 Input(interval_id, "n_intervals"),
             ],
-            [
-                State(cursor_position_id, "data"),
-                State(tlc_id, "children"),
-                *states
-            ]
+            [State(cursor_position_id, "data"), State(tlc_id, "children"), *states],
         )
         def wrapper(
-                _: Optional[int],
-                current_cursor_position: int,
-                children_so_far: Optional[list[str]],
-                *state_args: StateArgs.args
+            _: Optional[int],
+            current_cursor_position: int,
+            children_so_far: Optional[list[str]],
+            *state_args: StateArgs.args,
         ) -> tuple[list[str], int]:
             if not filepath_dict[id].exists():
                 return [], current_cursor_position
@@ -96,6 +87,7 @@ def callback(
                 children_so_far = []
 
             return children_so_far + children, current_cursor_position
+
         return True
 
     if func is None:

@@ -1,5 +1,3 @@
 from .tail import *
 
-__all__ = [
-    "Tail"
-]
+__all__ = ["Tail"]

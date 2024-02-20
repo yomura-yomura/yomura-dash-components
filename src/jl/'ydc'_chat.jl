@@ -13,7 +13,7 @@ Keyword arguments:
 - `bot_name` (String; required): A Bot name that will be printed when this component is rendered.
 - `disable_submission` (Bool; optional)
 - `disable_submission_after_user_sends` (Bool; optional)
-- `disable_textarea` (Bool; required)
+- `disable_textarea` (Bool; optional)
 - `history` (optional): . history has the following type: Array of lists containing elements 'role', 'content', 'date'.
 Those elements have the following types:
   - `role` (String; required)
