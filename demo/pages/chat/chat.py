@@ -7,7 +7,7 @@ from yomura_dash_components.typing import DashChildrenProp
 dash.register_page(__name__)
 
 
-def layout() -> DashChildrenProp:
+def layout(user_input: str = "") -> DashChildrenProp:
     return html.Div(
         [
             html.Div(
@@ -16,9 +16,12 @@ def layout() -> DashChildrenProp:
                     bot_name="Test Bot",
                     avatar_image_path="/assets/bot-assistant.png",
                     disable_submission_after_user_sends=True,
+                    user_input_value=user_input,
                 ),
                 style={"height": "80vh", "width": "90vw"},
             ),
+            html.P("User input: "),
+            html.Div(id="user-input"),
             html.P("Submitted: "),
             html.Div(id="output"),
         ]
@@ -32,6 +35,16 @@ import dash
 from dash import Input, Output, State, callback, html
 
 from yomura_dash_components.typing import DashChildrenProp, History
+
+
+@callback(
+    Output("user-input", "children"),
+    Input("chat", "user_input_value"),
+)
+def update_user_input(user_input: Optional[str]) -> str:
+    if user_input is None:
+        raise dash.exceptions.PreventUpdate
+    return user_input
 
 
 @callback(

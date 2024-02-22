@@ -35,6 +35,7 @@ type Props = {
 
     is_bot_typing: boolean,
     n_submits: number,
+    user_input_value: string,
     history: History[],
     disable_submission: boolean,
     disable_submission_after_user_sends: boolean,
@@ -45,6 +46,7 @@ const defaultProp = {
     id: undefined,
     is_bot_typing: false,
     n_submits: 0,
+    user_input_value: "",
     history: undefined,
     disable_submission: false,
     disable_submission_after_user_sends: false,
@@ -116,6 +118,8 @@ export default class Chat extends React.Component<Props, State> {
             disable_submission,
             disable_textarea,
             history,
+            user_input_value,
+            setProps,
         } = this.props;
 
         console.debug("onRender:", this.props, this.state)
@@ -248,6 +252,12 @@ export default class Chat extends React.Component<Props, State> {
                             () => {
                                 this.adjustTextArea()
                                 // setProps({user_message: this.textarea_ref.current?.value})
+                            }
+                        }
+                        value={user_input_value}
+                        onChange={
+                            (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                setProps({user_input_value: event.target.value})
                             }
                         }
                         rootWidth={this.state.width}

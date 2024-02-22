@@ -43,6 +43,18 @@
           "raw": "number"
         }
       },
+      "user_input_value": {
+        "description": "",
+        "required": false,
+        "defaultValue": {
+          "value": "''",
+          "computed": false
+        },
+        "type": {
+          "name": "string",
+          "raw": "string"
+        }
+      },
       "history": {
         "description": "",
         "required": false,
@@ -339,7 +351,7 @@
                     "name": "func",
                     "raw": "() => VarDate"
                   },
-                  "__@toPrimitive@33": {
+                  "__@toPrimitive@34": {
                     "description": "Converts a Date object to a string.\n\n\nConverts a Date object to a number.\n\n\nConverts a Date object to a string or number.\n@,param,hint, ,The strings \"number\", \"string\", or \"default\" to specify what primitive to return.\n@,throws,{TypeError} If 'hint' was given something other than \"number\", \"string\", or \"default\".\n@,returns,A number if 'hint' was \"number\", a string if 'hint' was \"string\" or \"default\".",
                     "required": true,
                     "name": "shape",

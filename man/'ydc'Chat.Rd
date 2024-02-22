@@ -14,7 +14,7 @@ Chat Component built for Dash
 disable_submission=NULL,
 disable_submission_after_user_sends=NULL,
 disable_textarea=NULL, history=NULL, is_bot_typing=NULL,
-n_submits=NULL)
+n_submits=NULL, user_input_value=NULL)
 }
 
 \arguments{
@@ -34,7 +34,7 @@ n_submits=NULL)
 those elements have the following types:
   - role (character; required)
   - content (character; required)
-  - date (required): . date has the following type: lists containing elements 'tostring', 'todatestring', 'totimestring', 'tolocalestring', 'tolocaledatestring', 'tolocaletimestring', 'valueof', 'gettime', 'getfullyear', 'getutcfullyear', 'getmonth', 'getutcmonth', 'getdate', 'getutcdate', 'getday', 'getutcday', 'gethours', 'getutchours', 'getminutes', 'getutcminutes', 'getseconds', 'getutcseconds', 'getmilliseconds', 'getutcmilliseconds', 'gettimezoneoffset', 'settime', 'setmilliseconds', 'setutcmilliseconds', 'setseconds', 'setutcseconds', 'setminutes', 'setutcminutes', 'sethours', 'setutchours', 'setdate', 'setutcdate', 'setmonth', 'setutcmonth', 'setfullyear', 'setutcfullyear', 'toutcstring', 'toisostring', 'tojson', 'getvardate', '__@toprimitive@33'.
+  - date (required): . date has the following type: lists containing elements 'tostring', 'todatestring', 'totimestring', 'tolocalestring', 'tolocaledatestring', 'tolocaletimestring', 'valueof', 'gettime', 'getfullyear', 'getutcfullyear', 'getmonth', 'getutcmonth', 'getdate', 'getutcdate', 'getday', 'getutcday', 'gethours', 'getutchours', 'getminutes', 'getutcminutes', 'getseconds', 'getutcseconds', 'getmilliseconds', 'getutcmilliseconds', 'gettimezoneoffset', 'settime', 'setmilliseconds', 'setutcmilliseconds', 'setseconds', 'setutcseconds', 'setminutes', 'setutcminutes', 'sethours', 'setutchours', 'setdate', 'setutcdate', 'setmonth', 'setutcmonth', 'setfullyear', 'setutcfullyear', 'toutcstring', 'toisostring', 'tojson', 'getvardate', '__@toprimitive@34'.
 those elements have the following types:
   - tostring (optional): returns a string representation of a date. the format of the string depends on the locale.
   - todatestring (required): returns a date as a string value.
@@ -140,7 +140,7 @@ those elements have the following types:
   - toisostring (required): returns a date as a string value in iso format.
   - tojson (required): used by the json.stringify method to enable the transformation of an object's data for javascript object notation (json) serialization.
   - getvardate (required)
-  - __@toprimitive@33 (required): converts a date object to a string.
+  - __@toprimitive@34 (required): converts a date object to a string.
 
 
 converts a date object to a number.
@@ -149,13 +149,15 @@ converts a date object to a number.
 converts a date object to a string or number.
 @,param,hint, ,the strings "number", "string", or "default" to specify what primitive to return.
 @,throws,{typeerror} if 'hint' was given something other than "number", "string", or "default".
-@,returns,a number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toprimitive@33 has the following type: lists containing elements .
+@,returns,a number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toprimitive@34 has the following type: lists containing elements .
 those elements have the following types:
 s. }
 
 \item{is_bot_typing}{Logical. }
 
 \item{n_submits}{Numeric. }
+
+\item{user_input_value}{Character. }
 }
 
 \value{named list of JSON elements corresponding to React.js properties and their values}

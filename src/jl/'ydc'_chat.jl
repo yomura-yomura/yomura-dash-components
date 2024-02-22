@@ -18,7 +18,7 @@ Keyword arguments:
 Those elements have the following types:
   - `role` (String; required)
   - `content` (String; required)
-  - `date` (required): . date has the following type: lists containing elements 'toString', 'toDateString', 'toTimeString', 'toLocaleString', 'toLocaleDateString', 'toLocaleTimeString', 'valueOf', 'getTime', 'getFullYear', 'getUTCFullYear', 'getMonth', 'getUTCMonth', 'getDate', 'getUTCDate', 'getDay', 'getUTCDay', 'getHours', 'getUTCHours', 'getMinutes', 'getUTCMinutes', 'getSeconds', 'getUTCSeconds', 'getMilliseconds', 'getUTCMilliseconds', 'getTimezoneOffset', 'setTime', 'setMilliseconds', 'setUTCMilliseconds', 'setSeconds', 'setUTCSeconds', 'setMinutes', 'setUTCMinutes', 'setHours', 'setUTCHours', 'setDate', 'setUTCDate', 'setMonth', 'setUTCMonth', 'setFullYear', 'setUTCFullYear', 'toUTCString', 'toISOString', 'toJSON', 'getVarDate', '__@toPrimitive@33'.
+  - `date` (required): . date has the following type: lists containing elements 'toString', 'toDateString', 'toTimeString', 'toLocaleString', 'toLocaleDateString', 'toLocaleTimeString', 'valueOf', 'getTime', 'getFullYear', 'getUTCFullYear', 'getMonth', 'getUTCMonth', 'getDate', 'getUTCDate', 'getDay', 'getUTCDay', 'getHours', 'getUTCHours', 'getMinutes', 'getUTCMinutes', 'getSeconds', 'getUTCSeconds', 'getMilliseconds', 'getUTCMilliseconds', 'getTimezoneOffset', 'setTime', 'setMilliseconds', 'setUTCMilliseconds', 'setSeconds', 'setUTCSeconds', 'setMinutes', 'setUTCMinutes', 'setHours', 'setUTCHours', 'setDate', 'setUTCDate', 'setMonth', 'setUTCMonth', 'setFullYear', 'setUTCFullYear', 'toUTCString', 'toISOString', 'toJSON', 'getVarDate', '__@toPrimitive@34'.
 Those elements have the following types:
   - `toString` (optional): Returns a string representation of a date. The format of the string depends on the locale.
   - `toDateString` (required): Returns a date as a string value.
@@ -124,7 +124,7 @@ Those elements have the following types:
   - `toISOString` (required): Returns a date as a string value in ISO format.
   - `toJSON` (required): Used by the JSON.stringify method to enable the transformation of an object's data for JavaScript Object Notation (JSON) serialization.
   - `getVarDate` (required)
-  - `__@toPrimitive@33` (required): Converts a Date object to a string.
+  - `__@toPrimitive@34` (required): Converts a Date object to a string.
 
 
 Converts a Date object to a number.
@@ -133,14 +133,15 @@ Converts a Date object to a number.
 Converts a Date object to a string or number.
 @,param,hint, ,The strings "number", "string", or "default" to specify what primitive to return.
 @,throws,{TypeError} If 'hint' was given something other than "number", "string", or "default".
-@,returns,A number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toPrimitive@33 has the following type: lists containing elements .
+@,returns,A number if 'hint' was "number", a string if 'hint' was "string" or "default".. __@toPrimitive@34 has the following type: lists containing elements .
 Those elements have the following types:
 s
 - `is_bot_typing` (Bool; optional)
 - `n_submits` (Real; optional)
+- `user_input_value` (String; optional)
 """
 function 'ydc'_chat(; kwargs...)
-        available_props = Symbol[:id, :avatar_image_path, :bot_name, :disable_submission, :disable_submission_after_user_sends, :disable_textarea, :history, :is_bot_typing, :n_submits]
+        available_props = Symbol[:id, :avatar_image_path, :bot_name, :disable_submission, :disable_submission_after_user_sends, :disable_textarea, :history, :is_bot_typing, :n_submits, :user_input_value]
         wild_props = Symbol[]
         return Component("'ydc'_chat", "Chat", "yomura_dash_components", available_props, wild_props; kwargs...)
 end
