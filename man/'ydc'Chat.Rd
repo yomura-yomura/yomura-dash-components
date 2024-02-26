@@ -11,7 +11,7 @@ Chat Component built for Dash
 
 \usage{
 'ydc'Chat(id=NULL, avatar_image_path=NULL, bot_name=NULL,
-disable_submission=NULL,
+disable_submission=NULL, disable_submission_=NULL,
 disable_submission_after_user_sends=NULL,
 disable_textarea=NULL, history=NULL,
 initial_user_input_value=NULL, is_bot_typing=NULL,
@@ -27,6 +27,8 @@ user_input_value=NULL)
 \item{bot_name}{Character. A Bot name that will be printed when this component is rendered.}
 
 \item{disable_submission}{Logical. }
+
+\item{disable_submission_}{Logical. }
 
 \item{disable_submission_after_user_sends}{Logical. }
 

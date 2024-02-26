@@ -39,6 +39,7 @@ type Props = {
     user_input_value: string,
     last_submitted_user_input_value: string,
     history: History[],
+    _disable_submission: boolean,
     disable_submission: boolean,
     disable_submission_after_user_sends: boolean,
     disable_textarea: boolean,
@@ -52,6 +53,7 @@ const defaultProp = {
     user_input_value: "",
     last_submitted_user_input_value: undefined,
     history: undefined,
+    _disable_submission: false,
     disable_submission: false,
     disable_submission_after_user_sends: false,
     disable_textarea: false,
@@ -67,7 +69,7 @@ type State = {
 /**
  * Chat Component built for Dash
  */
-export default class Chat extends React.Component<Props, State> {
+export default class ChatComponent extends React.Component<Props, State> {
     static defaultProps = defaultProp
 
     private readonly textarea_ref: React.RefObject<HTMLTextAreaElement> = React.createRef();
@@ -119,7 +121,7 @@ export default class Chat extends React.Component<Props, State> {
             id,
             bot_name, avatar_image_path,
             is_bot_typing,
-            disable_submission,
+            _disable_submission,
             disable_textarea,
             history,
             user_input_value,
@@ -131,12 +133,13 @@ export default class Chat extends React.Component<Props, State> {
         const onSubmit = () => {
             const {
                 n_submits,
-                disable_submission,
+                _disable_submission,
                 disable_submission_after_user_sends,
                 setProps,
             } = this.props;
+            console.debug("onSubmit:", n_submits, _disable_submission, disable_submission_after_user_sends)
             const msg = this.textarea_ref.current?.value
-            if (msg && disable_submission !== true) {
+            if (msg && _disable_submission !== true) {
                 setProps({
                     n_submits: n_submits + 1,
                 })
@@ -154,15 +157,19 @@ export default class Chat extends React.Component<Props, State> {
                         ]
                     })
                 }
+                console.debug("disable_submission_after_user_sends", disable_submission_after_user_sends)
 
                 this.textarea_ref.current!.value = ""
                 if (disable_submission_after_user_sends === true) {
                     setProps({
-                        disable_submission: true
+                        _disable_submission: true
                     })
                 }
 
-                setProps({user_input_value: "", last_submitted_user_input_value: msg})
+                setProps({
+                    user_input_value: "",
+                    last_submitted_user_input_value: msg
+                })
             }
         }
 
@@ -181,7 +188,7 @@ export default class Chat extends React.Component<Props, State> {
                 switch (message["role"]) {
                     case "user":
                         messages.push(
-                           <NewUserMessage key={`user-message-${messages.length}`} onAnimationEnd={() => this.scrollbar_ref.current.scrollToBottomIfPossible()}>
+                           <NewUserMessage key={`user-message-${messages.length}`} onAnimationEnd={() => this.scrollbar_ref.current?.scrollToBottomIfPossible()}>
                                {this.getFormattedMessageList(message["content"])}
                                {this.getDateTag(date)}
                            </NewUserMessage>
@@ -189,7 +196,7 @@ export default class Chat extends React.Component<Props, State> {
                         break
                     case "assistant":
                         messages.push(
-                           <NewBotMessage key={`bot-message-${messages.length}`} onAnimationEnd={() => this.scrollbar_ref.current.scrollToBottomIfPossible()}>
+                           <NewBotMessage key={`bot-message-${messages.length}`} onAnimationEnd={() => this.scrollbar_ref.current?.scrollToBottomIfPossible()}>
                                {this.getMessageAvatarTag()}
                                {this.getFormattedMessageList(message["content"])}
                                {this.getDateTag(date)}
@@ -198,7 +205,7 @@ export default class Chat extends React.Component<Props, State> {
                         break
                     case "assistant-action":
                         messages.push(
-                           <NewBotAction key={`bot-action-${messages.length}`} onAnimationEnd={() => this.scrollbar_ref.current.scrollToBottomIfPossible()}>
+                           <NewBotAction key={`bot-action-${messages.length}`} onAnimationEnd={() => this.scrollbar_ref.current?.scrollToBottomIfPossible()}>
                                {this.getFormattedMessageList(message["content"])}
                            </NewBotAction>
                         )
@@ -211,7 +218,7 @@ export default class Chat extends React.Component<Props, State> {
 
         if (is_bot_typing) {
             messages.push(
-                <LoadingNewBotMessage key="bot-updating-message" onAnimationStart={() => this.scrollbar_ref.current.scrollToBottomIfPossible()}>
+                <LoadingNewBotMessage key="bot-updating-message" onAnimationStart={() => this.scrollbar_ref.current?.scrollToBottomIfPossible()}>
                     {this.getMessageAvatarTag()}
                     <span></span>
                 </LoadingNewBotMessage>
@@ -270,7 +277,7 @@ export default class Chat extends React.Component<Props, State> {
                         rootHeight={this.state.height}
                     />
                     <MessageSubmit
-                        disabled={disable_submission}
+                        disabled={_disable_submission}
                         type="submit"
                         onClick={
                             () => onSubmit()
@@ -283,6 +290,12 @@ export default class Chat extends React.Component<Props, State> {
                 </MessageBox>
             </Main>
         );
+    }
+
+    shouldComponentUpdate(nextProps: Readonly<Props>, nextState: Readonly<State>, nextContext: any): boolean {
+        console.debug("shouldComponentUpdate", nextProps, nextState, nextContext)
+        this.props.setProps({disable_submission: nextProps._disable_submission})
+        return true
     }
 
     componentDidMount() {

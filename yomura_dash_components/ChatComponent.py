@@ -3,14 +3,16 @@
 from dash.development.base_component import Component, _explicitize_args
 
 
-class Chat(Component):
-    """A Chat component.
+class ChatComponent(Component):
+    """A ChatComponent component.
 Chat Component built for Dash
 
 Keyword arguments:
 
 - id (string; default undefined):
     Unique ID to identify this component in Dash callbacks.
+
+- _disable_submission (boolean; default False)
 
 - avatar_image_path (string; required):
     A Bot icon that will be shown when this component is rendered.
@@ -327,12 +329,12 @@ Keyword arguments:
     _children_props = []
     _base_nodes = ['children']
     _namespace = 'yomura_dash_components'
-    _type = 'Chat'
+    _type = 'ChatComponent'
     @_explicitize_args
-    def __init__(self, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, initial_user_input_value=Component.UNDEFINED, user_input_value=Component.UNDEFINED, last_submitted_user_input_value=Component.UNDEFINED, history=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, disable_textarea=Component.UNDEFINED, id=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'n_submits', 'user_input_value']
+    def __init__(self, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, initial_user_input_value=Component.UNDEFINED, user_input_value=Component.UNDEFINED, last_submitted_user_input_value=Component.UNDEFINED, history=Component.UNDEFINED, _disable_submission=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, disable_textarea=Component.UNDEFINED, id=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', '_disable_submission', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'n_submits', 'user_input_value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'n_submits', 'user_input_value']
+        self.available_properties = ['id', '_disable_submission', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'n_submits', 'user_input_value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()
@@ -344,4 +346,4 @@ Keyword arguments:
                 raise TypeError(
                     'Required argument `' + k + '` was not specified.')
 
-        super(Chat, self).__init__(**args)
+        super(ChatComponent, self).__init__(**args)

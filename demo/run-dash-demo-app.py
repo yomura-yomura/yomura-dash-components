@@ -47,4 +47,8 @@ app.layout = html.Div(
 
 
 if __name__ == "__main__":
-    app.run(debug=True, dev_tools_hot_reload=True)
+    app.run(
+        debug=True,
+        dev_tools_hot_reload=True,
+        port=8080,
+    )

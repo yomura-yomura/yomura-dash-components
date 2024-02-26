@@ -1,9 +1,7 @@
-from .Chat import Chat
-from .SampleComponent import SampleComponent
+from .ChatComponent import ChatComponent
 from .TrackingLastComponent import TrackingLastComponent
 
 __all__ = [
-    "Chat",
-    "SampleComponent",
+    "ChatComponent",
     "TrackingLastComponent"
 ]

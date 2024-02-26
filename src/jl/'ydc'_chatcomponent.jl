@@ -1,14 +1,15 @@
 # AUTO GENERATED FILE - DO NOT EDIT
 
-export 'ydc'_chat
+export 'ydc'_chatcomponent
 
 """
-    'ydc'_chat(;kwargs...)
+    'ydc'_chatcomponent(;kwargs...)
 
-A Chat component.
+A ChatComponent component.
 Chat Component built for Dash
 Keyword arguments:
 - `id` (String; optional): Unique ID to identify this component in Dash callbacks.
+- `_disable_submission` (Bool; optional)
 - `avatar_image_path` (String; required): A Bot icon that will be shown when this component is rendered.
 - `bot_name` (String; required): A Bot name that will be printed when this component is rendered.
 - `disable_submission` (Bool; optional)
@@ -142,9 +143,9 @@ s
 - `n_submits` (Real; optional)
 - `user_input_value` (String; optional)
 """
-function 'ydc'_chat(; kwargs...)
-        available_props = Symbol[:id, :avatar_image_path, :bot_name, :disable_submission, :disable_submission_after_user_sends, :disable_textarea, :history, :initial_user_input_value, :is_bot_typing, :last_submitted_user_input_value, :n_submits, :user_input_value]
+function 'ydc'_chatcomponent(; kwargs...)
+        available_props = Symbol[:id, :_disable_submission, :avatar_image_path, :bot_name, :disable_submission, :disable_submission_after_user_sends, :disable_textarea, :history, :initial_user_input_value, :is_bot_typing, :last_submitted_user_input_value, :n_submits, :user_input_value]
         wild_props = Symbol[]
-        return Component("'ydc'_chat", "Chat", "yomura_dash_components", available_props, wild_props; kwargs...)
+        return Component("'ydc'_chatcomponent", "ChatComponent", "yomura_dash_components", available_props, wild_props; kwargs...)
 end
 

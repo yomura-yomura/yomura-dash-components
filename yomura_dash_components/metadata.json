@@ -1,6 +1,6 @@
 {
-  "src/ts/components/Chat.tsx": {
-    "displayName": "Chat",
+  "src/ts/components/ChatComponent.tsx": {
+    "displayName": "ChatComponent",
     "description": "Chat Component built for Dash\r",
     "props": {
       "bot_name": {
@@ -391,6 +391,18 @@
           "raw": "History[]"
         }
       },
+      "_disable_submission": {
+        "description": "",
+        "required": false,
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        },
+        "type": {
+          "name": "bool",
+          "raw": "boolean"
+        }
+      },
       "disable_submission": {
         "description": "",
         "required": false,
@@ -434,29 +446,6 @@
           "value": "undefined",
           "computed": false
         },
-        "type": {
-          "name": "string",
-          "raw": "string"
-        }
-      },
-      "setProps": {
-        "description": "Update props to trigger callbacks.",
-        "required": true,
-        "type": {
-          "name": "func",
-          "raw": "(props: Record<string, any>) => void"
-        }
-      }
-    },
-    "isContext": false
-  },
-  "src/ts/components/SampleComponent.tsx": {
-    "displayName": "SampleComponent",
-    "description": "Component description\r",
-    "props": {
-      "id": {
-        "description": "Unique ID to identify this component in Dash callbacks.",
-        "required": false,
         "type": {
           "name": "string",
           "raw": "string"

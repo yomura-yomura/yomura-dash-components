@@ -15,19 +15,19 @@ def layout(message: str = "", user_input: str = "") -> DashChildrenProp:
     return html.Div(
         [
             dcc.Location(id="chat-url", refresh=False),
-            html.Div(
-                ydc.Chat(
-                    id="chat",
-                    bot_name="Test Bot",
-                    avatar_image_path="/assets/bot-assistant.png",
-                    disable_submission_after_user_sends=True,
-                    initial_user_input_value=message,
-                    user_input_value=user_input,
-                ),
+            ydc.Chat(
+                id="chat",
+                bot_name="Test Bot",
+                avatar_image_path="/assets/bot-assistant.png",
+                disable_submission_after_user_sends=True,
+                initial_user_input_value=message,
+                user_input_value=user_input,
                 style={"height": "80vh", "width": "90vw"},
             ),
             html.P("User input: "),
             html.Div(id="user-input"),
+            html.P("disable_submission: "),
+            html.Div(id="disable-submission"),
             html.P("Submitted: "),
             html.Div(id="output"),
         ]
@@ -66,9 +66,26 @@ def update_user_input(user_input: Optional[str]) -> str:
 
 
 @callback(
-    [Output("chat", "history"), Output("chat", "disable_submission")],
-    Input("chat", "n_submits"),
-    State("chat", "history"),
+    Output("disable-submission", "children"),
+    [
+        Input("chat", "disable_submission"),
+    ],
+)
+def update_disable_submission(disable_submission: Optional[bool]) -> str:
+    if disable_submission is None:
+        raise dash.exceptions.PreventUpdate
+    return str(disable_submission)
+
+
+@ydc.callbacks.chat.callback(
+    id="chat",
+    output=[
+        Output("chat", "history"),
+    ],
+    inputs=[
+        Input("chat", "n_submits"),
+        State("chat", "history"),
+    ],
 )
 def update_assistant_message(
     n_submits: Optional[int], history: History
@@ -79,9 +96,9 @@ def update_assistant_message(
     user_message = history[-1]["content"]
     print(n_submits, user_message)
 
-    time.sleep(1)
+    time.sleep(3)
     history.append({"role": "assistant", "content": user_message})
-    return history, False
+    return (history,)
 
 
 @callback(Output("output", "children"), Input("chat", "history"))

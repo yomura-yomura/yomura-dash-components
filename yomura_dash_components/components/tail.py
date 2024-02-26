@@ -1,5 +1,4 @@
 import pathlib
-from typing import Optional
 
 import dash.development.base_component
 from dash import dcc, html
@@ -39,7 +38,7 @@ class Tail(html.Div):
         )
 
 
-def get_component_id_list(base_id: Optional[ComponentID]) -> list[ComponentID]:
+def get_component_id_list(base_id: ComponentID | None) -> list[ComponentID]:
     if base_id is None:
         base_id = ""
 

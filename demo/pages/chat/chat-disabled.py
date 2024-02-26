@@ -10,26 +10,24 @@ dash.register_page(__name__)
 def layout() -> DashChildrenProp:
     return html.Div(
         [
-            html.Div(
-                ydc.Chat(
-                    id="chat-disabled",
-                    bot_name="Test Bot",
-                    avatar_image_path="/assets/bot-assistant.png",
-                    disable_submission=True,
-                    disable_textarea=True,
-                    history=[
-                        {
-                            "role": "user",
-                            "content": "こんにちは！",
-                            "date": "1970-01-01 12:00",
-                        },
-                        {
-                            "role": "assistant",
-                            "content": "こんばんは！",
-                            "date": "1970-01-01 22:00",
-                        },
-                    ],
-                ),
+            ydc.Chat(
+                id="chat-disabled",
+                bot_name="Test Bot",
+                avatar_image_path="/assets/bot-assistant.png",
+                disable_submission=True,
+                disable_textarea=True,
+                history=[
+                    {
+                        "role": "user",
+                        "content": "こんにちは！",
+                        "date": "1970-01-01 12:00",
+                    },
+                    {
+                        "role": "assistant",
+                        "content": "こんばんは！",
+                        "date": "1970-01-01 22:00",
+                    },
+                ],
                 style={"height": "80vh", "width": "90vw"},
             ),
             html.P("Submitted: "),
