@@ -34,7 +34,7 @@ Keyword arguments:
 
         `date` is a dict with keys:
 
-        - __@toPrimitive@34 (dict; required):
+        - __@toPrimitive@36 (dict; required):
             Converts a Date object to a string.   Converts a Date
             object to a number.   Converts a Date object to a string
             or number. @,param,hint, ,The strings \"number\",
@@ -44,7 +44,7 @@ Keyword arguments:
             @,returns,A number if 'hint' was \"number\", a string if
             'hint' was \"string\" or \"default\".
 
-            `__@toPrimitive@34` is a dict with keys:
+            `__@toPrimitive@36` is a dict with keys:
 
 
         - getDate (required):
@@ -315,7 +315,11 @@ Keyword arguments:
 
     - role (string; required)
 
+- initial_user_input_value (string; default '')
+
 - is_bot_typing (boolean; default False)
+
+- last_submitted_user_input_value (string; default undefined)
 
 - n_submits (number; default 0)
 
@@ -325,10 +329,10 @@ Keyword arguments:
     _namespace = 'yomura_dash_components'
     _type = 'Chat'
     @_explicitize_args
-    def __init__(self, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, user_input_value=Component.UNDEFINED, history=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, disable_textarea=Component.UNDEFINED, id=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'is_bot_typing', 'n_submits', 'user_input_value']
+    def __init__(self, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, initial_user_input_value=Component.UNDEFINED, user_input_value=Component.UNDEFINED, last_submitted_user_input_value=Component.UNDEFINED, history=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, disable_textarea=Component.UNDEFINED, id=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'n_submits', 'user_input_value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'is_bot_typing', 'n_submits', 'user_input_value']
+        self.available_properties = ['id', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'n_submits', 'user_input_value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

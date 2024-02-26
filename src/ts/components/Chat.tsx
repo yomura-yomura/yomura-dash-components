@@ -35,7 +35,9 @@ type Props = {
 
     is_bot_typing: boolean,
     n_submits: number,
+    initial_user_input_value: string,
     user_input_value: string,
+    last_submitted_user_input_value: string,
     history: History[],
     disable_submission: boolean,
     disable_submission_after_user_sends: boolean,
@@ -46,7 +48,9 @@ const defaultProp = {
     id: undefined,
     is_bot_typing: false,
     n_submits: 0,
+    initial_user_input_value: "",
     user_input_value: "",
+    last_submitted_user_input_value: undefined,
     history: undefined,
     disable_submission: false,
     disable_submission_after_user_sends: false,
@@ -157,6 +161,8 @@ export default class Chat extends React.Component<Props, State> {
                         disable_submission: true
                     })
                 }
+
+                setProps({user_input_value: "", last_submitted_user_input_value: msg})
             }
         }
 
@@ -281,6 +287,11 @@ export default class Chat extends React.Component<Props, State> {
 
     componentDidMount() {
         console.debug("componentDidMount")
+        const {
+            initial_user_input_value,
+            setProps,
+        } = this.props;
+        setProps({user_input_value: initial_user_input_value})
 
         // on resize
         if (this.ref.current) {
