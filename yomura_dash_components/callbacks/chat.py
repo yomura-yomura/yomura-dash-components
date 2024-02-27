@@ -45,31 +45,57 @@ def callback(
     inputs: InputArgs.args = None,
     **kwargs,
 ) -> bool | Decorator[InputArgs]:
+    disable_submission_output = Output(id, "_disable_submission")
     multi_output = True
     if output is None:
-        output = []
+        output = [
+            disable_submission_output,
+        ]
     elif isinstance(output, Output):
-        output = [output]
+        output = [
+            disable_submission_output,
+            output,
+        ]
         multi_output = False
+    elif isinstance(output, dict):
+        assert (
+            "_disable_submission" not in output
+        ), "Output key '_disable_submission' is reserved."
+        output = {
+            "_disable_submission": disable_submission_output,
+            **output,
+        }
+        multi_output = None
+    else:
+        output = [
+            disable_submission_output,
+            *output,
+        ]
 
     if inputs is None:
         inputs = []
 
     def decorator(func_: DesiredFunc[InputArgs]) -> bool:
         @dash.callback(
-            output=[
-                Output(id, "_disable_submission"),
-                *output,
-            ],
+            output=output,
             inputs=inputs,
             **kwargs,
         )
         def wrapper(
             *input_args: InputArgs.args,
         ) -> tuple[list[str], int]:
+            ret = func_(*input_args)
+            if multi_output is None:
+                assert (
+                    "_disable_submission" not in ret
+                ), "Output key '_disable_submission' is reserved."
+                return {
+                    "_disable_submission": False,
+                    **ret,
+                }
             if multi_output:
-                return False, *func_(*input_args)
-            return False, func_(*input_args)
+                return False, *ret
+            return False, ret
 
         return True
 

@@ -79,9 +79,9 @@ def update_disable_submission(disable_submission: Optional[bool]) -> str:
 
 @ydc.callbacks.chat.callback(
     id="chat",
-    output=[
-        Output("chat", "history"),
-    ],
+    output={
+        "history": Output("chat", "history"),
+    },
     inputs=[
         Input("chat", "n_submits"),
         State("chat", "history"),
@@ -98,7 +98,7 @@ def update_assistant_message(
 
     time.sleep(3)
     history.append({"role": "assistant", "content": user_message})
-    return (history,)
+    return {"history": history}
 
 
 @callback(Output("output", "children"), Input("chat", "history"))
