@@ -323,6 +323,8 @@ Keyword arguments:
 
 - last_submitted_user_input_value (string; default undefined)
 
+- min_standard_font_size_in_px (number; default 0)
+
 - n_submits (number; default 0)
 
 - user_input_value (string; default '')"""
@@ -331,10 +333,10 @@ Keyword arguments:
     _namespace = 'yomura_dash_components'
     _type = 'ChatComponent'
     @_explicitize_args
-    def __init__(self, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, initial_user_input_value=Component.UNDEFINED, user_input_value=Component.UNDEFINED, last_submitted_user_input_value=Component.UNDEFINED, history=Component.UNDEFINED, _disable_submission=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, disable_textarea=Component.UNDEFINED, id=Component.UNDEFINED, **kwargs):
-        self._prop_names = ['id', '_disable_submission', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'n_submits', 'user_input_value']
+    def __init__(self, bot_name=Component.REQUIRED, avatar_image_path=Component.REQUIRED, is_bot_typing=Component.UNDEFINED, n_submits=Component.UNDEFINED, initial_user_input_value=Component.UNDEFINED, user_input_value=Component.UNDEFINED, last_submitted_user_input_value=Component.UNDEFINED, history=Component.UNDEFINED, _disable_submission=Component.UNDEFINED, disable_submission=Component.UNDEFINED, disable_submission_after_user_sends=Component.UNDEFINED, disable_textarea=Component.UNDEFINED, min_standard_font_size_in_px=Component.UNDEFINED, id=Component.UNDEFINED, **kwargs):
+        self._prop_names = ['id', '_disable_submission', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'min_standard_font_size_in_px', 'n_submits', 'user_input_value']
         self._valid_wildcard_attributes =            []
-        self.available_properties = ['id', '_disable_submission', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'n_submits', 'user_input_value']
+        self.available_properties = ['id', '_disable_submission', 'avatar_image_path', 'bot_name', 'disable_submission', 'disable_submission_after_user_sends', 'disable_textarea', 'history', 'initial_user_input_value', 'is_bot_typing', 'last_submitted_user_input_value', 'min_standard_font_size_in_px', 'n_submits', 'user_input_value']
         self.available_wildcard_properties =            []
         _explicit_args = kwargs.pop('_explicit_args')
         _locals = locals()

@@ -140,11 +140,12 @@ s
 - `initial_user_input_value` (String; optional)
 - `is_bot_typing` (Bool; optional)
 - `last_submitted_user_input_value` (String; optional)
+- `min_standard_font_size_in_px` (Real; optional)
 - `n_submits` (Real; optional)
 - `user_input_value` (String; optional)
 """
 function 'ydc'_chatcomponent(; kwargs...)
-        available_props = Symbol[:id, :_disable_submission, :avatar_image_path, :bot_name, :disable_submission, :disable_submission_after_user_sends, :disable_textarea, :history, :initial_user_input_value, :is_bot_typing, :last_submitted_user_input_value, :n_submits, :user_input_value]
+        available_props = Symbol[:id, :_disable_submission, :avatar_image_path, :bot_name, :disable_submission, :disable_submission_after_user_sends, :disable_textarea, :history, :initial_user_input_value, :is_bot_typing, :last_submitted_user_input_value, :min_standard_font_size_in_px, :n_submits, :user_input_value]
         wild_props = Symbol[]
         return Component("'ydc'_chatcomponent", "ChatComponent", "yomura_dash_components", available_props, wild_props; kwargs...)
 end

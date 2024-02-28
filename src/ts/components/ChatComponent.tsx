@@ -43,6 +43,8 @@ type Props = {
     disable_submission: boolean,
     disable_submission_after_user_sends: boolean,
     disable_textarea: boolean,
+
+    min_standard_font_size_in_px: number,
 } & DashComponentProps
 
 const defaultProp = {
@@ -57,6 +59,8 @@ const defaultProp = {
     disable_submission: false,
     disable_submission_after_user_sends: false,
     disable_textarea: false,
+
+    min_standard_font_size_in_px: 0,
 }
 
 type State = {
@@ -125,6 +129,7 @@ export default class ChatComponent extends React.Component<Props, State> {
             disable_textarea,
             history,
             user_input_value,
+            min_standard_font_size_in_px,
             setProps,
         } = this.props;
 
@@ -225,8 +230,10 @@ export default class ChatComponent extends React.Component<Props, State> {
             )
         }
 
+        const fontSize = Math.max(this.state.standard_font_size_in_px, min_standard_font_size_in_px)
+        console.debug("fontSize", fontSize, this.state.standard_font_size_in_px, min_standard_font_size_in_px)
         return (
-            <Main id={id} ref={this.ref} fontSize={this.state.standard_font_size_in_px}>
+            <Main id={id} ref={this.ref} fontSize={fontSize}>
                 <Header>
                     <TitleBotIcon rootWidth={this.state.width} rootHeight={this.state.height}>
                         <img src={avatar_image_path} alt="Bot Icon"/>

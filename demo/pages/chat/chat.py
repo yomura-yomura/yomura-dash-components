@@ -24,6 +24,7 @@ def layout(message: str = "", user_input: str = "") -> DashChildrenProp:
                 user_input_value=user_input,
                 style={"height": "80vh", "width": "90vw"},
             ),
+            dcc.Input(id="min-standard-font-size-in-px", type="number", value=0),
             html.P("User input: "),
             html.Div(id="user-input"),
             html.P("disable_submission: "),
@@ -63,6 +64,17 @@ def update_user_input(user_input: Optional[str]) -> str:
     if user_input is None:
         raise dash.exceptions.PreventUpdate
     return user_input
+
+
+@callback(
+    Output("chat", "min_standard_font_size_in_px"),
+    Input("min-standard-font-size-in-px", "value"),
+)
+def update_min_standard_font_size_in_px(min_standard_font_size: Optional[int]) -> int:
+    if min_standard_font_size is None:
+        raise dash.exceptions.PreventUpdate
+    print(f"{min_standard_font_size = }")
+    return min_standard_font_size
 
 
 @callback(

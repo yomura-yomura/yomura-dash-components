@@ -439,6 +439,18 @@
           "raw": "boolean"
         }
       },
+      "min_standard_font_size_in_px": {
+        "description": "",
+        "required": false,
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        },
+        "type": {
+          "name": "number",
+          "raw": "number"
+        }
+      },
       "id": {
         "description": "Unique ID to identify this component in Dash callbacks.",
         "required": false,
