@@ -1,4 +1,6 @@
 import styled, {keyframes} from "styled-components"
+import React from "react";
+import {DashComponentProps} from "../../props";
 
 
 export const Messages = styled.div`

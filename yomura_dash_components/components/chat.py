@@ -21,6 +21,7 @@ class Chat(html.Div):
         # _disable_submission=None,
         disable_submission_after_user_sends=None,
         disable_textarea=None,
+        type_on_link_clicked=None,
         min_standard_font_size_in_px=None,
         id=None,  # noqa: PyShadowingBuiltins
         style=None,
@@ -40,6 +41,7 @@ class Chat(html.Div):
                     _disable_submission=disable_submission,
                     disable_submission_after_user_sends=disable_submission_after_user_sends,
                     disable_textarea=disable_textarea,
+                    type_on_link_clicked=type_on_link_clicked,
                     min_standard_font_size_in_px=min_standard_font_size_in_px,
                     id=id,
                 ),

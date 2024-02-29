@@ -1,4 +1,5 @@
 import time
+import urllib.parse
 from typing import Optional
 
 import dash
@@ -11,7 +12,9 @@ from yomura_dash_components.typing import DashChildrenProp, History
 dash.register_page(__name__)
 
 
-def layout(message: str = "", user_input: str = "") -> DashChildrenProp:
+def layout(
+    message: str = "", user_input: str = "", type_on_link_clicked: str = "link"
+) -> DashChildrenProp:
     return html.Div(
         [
             dcc.Location(id="chat-url", refresh=False),
@@ -22,6 +25,7 @@ def layout(message: str = "", user_input: str = "") -> DashChildrenProp:
                 disable_submission_after_user_sends=True,
                 initial_user_input_value=message,
                 user_input_value=user_input,
+                type_on_link_clicked=type_on_link_clicked,
                 style={"height": "80vh", "width": "90vw"},
             ),
             dcc.Input(id="min-standard-font-size-in-px", type="number", value=0),
@@ -31,8 +35,21 @@ def layout(message: str = "", user_input: str = "") -> DashChildrenProp:
             html.Div(id="disable-submission"),
             html.P("Submitted: "),
             html.Div(id="output"),
+            html.P("data_on_link_clicked: "),
+            html.Div(id="data-on-link-clicked"),
         ]
     )
+
+
+@callback(
+    Output("data-on-link-clicked", "children"),
+    Input("chat", "data_on_link_clicked"),
+)
+def update_data_on_link_clicked(data_on_link_clicked: Optional[str]) -> str:
+    print(f"{data_on_link_clicked = }")
+    if data_on_link_clicked is None:
+        raise dash.exceptions.PreventUpdate
+    return data_on_link_clicked
 
 
 @callback(
@@ -44,14 +61,14 @@ def update_url(message: str, search: str) -> str:
     if message is None:
         raise dash.exceptions.PreventUpdate
 
-    if search == "":
-        query_dict = {}
+    if search.startswith("?"):
+        query_dict = urllib.parse.parse_qs(search[1:])
     else:
-        assert search[0] == "?"
-        query_dict = dict(x.split("=") for x in search[1:].split("&"))
-    query_dict["message"] = message
+        query_dict = {}
+
+    query_dict["message"] = [message]
     if len(query_dict) > 0:
-        return "?" + "&".join(f"{k}={v}" for k, v in query_dict.items())
+        return "?" + urllib.parse.urlencode(query_dict, doseq=True)
     else:
         return ""
 

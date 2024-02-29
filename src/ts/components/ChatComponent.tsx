@@ -44,6 +44,9 @@ type Props = {
     disable_submission_after_user_sends: boolean,
     disable_textarea: boolean,
 
+    type_on_link_clicked: "link" | "react",
+    data_on_link_clicked: string,
+
     min_standard_font_size_in_px: number,
 } & DashComponentProps
 
@@ -59,6 +62,9 @@ const defaultProp = {
     disable_submission: false,
     disable_submission_after_user_sends: false,
     disable_textarea: false,
+
+    type_on_link_clicked: "link",
+    data_on_link_clicked: undefined,
 
     min_standard_font_size_in_px: 0,
 }
@@ -377,12 +383,14 @@ export default class ChatComponent extends React.Component<Props, State> {
                     return m
                 } else {
                     return (
-                        <LinkInMessage
-                            href={matched[2]}
-                            target="_blank"
-                            rel="noopener noreferrer">
-                            {matched[1]}
-                        </LinkInMessage>
+                        <LinkInMessageComponent
+                            type={this.props.type_on_link_clicked}
+                            data={matched[2]}
+                            // target="_blank"
+                            // rel="noopener noreferrer">
+                            display={matched[1]}
+                            setProps={(props) => this.props.setProps(props)}>
+                        </LinkInMessageComponent>
                     )
                 }
             }
@@ -421,3 +429,46 @@ const Main = styled.div<{fontSize: number}>`
     flex-direction: column;
     font-size: ${({fontSize}) => `${fontSize}px`}
 `
+
+
+type Props_ = {
+    type: "link" | "react",
+    data: string
+    display: string
+} & DashComponentProps
+
+class LinkInMessageComponent extends React.Component<Props_> {
+    render() {
+        console.debug("LinkInMessageComponent", this.props)
+
+        const {
+            type,
+            data,
+            display,
+            setProps
+        } = this.props;
+
+        if (type === "link") {
+            return (
+                <LinkInMessage
+                    href={data}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    {display}
+                </LinkInMessage>
+            )
+        } else if (type === "react") {
+            return (
+                <LinkInMessage
+                    onClick={
+                        () => {
+                            console.debug("LinkInMessage: clicked on link. data: ", data);
+                            setProps({"data_on_link_clicked": data});
+                        }
+                    } >
+                    {display}
+                </LinkInMessage>
+            )
+        }
+    }
+}

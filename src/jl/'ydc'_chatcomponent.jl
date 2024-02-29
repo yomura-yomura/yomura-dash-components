@@ -12,6 +12,7 @@ Keyword arguments:
 - `_disable_submission` (Bool; optional)
 - `avatar_image_path` (String; required): A Bot icon that will be shown when this component is rendered.
 - `bot_name` (String; required): A Bot name that will be printed when this component is rendered.
+- `data_on_link_clicked` (String; optional)
 - `disable_submission` (Bool; optional)
 - `disable_submission_after_user_sends` (Bool; optional)
 - `disable_textarea` (Bool; optional)
@@ -142,10 +143,11 @@ s
 - `last_submitted_user_input_value` (String; optional)
 - `min_standard_font_size_in_px` (Real; optional)
 - `n_submits` (Real; optional)
+- `type_on_link_clicked` (a value equal to: 'link', 'react'; optional)
 - `user_input_value` (String; optional)
 """
 function 'ydc'_chatcomponent(; kwargs...)
-        available_props = Symbol[:id, :_disable_submission, :avatar_image_path, :bot_name, :disable_submission, :disable_submission_after_user_sends, :disable_textarea, :history, :initial_user_input_value, :is_bot_typing, :last_submitted_user_input_value, :min_standard_font_size_in_px, :n_submits, :user_input_value]
+        available_props = Symbol[:id, :_disable_submission, :avatar_image_path, :bot_name, :data_on_link_clicked, :disable_submission, :disable_submission_after_user_sends, :disable_textarea, :history, :initial_user_input_value, :is_bot_typing, :last_submitted_user_input_value, :min_standard_font_size_in_px, :n_submits, :type_on_link_clicked, :user_input_value]
         wild_props = Symbol[]
         return Component("'ydc'_chatcomponent", "ChatComponent", "yomura_dash_components", available_props, wild_props; kwargs...)
 end

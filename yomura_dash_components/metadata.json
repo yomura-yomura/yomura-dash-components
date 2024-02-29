@@ -439,6 +439,40 @@
           "raw": "boolean"
         }
       },
+      "type_on_link_clicked": {
+        "description": "",
+        "required": false,
+        "defaultValue": {
+          "value": "'link'",
+          "computed": false
+        },
+        "type": {
+          "name": "enum",
+          "value": [
+            {
+              "value": "'link'",
+              "computed": false
+            },
+            {
+              "value": "'react'",
+              "computed": false
+            }
+          ],
+          "raw": "\"link\" | \"react\""
+        }
+      },
+      "data_on_link_clicked": {
+        "description": "",
+        "required": false,
+        "defaultValue": {
+          "value": "undefined",
+          "computed": false
+        },
+        "type": {
+          "name": "string",
+          "raw": "string"
+        }
+      },
       "min_standard_font_size_in_px": {
         "description": "",
         "required": false,

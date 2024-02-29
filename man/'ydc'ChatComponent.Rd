@@ -11,13 +11,14 @@ Chat Component built for Dash
 
 \usage{
 'ydc'ChatComponent(id=NULL, _disable_submission=NULL, avatar_image_path=NULL,
-bot_name=NULL, disable_submission=NULL,
+bot_name=NULL, data_on_link_clicked=NULL,
+disable_submission=NULL,
 disable_submission_after_user_sends=NULL,
 disable_textarea=NULL, history=NULL,
 initial_user_input_value=NULL, is_bot_typing=NULL,
 last_submitted_user_input_value=NULL,
 min_standard_font_size_in_px=NULL, n_submits=NULL,
-user_input_value=NULL)
+type_on_link_clicked=NULL, user_input_value=NULL)
 }
 
 \arguments{
@@ -28,6 +29,8 @@ user_input_value=NULL)
 \item{avatar_image_path}{Character. A Bot icon that will be shown when this component is rendered.}
 
 \item{bot_name}{Character. A Bot name that will be printed when this component is rendered.}
+
+\item{data_on_link_clicked}{Character. }
 
 \item{disable_submission}{Logical. }
 
@@ -167,6 +170,8 @@ s. }
 \item{min_standard_font_size_in_px}{Numeric. }
 
 \item{n_submits}{Numeric. }
+
+\item{type_on_link_clicked}{A value equal to: 'link', 'react'. }
 
 \item{user_input_value}{Character. }
 }
