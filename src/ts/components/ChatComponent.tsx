@@ -373,22 +373,73 @@ export default class ChatComponent extends React.Component<Props, State> {
 
     getFormattedMessageList(msg: string) {
         // Markdown-style link in message
-        const regex = /\[(.+?)]\((.+?)\)/
-        return msg
-            .split(/(\[.+?]\(.+?\))/)
+
+        // TODO: make it simpler,
+        // Note that regex is not enough to parse markdown-style link including nested brackets, ex. [a](d()e)
+        function split_by_markdown_style_link(text) {
+            const split = []
+            let elements = []
+            let display_elements = undefined
+            let data_elements = undefined
+            let depth = 0
+            let search_mode: "[]" | "()" = "[]";
+            for (const char of text) {
+                if (char === search_mode[0]) {
+                    if (search_mode === "[]" && depth === 0) {
+                        display_elements = []
+                    }
+                    depth++
+                }
+
+                if (data_elements != undefined) {
+                    data_elements.push(char)
+                } else if (display_elements != undefined) {
+                    display_elements.push(char)
+                } else {
+                    elements.push(char)
+                }
+
+                if (char === search_mode[1]) {
+                    depth--
+                    if (depth === 0) {
+                        if (search_mode === "[]") {
+                            data_elements = []
+                        } else if (search_mode === "()") {
+                            split.push(elements.join(""))
+                            split.push({
+                                "display": display_elements.slice(1, -1).join(""),
+                                "data": data_elements.slice(1, -1).join(""),
+                            })
+                            elements = []
+                            display_elements = undefined
+                            data_elements = undefined
+                        }
+                        search_mode = search_mode === "[]" ? "()" : "[]";
+                    }
+                }
+            }
+            if (display_elements != undefined) {
+                elements.push(...display_elements)
+            }
+            if (data_elements != undefined) {
+                elements.push(...data_elements)
+            }
+            split.push(elements.join(""))
+            return split
+        }
+
+        return split_by_markdown_style_link(msg)
             .map(
             (m) => {
-                const matched = regex.exec(m)
-                if (matched == undefined) {
+                if (typeof m === "string") {
                     return m
                 } else {
+                    const {display, data} = m
                     return (
                         <LinkInMessageComponent
                             type={this.props.type_on_link_clicked}
-                            data={matched[2]}
-                            // target="_blank"
-                            // rel="noopener noreferrer">
-                            display={matched[1]}
+                            data={data}
+                            display={display}
                             setProps={(props) => this.props.setProps(props)}>
                         </LinkInMessageComponent>
                     )
