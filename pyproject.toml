@@ -22,6 +22,7 @@ dynamic = ["version"]
 [project.optional-dependencies]
 dev = [
     "dash[dev,diskcache] ~= 2.9.3",
+    "dash-bootstrap-components ~= 1.5.0",
     "tqdm ~= 4.65.0"
 ]
 

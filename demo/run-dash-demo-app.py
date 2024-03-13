@@ -1,8 +1,7 @@
-import importlib
 import os
-import pathlib
 
 import dash
+import dash_bootstrap_components as dbc
 from dash import CeleryManager, Dash, DiskcacheManager, dcc, html
 
 if "REDIS_URL" in os.environ:
@@ -24,6 +23,9 @@ else:
 app = Dash(
     __name__,
     background_callback_manager=background_callback_manager,
+    external_stylesheets=[
+        dbc.themes.BOOTSTRAP,
+    ],
     use_pages=True,
 )
 

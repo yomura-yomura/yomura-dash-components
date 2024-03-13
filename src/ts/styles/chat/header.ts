@@ -24,9 +24,11 @@ export const TitleBotIcon = styled.figure<{rootHeight: number, rootWidth: number
     border: 2px solid rgba(255, 255, 255, 0.24) !important;
     & img {
       width: 100% !important;
-      height: auto !important;  
+      height: auto !important;
+      vertical-align: top !important;
     }
 `
+
 
 export const Title = styled.div`
     margin-left: 10px !important;
