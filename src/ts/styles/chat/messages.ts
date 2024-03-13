@@ -118,7 +118,6 @@ const Message = styled(Content)`
 const UserMessage = styled(Message)`
     float: right;
     color: #fff;
-    text-align: right;
     background: linear-gradient(120deg, #248A52, #257287);
     border-radius: 10px 10px 0 10px;
   
