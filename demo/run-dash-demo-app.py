@@ -52,5 +52,5 @@ if __name__ == "__main__":
     app.run(
         debug=True,
         dev_tools_hot_reload=True,
-        port=8080,
+        port=8888,
     )

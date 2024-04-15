@@ -365,7 +365,7 @@ export default class ChatComponent extends React.Component<Props, State> {
             time = String(date.getHours()).padStart(2, "0") + ":" + String(date.getMinutes()).padStart(2, "0")
         }
         return (
-            <MessageTimestamp>
+            <MessageTimestamp title={date}>
                 {time}
             </MessageTimestamp>
         )
